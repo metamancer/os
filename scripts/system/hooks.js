@@ -4,13 +4,14 @@ import { sleep, localize as t } from "../utils.js";
 export class OsHooks {
 	static register() {
 		info("Registering Hooks...");
-		OsHooks.#addRollButtonAbovePlayerConfig();
 		OsHooks.#addImportToActorSidebar();
+		OsHooks.#addRollButtonAbovePlayerConfig();
 		OsHooks.#iconOnlyHeaderButtons();
 		OsHooks.#safeUpdateActorSheet();
 		OsHooks.#safeUpdateItemSheet();
 		OsHooks.#replaceLoadSpinner();
 		OsHooks.#renderChallengeCardFixes();
+		OsHooks.#attachContextMenuToRollMessage();
 		OsHooks.#prepareCharacterOnCreate();
 		OsHooks.#prepareThemeOnCreate();
 		OsHooks.#rendeWelcomeScreen();
@@ -63,10 +64,10 @@ export class OsHooks {
 		Hooks.on("preUpdateActor", (_, data) => {
 			const { schema: tagSchema } = game.os.data.TagData;
 			const { system = {} } = data;
-			if (!("Loadout" in system) || !system.Loadout.length) return;
+			if (!("backpack" in system) || !system.backpack.length) return;
 
-			const { Loadout } = system;
-			const validationErrors = Loadout
+			const { backpack } = system;
+			const validationErrors = backpack
 				.map((item) =>
 					tagSchema.validate(item, { strict: true, partial: false }),
 				)
@@ -189,6 +190,48 @@ export class OsHooks {
 		});
 	}
 
+	static #attachContextMenuToRollMessage() {
+		Hooks.on("getChatLogEntryContext", (_, options) => {
+			const { discover, extra_feat } = CONFIG.os.additionalEffects;
+			const isEffectRoll = (li) => li.find(".dice-effect").length;
+			options.unshift({
+				name: `${t("Os.effects.category-other")}: ${t("Os.additionalEffects.discover.key")}`,
+				icon: '<i class="fas fa-magnifying-glass"></i>',
+				condition: isEffectRoll,
+				callback: () => {
+					ChatMessage.create({
+						content: `<div class="os dice-roll">
+							<div class="dice-flavor">${t("Os.additionalEffects.discover.key")}</div>
+							<div class="dice-effect">
+								<p><em>${t(discover.description)}</em></p>
+								<p>${t(discover.action)}</p>
+								<p><strong>${t("Os.other.cost")}:</strong> ${t(discover.cost)}</p>
+							</div>
+					</div>
+						`
+					})
+				}
+			}, {
+				name: `${t("Os.effects.category-other")}: ${t("Os.additionalEffects.extra_feat.key")}`,
+				icon: '<i class="fas fa-plus"></i>',
+				condition: isEffectRoll,
+				callback: () => {
+					ChatMessage.create({
+						content: `
+						<div class="os dice-roll">
+							<div class="dice-flavor">${t("Os.additionalEffects.extra_feat.key")}</div>
+							<div class="dice-effect">
+								<p><em>${t(extra_feat.description)}</em></p>
+								<p><strong>${t("Os.other.cost")}:</strong> ${t(extra_feat.cost)}</p>
+							</div>
+						</div>
+						`
+					})
+				}
+			});
+		});
+	}
+
 	static #prepareCharacterOnCreate() {
 		Hooks.on("preCreateActor", (actor, data) => {
 			if (data.type !== "character") return;
@@ -206,15 +249,14 @@ export class OsHooks {
 		Hooks.on("createActor", async (actor) => {
 			if (actor.type !== "character") return;
 
-			for (const item of Array(4).fill()) {
-				console.log("Creating theme", item)
+			await Promise.all(Array(4).fill().map(async (_, i) => {
 				await actor.createEmbeddedDocuments("Item", [
 					{
-						name: "New Theme",
+						name: `${t("Types.Item.theme")} ${i + 1}`,
 						type: "theme",
 					},
 				]);
-			}
+			}));
 		});
 	}
 
@@ -223,37 +265,19 @@ export class OsHooks {
 			if (data.type !== "theme") return;
 
 			const img = "systems/os/assets/media/note.webp";
-			const powerTags = Array(5)
-				.fill()
-				.map((_, i) => ({
-					name: "Name your tag",
-					type: "powerTag",
-					isActive: i < 2,
-					isBurnt: false,
-					id: randomID(),
-				}));
-			const weaknessTags = [
-				{
-					name: "Name your Weakness",
-					type: "weaknessTag",
-					isActive: true,
-					isBurnt: false,
-					id: randomID(),
-				}
-			];
-			item.updateSource({ img, system: { powerTags, weaknessTags } });
+			item.updateSource({ img });
 		});
 	}
 
 	static #rendeWelcomeScreen() {
 		Hooks.once("ready", async () => {
-			let scene = game.scenes.getName("Otherscape");
+			let scene = game.scenes.getName("Legend in the Mist");
 			if (scene) return;
 
 			ui.sidebar.activateTab("actors");
 
 			scene = await Scene.create({
-				name: "Otherscape",
+				name: "Legend in the Mist",
 				permission: { default: 2 },
 				navigation: true,
 				background: {
@@ -279,28 +303,99 @@ export class OsHooks {
 			await scene.update({ thumb });
 
 			const entry = await JournalEntry.create({
-				name: "Otherscape",
+				name: "Legend in the Mist",
 				permission: { default: 2 },
 				content: `
-					<h1 style="text-align:center"><span style="font-family: Brownland">Welcome!</span></h1>
+					<h1 style="text-align:center"><span style="font-family: PackardAntique">Welcome!</span></h1>
 					<p></p>
-					<p style="text-align: center"><span style="font-family: Isotonic"><em><strong>I am thrilled to have you try out
+					<p style="text-align: center"><span style="font-family: AlchemyItalic"><em><strong>I am thrilled to have you try out
 													this system!</strong></em></span></p>
 					<blockquote style="padding:0.5em 10px;background:var(--os-color-primary-bg);color:var(--os-color-weakness)">
-							<p><span style="font-family: Isotonic"><strong>Please be aware that both the system is still undergoing development by the publisher, Son of Oak —and— the supported Foundry implementation is still under heavy development. As such, there might be breaking bugs or major changes down the road.</strong></span></p>
-							<p><br><span style="font-family: Brownland">PLEASE MAKE FREQUENT BACKUPS</span></p>
+							<p><span style="font-family: CaslonAntique"><strong>Please be aware that both the system—and game—is under heavy
+													development. And that there might be breaking bugs or major changes down the road.</strong></span></p>
+							<p><br><span style="font-family: PackardAntique">PLEASE MAKE FREQUENT BACKUPS</span></p>
 					</blockquote>
 					<p></p>
-					<h3>Bugs & Features</h3>
-					<p>The system is under active development. Please report any bugs and make feature requests on <a href="https://github.com/metamancer/os/issues/new/choose">Github</a></p>
+					<h2>What to expect</h2>
+					<p>At the moment only <strong>Themes</strong> and <strong>Characters</strong> are implemented, there is also a
+							rudimentary sheet that you can use to display the <strong>Challenge</strong> illustrations found in the <a
+									href="https://drive.google.com/drive/folders/1jS1dO4rz2uLxOZfdsShOTLjzsJeJqJ6H"
+									title="Legend in the Mist demo playkit">Tinderbox Demo</a>.</p>
+					<p></p>
+					<h3>To-be implemented</h3>
+					<p>The system is under active development and you can expect frequent updates as the year progresses. Following is a
+							list of coming feature improvements in no particular order:</p>
+					<ul>
+							<li>
+									<p><strong>Situational Tags & Statuses: </strong>Tags and Statuses not part of a backpack or theme will likely
+											be implemented as Active Effects with their own interface and tracking.</p>
+							</li>
+							<li>
+									<p><strong>Challenges:</strong> The current <strong>Challenge</strong> actors will be replaced with a full sheet
+											of the same style as their printed counterparts.</p>
+							</li>
+							<li>
+									<p><strong>Threats & Consequences:</strong> To go with <strong>Challenges</strong>, <strong>Threats &
+													Consequences</strong> will be implemented as items that can be premade and dragged onto a
+											<strong>Challenge</strong> actor.</p>
+							</li>
+							<li>
+									<p><strong>Backpacks:</strong> At the moment the backpack is hardcoded into the actor data. In the future
+											Backpacks will become their own items which can be moved between players, and added from premade backpacks
+											in the Item sidebar.</p>
+							</li>
+							<li>
+									<p><strong>Crew Theme </strong>and<strong> Theme Improvements:</strong> The Crew theme and theme improvements
+											are yet to be revealed by <a href="https://cityofmist.co/blogs/news/son-of-oaks-new-game-engine">Son of
+													Oak</a>. When the details on these are released work will commence on implementing them in the system.
+									</p>
+							</li>
+					</ul>
+					<h2>How play</h2>
+					<p>Beyond the <em>Tinderbox demo</em> linked above, there are few ins-and-outs of the system, yet. Some interactions to
+							be aware of:</p>
+					<ul>
+							<li>
+									<p><span style="font-family: Modesto Condensed"><strong>Right-clicking</strong></span> a <strong>Tag </strong>in
+											the <strong>Backpack</strong> will prompt you for deleting the tag. The same goes for
+											<strong>Themes</strong> in a <strong>Character</strong>-sheet. <strong>Right-clicking </strong>a tag in the
+											<strong>Backpack</strong>, will delete it.</p>
+							</li>
+							<li>
+									<p>If your <strong>Character</strong><em><strong> </strong></em>is missing <strong>Theme</strong>s you can
+											create an empty one in the <em>Item Sidebar</em> <em>(or ask the one with GM permissions to do it)</em>, and
+											<span style="font-family: Modesto Condensed"><strong>drag</strong></span> it onto the sheet.</p>
+							</li>
+							<li>
+									<p><strong>Theme</strong>s can be <span
+													style="font-family: Modesto Condensed"><strong>rearranged</strong></span> on a sheet.
+											<strong>Tag</strong>s in the <strong>Backpack</strong> and on <strong>Theme</strong>s cannot.</p>
+							</li>
+							<li>
+									<p><span style="font-family: Modesto Condensed"><strong>Double-clicking </strong></span>a <strong>Theme</strong>
+											on the <strong>Character</strong>-sheet will open the <strong>Theme</strong>'s sheet allowing you to make
+											edits to it that you are not able to directly from the <strong>Character</strong>-sheet.</p>
+							</li>
+							<li>
+									<p><span style="font-family: Modesto Condensed"><strong>Right-clicking</strong></span> a
+											<strong>Challenge</strong>-sheet will pop open a small dialog that lets you change the name.</p>
+							</li>
+							<li>
+									<p>If you see a title, it may be editable. This goes for the title on the
+											<strong>Character</strong>-sheet<strong>, Theme</strong>-sheet, and <strong>Roll</strong>-dialog.</p>
+							</li>
+							<li>
+								<p><span style="font-family: Modesto Condensed"><strong>Right-clicking</strong></span> the <em>Chat Card</em> of an <strong>Effect roll</strong> opens a context menu that lets you post extra effects to chat for reference.</p>
+							</li>
+					</ul>
 				`,
 			});
 
 			ChatMessage.create({
-				title: "Welcome to Otherscape",
+				title: "Welcome to Legend in the Mist",
 				content: `
-				<p><strong>Welcome to Otherscape</strong></p>
-				<p>Before you start playing, you might want to read the <a class="content-link" draggable="true" data-uuid="JournalEntry.QVA4cPjUWlDPMR8F.JournalEntryPage.5AWCygW0BCFdk4sd" data-id="5AWCygW0BCFdk4sd" data-type="JournalEntryPage" data-tooltip="Text Page"><i class="fas fa-file-lines"></i>Otherscape</a> journal entry. It contains some important information about the system and what to expect.</p>
+				<p><strong>Welcome to Legend in the Mist</strong></p>
+				<p>Before you start playing, you might want to read the <a class="content-link" draggable="true" data-uuid="JournalEntry.QVA4cPjUWlDPMR8F.JournalEntryPage.5AWCygW0BCFdk4sd" data-id="5AWCygW0BCFdk4sd" data-type="JournalEntryPage" data-tooltip="Text Page"><i class="fas fa-file-lines"></i>Legend in the Mist</a> journal entry. It contains some important information about the system and what to expect.</p>
 				<p>Good luck and have fun!</p>
 			`,
 			});

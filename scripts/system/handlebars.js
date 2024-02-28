@@ -26,8 +26,8 @@ export class HandlebarsHelpers {
 			tag.isActive
 				? "Os.tags.isActive"
 				: readonly
-				  ? "Os.tags.isInactive"
-				  : "Os.tags.activate",
+					? "Os.tags.isInactive"
+					: "Os.tags.activate",
 		);
 	}
 }
