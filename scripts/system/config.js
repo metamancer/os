@@ -56,18 +56,6 @@ export class OsConfig {
 				cost: "Os.effects.set_back.cost",
 			},
 		},
-		"Os.effects.category-other": {
-			discover: {
-				description: "Os.effects.discover.description",
-				action: "Os.effects.discover.action",
-				cost: "Os.effects.discover.cost",
-			},
-			extra_feat: {
-				description: "Os.effects.extra_feat.description",
-				action: "Os.effects.extra_feat.action",
-				cost: "Os.effects.extra_feat.cost",
-			},
-		},
 		"Os.effects.category-consequence": {
 			mitigate: {
 				description: "Os.effects.mitigate.description",
@@ -76,6 +64,20 @@ export class OsConfig {
 			},
 		},
 	};
+
+	additionalEffects = {
+		discover: {
+			description: "Os.additionalEffects.discover.description",
+			action: "Os.additionalEffects.discover.action",
+			cost: "Os.additionalEffects.discover.cost",
+		},
+		extra_feat: {
+			description: "Os.additionalEffects.extra_feat.description",
+			action: "Os.additionalEffects.extra_feat.action",
+			cost: "Os.additionalEffects.extra_feat.cost",
+		},
+	}
+
 	static createConfig() {
 		return new OsConfig();
 	}
