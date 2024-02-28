@@ -1,7 +1,7 @@
 export class CharacterData extends foundry.abstract.DataModel {
 	static defineSchema() {
 		const fields = foundry.data.fields;
-		const data = game.litm.data;
+		const data = game.os.data;
 		return {
 			note: new fields.HTMLField(),
 			backpack: new fields.ArrayField(

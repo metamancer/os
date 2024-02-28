@@ -1,11 +1,11 @@
-.litm.litm--roll {
+.os.os--roll {
 	background: url(../../assets/media/bg-alt.webp);
 	background-size: cover;
 	background-blend-mode: luminosity;
-	background-color: var(--litm-color);
+	background-color: var(--os-color);
 
 	& .window-header {
-		color: var(--litm-color-primary)
+		color: var(--os-color-primary)
 	}
 
 
@@ -23,14 +23,14 @@
 		grid-template-rows: auto minmax(0, 1fr) repeat(3, auto);
 		overflow: hidden;
 		overflow: clip;
-		font-family: var(--litm-font-text);
+		font-family: var(--os-font-text);
 	}
 
 	& .title {
 		grid-area: title;
-		font-family: var(--litm-font-accent);
+		font-family: var(--os-font-accent);
 		font-size: var(--font-size-32);
-		color: var(--litm-color);
+		color: var(--os-color);
 		background: transparent;
 		border: none;
 		text-align: center;
@@ -49,9 +49,9 @@
 		overflow: auto;
 
 		&>span {
-			font-family: var(--litm-font-primary);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-20);
-			color: var(--litm-color-primary);
+			color: var(--os-color-primary);
 			display: block;
 			text-align: center;
 		}
@@ -59,19 +59,19 @@
 		& ul {
 			list-style: none;
 			padding: 0px;
-			margin: var(--litm-space-1) var(--litm-space-2);
+			margin: var(--os-space-1) var(--os-space-2);
 			display: flex;
 			flex-direction: column;
 
 			& li {
 				display: flex;
 				align-items: center;
-				font-family: var(--litm-font-text);
+				font-family: var(--os-font-text);
 				font-weight: 600;
 				font-size: var(--font-size-12);
-				gap: var(--litm-space-3);
-				color: var(--litm-color);
-				padding-block: var(--litm-space-1);
+				gap: var(--os-space-3);
+				color: var(--os-color);
+				padding-block: var(--os-space-1);
 
 				&:nth-child(odd) {
 					background-image: linear-gradient(to right, transparent, rgba(69, 59, 29, 0.1), transparent);
@@ -101,8 +101,8 @@
 	& .powerTags {
 		grid-area: powerTags;
 
-		& .litm--tag-emphasis {
-			color: color-mix(in hsl, var(--litm-color-accent-bg) 70%, darkgreen);
+		& .os--tag-emphasis {
+			color: color-mix(in hsl, var(--os-color-accent-bg) 70%, darkgreen);
 		}
 	}
 
@@ -111,19 +111,19 @@
 
 		&>span,
 		& ul li {
-			color: var(--litm-color-weakness);
-			border-color: var(--litm-color-weakness-bg);
+			color: var(--os-color-weakness);
+			border-color: var(--os-color-weakness-bg);
 		}
 
 		& input {
-			color: var(--litm-color-weakness);
+			color: var(--os-color-weakness);
 		}
 
 		& ul li {
-			padding-block: var(--litm-space-2);
+			padding-block: var(--os-space-2);
 
 			&:nth-child(odd) {
-				background-image: linear-gradient(to right, transparent, var(--litm-color-weakness-bg), transparent);
+				background-image: linear-gradient(to right, transparent, var(--os-color-weakness-bg), transparent);
 			}
 		}
 
@@ -135,16 +135,16 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: var(--litm-space-3);
-		margin-inline: var(--litm-space-4);
-		padding-block: var(--litm-space-2);
-		border-bottom: 2px solid var(--litm-color-muted-bg);
-		border-top: 2px solid var(--litm-color-muted-bg);
+		gap: var(--os-space-3);
+		margin-inline: var(--os-space-4);
+		padding-block: var(--os-space-2);
+		border-bottom: 2px solid var(--os-color-muted-bg);
+		border-top: 2px solid var(--os-color-muted-bg);
 
 		& label {
-			font-family: var(--litm-font-primary);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-20);
-			color: var(--litm-color-primary);
+			color: var(--os-color-primary);
 		}
 
 		& .input {
@@ -161,7 +161,7 @@
 			& button {
 				border: none;
 				background: none;
-				color: var(--litm-color-primary);
+				color: var(--os-color-primary);
 				font-size: var(--font-size-16);
 				cursor: pointer;
 				transition: color 0.2s;
@@ -181,18 +181,18 @@
 		grid-area: tracked;
 		display: flex;
 		justify-content: center;
-		gap: var(--litm-space-3);
-		margin-block-start: var(--litm-space-3);
-		margin-inline: var(--litm-space-4);
-		padding-block-end: var(--litm-space-1);
-		border-block-end: 2px solid var(--litm-color-muted-bg);
+		gap: var(--os-space-3);
+		margin-block-start: var(--os-space-3);
+		margin-inline: var(--os-space-4);
+		padding-block-end: var(--os-space-1);
+		border-block-end: 2px solid var(--os-color-muted-bg);
 
 		& label,
 		& input {
 			cursor: pointer;
-			font-family: var(--litm-font-primary);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-20);
-			color: var(--litm-color-primary);
+			color: var(--os-color-primary);
 		}
 	}
 
@@ -203,30 +203,30 @@
 		justify-content: space-around;
 		pointer-events: none;
 		opacity: 0.5;
-		margin-block: var(--litm-space-3);
+		margin-block: var(--os-space-3);
 
 
 		& label {
-			font-family: var(--litm-font-primary);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-20);
-			color: var(--litm-color-primary);
+			color: var(--os-color-primary);
 		}
 	}
 
 	& .buttons {
 		grid-area: buttons;
-		margin-block: var(--litm-space-3);
+		margin-block: var(--os-space-3);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: var(--litm-space-4);
+		gap: var(--os-space-4);
 
 		& button {
-			padding-inline: var(--litm-space-5);
+			padding-inline: var(--os-space-5);
 			border: none;
 			background: none;
-			color: var(--litm-color-primary);
-			font-family: var(--litm-font-heading);
+			color: var(--os-color-primary);
+			font-family: var(--os-font-heading);
 			font-weight: bold;
 			font-size: var(--font-size-20);
 			cursor: pointer;
@@ -239,11 +239,11 @@
 			}
 
 			&[type="submit"] {
-				background-image: linear-gradient(to right, transparent, var(--litm-color-muted-bg), transparent);
+				background-image: linear-gradient(to right, transparent, var(--os-color-muted-bg), transparent);
 			}
 
 			&[type="button"] {
-				background-image: linear-gradient(to right, transparent, var(--litm-color-weakness-bg), transparent);
+				background-image: linear-gradient(to right, transparent, var(--os-color-weakness-bg), transparent);
 			}
 		}
 	}

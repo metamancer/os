@@ -1,4 +1,4 @@
-.litm.litm--challenge {
+.os.os--challenge {
 	background: none;
 	outline: none;
 	padding: 0px;
@@ -20,12 +20,12 @@
 		place-content: center;
 
 		& img {
-			color: var(--litm-color-accent);
+			color: var(--os-color-accent);
 		}
 	}
 }
 
 /* Popout dialog */
-.litm--rename-dialog {
+.os--rename-dialog {
 	margin-block: 0px 1rem;
 }

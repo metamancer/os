@@ -2,7 +2,7 @@ import { confirmDelete } from "../utils.js";
 
 export class ThemeSheet extends ItemSheet {
 	static defaultOptions = mergeObject(ItemSheet.defaultOptions, {
-		classes: ["litm", "litm--theme"],
+		classes: ["os", "os--theme"],
 		width: 330,
 		height: 620,
 	});
@@ -12,7 +12,7 @@ export class ThemeSheet extends ItemSheet {
 	}
 
 	get template() {
-		return "systems/litm/templates/item/theme.html";
+		return "systems/os/templates/item/theme.html";
 	}
 
 	getData() {

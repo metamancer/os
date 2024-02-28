@@ -1,13 +1,13 @@
-export class LitmRoll extends Roll {
-	static CHAT_TEMPLATE = "systems/litm/templates/chat/message.html";
-	static TOOLTIP_TEMPLATE = "systems/litm/templates/chat/message-tooltip.html";
+export class OsRoll extends Roll {
+	static CHAT_TEMPLATE = "systems/os/templates/chat/message.html";
+	static TOOLTIP_TEMPLATE = "systems/os/templates/chat/message-tooltip.html";
 
-	get litm() {
+	get os() {
 		return this.options;
 	}
 
 	get actor() {
-		return game.actors.get(this.litm.actorId);
+		return game.actors.get(this.os.actorId);
 	}
 
 	get speaker() {
@@ -15,15 +15,15 @@ export class LitmRoll extends Roll {
 	}
 
 	get flavor() {
-		if (!this.effect) return game.i18n.localize("Litm.ui.roll-quick");
-		return game.i18n.localize(`Litm.effects.${this.effect.name}.key`);
+		if (!this.effect) return game.i18n.localize("Os.ui.roll-quick");
+		return game.i18n.localize(`Os.effects.${this.effect.name}.key`);
 	}
 
 	get power() {
 		if (!this.effect) return null;
 		if (this.total < 7) return 0;
 
-		let totalPower = Math.max(this.litm.totalPower, 1);
+		let totalPower = Math.max(this.os.totalPower, 1);
 		if (this.total < 10) return totalPower;
 		if (this.effect?.name === "mitigate") totalPower += 1;
 
@@ -31,7 +31,7 @@ export class LitmRoll extends Roll {
 	}
 
 	get powerTags() {
-		const tags = this.litm.powerTags
+		const tags = this.os.powerTags
 			.map((tag) =>
 				this.actor.system.powerTags.find((t) => t.id === tag)?.toObject(),
 			)
@@ -40,7 +40,7 @@ export class LitmRoll extends Roll {
 	}
 
 	get weaknessTags() {
-		const tags = this.litm.weaknessTags
+		const tags = this.os.weaknessTags
 			.map((tag) =>
 				this.actor.system.weaknessTags.find((t) => t.id === tag)?.toObject(),
 			)
@@ -49,22 +49,22 @@ export class LitmRoll extends Roll {
 	}
 
 	get burnedTag() {
-		if (!this.litm.burnedTag) return null;
-		return this.actor.system.allTags.find((tag) => tag.id === this.litm.burnedTag);
+		if (!this.os.burnedTag) return null;
+		return this.actor.system.allTags.find((tag) => tag.id === this.os.burnedTag);
 	}
 
 	get outcome() {
 		const total = this.total;
 		if (total >= 10)
-			return { label: "success", description: "Litm.ui.roll-success" };
+			return { label: "success", description: "Os.ui.roll-success" };
 		if (total >= 7)
-			return { label: "consequence", description: "Litm.ui.roll-consequence" };
-		return { label: "failure", description: "Litm.ui.roll-failure" };
+			return { label: "consequence", description: "Os.ui.roll-consequence" };
+		return { label: "failure", description: "Os.ui.roll-failure" };
 	}
 
 	get effect() {
-		if (!this.litm.tracked) return null;
-		return this.litm.effectData;
+		if (!this.os.tracked) return null;
+		return this.os.effectData;
 	}
 
 	async render({
@@ -80,7 +80,7 @@ export class LitmRoll extends Roll {
 			outcome: isPrivate ? "???" : this.outcome,
 			power: isPrivate ? "???" : this.power,
 			result: isPrivate ? "???" : this.result,
-			title: this.litm.title,
+			title: this.os.title,
 			tooltip: isPrivate ? "" : await this.getTooltip(),
 			total: isPrivate ? "" : Math.round(this.total * 100) / 100,
 			user: game.user.id,
@@ -91,7 +91,7 @@ export class LitmRoll extends Roll {
 	async getTooltip() {
 		const parts = this.dice.map((d) => d.getTooltipData());
 		const data = this.getTooltipData();
-		return renderTemplate(LitmRoll.TOOLTIP_TEMPLATE, { data, parts });
+		return renderTemplate(OsRoll.TOOLTIP_TEMPLATE, { data, parts });
 	}
 
 	getTooltipData() {
@@ -99,7 +99,7 @@ export class LitmRoll extends Roll {
 			burnedTag: this.burnedTag,
 			mitigate: this.effect?.name === "mitigate",
 			powerTags: this.powerTags,
-			status: this.litm.status,
+			status: this.os.status,
 			weaknessTags: this.weaknessTags,
 		};
 	}

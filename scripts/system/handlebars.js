@@ -24,21 +24,21 @@ export class HandlebarsHelpers {
 
 		Handlebars.registerHelper("tagActiveString", (tag, readonly) =>
 			tag.isActive
-				? "Litm.tags.isActive"
+				? "Os.tags.isActive"
 				: readonly
-				  ? "Litm.tags.isInactive"
-				  : "Litm.tags.activate",
+				  ? "Os.tags.isInactive"
+				  : "Os.tags.activate",
 		);
 	}
 }
 
 export class HandlebarsPartials {
 	static partials = [
-		"systems/litm/templates/apps/roll-dialog.html",
-		"systems/litm/templates/chat/message.html",
-		"systems/litm/templates/chat/message-tooltip.html",
-		"systems/litm/templates/item/theme-ro.html",
-		"systems/litm/templates/partials/tag.html",
+		"systems/os/templates/apps/roll-dialog.html",
+		"systems/os/templates/chat/message.html",
+		"systems/os/templates/chat/message-tooltip.html",
+		"systems/os/templates/item/theme-ro.html",
+		"systems/os/templates/partials/tag.html",
 	];
 
 	static register() {

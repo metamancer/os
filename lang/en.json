@@ -1,5 +1,5 @@
 {
-	"Litm": {
+	"Os": {
 		"effects": {
 			"category-target": "Against an Opponent or a Target",
 			"category-ally": "For Yourself or for an Ally",
@@ -86,7 +86,7 @@
 				"cost": "1 Power per tier; 2 Power per tag"
 			}
 		},
-		"name": "Legend in the Mist",
+		"name": "Otherscape",
 		"other": {
 			"action": "Action",
 			"backpack": "Backpack",

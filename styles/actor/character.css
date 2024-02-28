@@ -1,4 +1,4 @@
-.litm.litm--character {
+.os.os--character {
 	background: url("../../assets/media/bg.webp");
 	background-size: cover;
 	background-position: center;
@@ -27,7 +27,7 @@
 
 	& .window-header {
 		border: none;
-		font-family: var(--litm-font-text);
+		font-family: var(--os-font-text);
 		justify-content: space-between;
 	}
 
@@ -52,15 +52,15 @@
 		position: absolute;
 		top: -60px;
 		left: -10px;
-		font-family: var(--litm-font-heading);
+		font-family: var(--os-font-heading);
 		font-weight: 800;
 		font-size: var(--font-size-32);
 		height: auto;
 		width: 520px;
 		background-color: transparent;
 		border: none;
-		color: var(--litm-color-primary-bg);
-		text-shadow: 0 0 6px var(--litm-color), 0 0 12px var(--litm-color-dark-bg);
+		color: var(--os-color-primary-bg);
+		text-shadow: 0 0 6px var(--os-color), 0 0 12px var(--os-color-dark-bg);
 		transition: background-color 0.15s;
 
 		&:focus {
@@ -74,18 +74,18 @@
 		max-width: 220px;
 		display: flex;
 		justify-content: center;
-		margin-block: var(--litm-space-3) var(--litm-space-2);
-		gap: var(--litm-space-3);
+		margin-block: var(--os-space-3) var(--os-space-2);
+		gap: var(--os-space-3);
 
 		&>div {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			gap: var(--litm-space-2);
+			gap: var(--os-space-2);
 
 			& span {
-				font-family: var(--litm-font-accent);
-				color: var(--litm-color-primary-bg);
+				font-family: var(--os-font-accent);
+				color: var(--os-color-primary-bg);
 				font-size: var(--font-size-20);
 			}
 
@@ -95,8 +95,8 @@
 				height: 60px;
 				background: transparent;
 				font-size: 52px;
-				color: var(--litm-color-accent);
-				text-shadow: 0px 0px 4px var(--litm-color-dark-bg);
+				color: var(--os-color-accent);
+				text-shadow: 0px 0px 4px var(--os-color-dark-bg);
 				transition: scale 0.15s;
 
 				&:hover,
@@ -116,7 +116,7 @@
 				}
 
 				&:hover {
-					text-shadow: 0 0 4px var(--litm-color-primary-bg);
+					text-shadow: 0 0 4px var(--os-color-primary-bg);
 					scale: 1.1;
 				}
 			}
@@ -130,17 +130,17 @@
 		background: url("../../assets/media/bg.webp");
 		background-size: cover;
 		background-position: top;
-		outline: 2px solid var(--litm-color-primary);
-		color: var(--litm-color-primary-bg);
+		outline: 2px solid var(--os-color-primary);
+		color: var(--os-color-primary-bg);
 		outline-offset: -10px;
-		filter: drop-shadow(0 0 6px var(--litm-color-primary));
-		padding: var(--litm-space-3);
+		filter: drop-shadow(0 0 6px var(--os-color-primary));
+		padding: var(--os-space-3);
 		display: none;
 		flex-direction: column;
 		height: 450px;
 		width: 450px;
 		max-width: unset;
-		font-family: var(--litm-font-text);
+		font-family: var(--os-font-text);
 		overflow: hidden;
 		overflow: clip;
 		z-index: 2;
@@ -150,17 +150,17 @@
 		}
 
 		& .handle {
-			margin-block-end: var(--litm-space-2);
+			margin-block-end: var(--os-space-2);
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			padding-inline: var(--litm-space-2) var(--litm-space-1);
+			padding-inline: var(--os-space-2) var(--os-space-1);
 
 			& button {
 				border: none;
 				background: none;
 				width: auto;
-				color: var(--litm-color-primary-bg);
+				color: var(--os-color-primary-bg);
 
 				&:hover,
 				&:focus,
@@ -172,7 +172,7 @@
 		}
 
 		& .editor {
-			padding-inline: var(--litm-space-2);
+			padding-inline: var(--os-space-2);
 		}
 
 		& [role="application"] {
@@ -193,7 +193,7 @@
 			top: -20px;
 			border: none;
 			rotate: -2deg;
-			filter: drop-shadow(0 0 4px var(--litm-color-primary));
+			filter: drop-shadow(0 0 4px var(--os-color-primary));
 			z-index: -1;
 			pointer-events: none;
 		}
@@ -203,13 +203,13 @@
 			top: -40px;
 			right: 20px;
 			background: url("../../assets/media/background.webp") 0% 0% / cover;
-			outline: 2px solid var(--litm-color);
+			outline: 2px solid var(--os-color);
 			outline-offset: -10px;
 			padding: 10px;
 			overflow: hidden;
 			box-shadow: none;
 			filter: drop-shadow(black 2px 4px 6px);
-			color: var(--litm-color);
+			color: var(--os-color);
 			height: 310px;
 			width: 280px;
 			display: flex;
@@ -218,19 +218,19 @@
 			rotate: 7deg;
 
 			& .meta {
-				background: var(--litm-color-accent-2) url("/ui/parchment.jpg") repeat;
+				background: var(--os-color-accent-2) url("/ui/parchment.jpg") repeat;
 				background-blend-mode: color-burn;
-				color: var(--litm-color-accent);
-				font-family: var(--litm-font-primary);
+				color: var(--os-color-accent);
+				font-family: var(--os-font-primary);
 				font-size: var(--font-size-16);
 				text-align: center;
-				padding: var(--litm-space-1) var(--litm-space-3);
+				padding: var(--os-space-1) var(--os-space-3);
 			}
 
 			& .title {
-				color: var(--litm-color);
+				color: var(--os-color);
 				font-size: var(--font-size-32);
-				font-family: var(--litm-font-accent);
+				font-family: var(--os-font-accent);
 				text-align: center;
 			}
 
@@ -238,16 +238,16 @@
 				display: flex;
 				flex-direction: column;
 				list-style: none;
-				margin: var(--litm-space-1) 0px 0px;
-				padding: 0px var(--litm-space-3);
+				margin: var(--os-space-1) 0px 0px;
+				padding: 0px var(--os-space-3);
 				max-height: 200px;
 				overflow: auto;
 
 				& li {
 					display: flex;
 					align-items: center;
-					gap: var(--litm-space-3);
-					color: var(--litm-color);
+					gap: var(--os-space-3);
+					color: var(--os-color);
 
 					&:nth-child(odd) {
 						background-image: linear-gradient(to right,
@@ -271,12 +271,12 @@
 						text-align: center;
 						border: none;
 						border-radius: 0px;
-						padding-block: var(--litm-space-2);
+						padding-block: var(--os-space-2);
 						min-height: var(--font-size-14);
 						height: auto;
 						background-color: transparent;
-						font-family: var(--litm-font-text);
-						color: var(--litm-color-primary);
+						font-family: var(--os-font-text);
+						color: var(--os-color-primary);
 						width: 100%;
 
 						&:focus,
@@ -294,7 +294,7 @@
 					& button {
 						background-color: transparent;
 						border: none;
-						color: var(--litm-color-contrast);
+						color: var(--os-color-contrast);
 						cursor: pointer;
 						font-size: 1rem;
 						line-height: 1;
@@ -312,11 +312,11 @@
 		}
 	}
 
-	& .litm--character-themes {
+	& .os--character-themes {
 		position: relative;
 	}
 
-	& .litm--character-theme {
+	& .os--character-theme {
 		position: absolute;
 		top: 0px;
 		left: -225px;
@@ -328,15 +328,15 @@
 		scale: 0.7;
 		transition: all 0.15s;
 
-		& .litm--theme-background {
+		& .os--theme-background {
 			background: url("../../assets/media/background.webp") 0% 0% / cover;
-			outline: 2px solid var(--litm-color);
+			outline: 2px solid var(--os-color);
 			outline-offset: -10px;
 			padding: 10px;
 			overflow: hidden;
 			box-shadow: none;
 			filter: drop-shadow(black 2px 4px 6px);
-			color: var(--litm-color);
+			color: var(--os-color);
 		}
 
 		& .meta {

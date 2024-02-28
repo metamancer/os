@@ -1,22 +1,22 @@
 {
 	"$schema": "https://json.schemastore.org/foundryvtt-system-manifest.json",
-	"id": "litm",
-	"version": 1,
+	"id": "os",
+	"version": 0,
 	"license": "LICENSE",
-	"title": "Legend in the Mist",
-	"description": "A Rustic Fantasy Game for Foundry VTT",
+	"title": "Otherscape",
+	"description": "A Mythic Cyberpunk Game for Foundry VTT",
 	"authors": [
 		{
-			"name": "Filip",
-			"discord": "aMediocreDad#2483",
-			"email": "hello@amediocre.dev"
+			"name": "Metamancer",
+			"discord": "metamancer#3336",
+			"email": "themetamaner@gmail.com"
 		}
 	],
 	"esmodules": [
-		"litm.js"
+		"os.js"
 	],
 	"styles": [
-		"litm.css"
+		"os.css"
 	],
 	"languages": [
 		{
@@ -42,8 +42,8 @@
 				"styles",
 				"templates",
 				"lang",
-				"litm.css",
-				"litm.js"
+				"os.css",
+				"os.js"
 			]
 		}
 	},
@@ -55,10 +55,9 @@
 			}
 		]
 	},
-	"background": "systems/litm/assets/media/litm_splash.webp",
-	"bugs": "https://github.com/aMediocreDad/litm/issues?q=is:issue+is:open+sort:updated-desc",
-	"url": "https://github.com/aMediocreDad/litm",
-	"manifest": "https://raw.githubusercontent.com/aMediocreDad/litm/main/system.json",
-	"download": "https://github.com/aMediocreDad/litm/archive/refs/heads/main.zip",
-	"readme": "https://github.com/aMediocreDad/litm/blob/main/README.md"
+	"background": "systems/os/assets/media/os_splash.webp",
+	"bugs": "https://github.com/metamancer/os/issues?q=is:issue+is:open+sort:updated-desc",
+	"url": "https://github.com/metamancer/os",
+	"download": "https://github.com/metamancer/os/archive/refs/heads/main.zip",
+	"readme": "https://github.com/metamancer/os/blob/main/README.md"
 }

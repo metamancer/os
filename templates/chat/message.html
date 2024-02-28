@@ -1,4 +1,4 @@
-<div class="litm dice-roll">
+<div class="os dice-roll">
 	<div class="dice-flavor">{{flavor}}</div>
 	{{#if effect}}
 		<div class="dice-effect">
@@ -10,13 +10,13 @@
 	<div class="dice-result">
 		<div class="dice-formula dice-total">
 			{{#unless effect}}{{total}}{{/unless}}
-			{{#if effect}}{{power}} {{localize 'Litm.tags.power'}}{{/if}}
+			{{#if effect}}{{power}} {{localize 'Os.tags.power'}}{{/if}}
 		</div>
 		{{{tooltip}}}
 		<h4 class="dice-total {{outcome.label}}">{{localize outcome.label}}</h4>
 		<p>{{localize outcome.description}}</p>
 		{{#if (and effect (eq outcome.label 'success'))}}
-			<p><small><em>{{localize 'Litm.ui.roll-tracked-success'}}</em></small></p>
+			<p><small><em>{{localize 'Os.ui.roll-tracked-success'}}</em></small></p>
 		{{/if}}
 	</div>
 </div>

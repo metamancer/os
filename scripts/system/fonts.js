@@ -3,63 +3,44 @@ import { info } from "../logger.js";
 export class Fonts {
 	static register() {
 		info("Registering Fonts...");
-		FontConfig.loadFont("CaslonAntique", {
+		FontConfig.loadFont("Isotonic", {
 			editor: true,
 			fonts: [
 				{
-					name: "CaslonAntique",
-					urls: ["systems/litm/assets/fonts/caslon.ttf"],
+					name: "Isotonic",
+					urls: ["systems/os/assets/fonts/isotonic.otf"],
 				},
 				{
-					name: "CaslonAntique",
-					urls: ["systems/litm/assets/fonts/caslon-b.ttf"],
+					name: "Isotonic",
+					urls: ["systems/os/assets/fonts/isotonic-s-b.otf"],
 					weight: "bold",
 				},
 				{
-					name: "CaslonAntique",
-					urls: ["systems/litm/assets/fonts/caslon-i.ttf"],
+					name: "Isotonic",
+					urls: ["systems/os/assets/fonts/isotonic-i.otf"],
 					style: "italic",
 				},
 			],
 		});
-		FontConfig.loadFont("LibreCaslonText", {
+		FontConfig.loadFont("IsotonicMedI", {
 			editor: true,
 			fonts: [
 				{
-					name: "LibreCaslonText",
-					urls: ["systems/litm/assets/fonts/libre-caslon.ttf"],
-				},
-				{
-					name: "LibreCaslonText",
-					urls: ["systems/litm/assets/fonts/libre-caslon-i.ttf"],
-					style: "italic",
-				},
-				{
-					name: "LibreCaslonText",
-					urls: ["systems/litm/assets/fonts/libre-caslon-b.ttf"],
-					weight: "bold",
+					name: "IsotonicMedI",
+					urls: ["systems/os/assets/fonts/isontonic-m-i.otf"],
 				},
 			],
 		});
-		FontConfig.loadFont("AlchemyItalic", {
+		FontConfig.loadFont("Brownland", {
 			editor: true,
 			fonts: [
 				{
-					name: "AlchemyItalic",
-					urls: ["systems/litm/assets/fonts/alchemy-i.ttf"],
-				},
-			],
-		});
-		FontConfig.loadFont("PackardAntique", {
-			editor: true,
-			fonts: [
-				{
-					name: "PackardAntique",
-					urls: ["systems/litm/assets/fonts/packard.ttf"],
+					name: "Brownland",
+					urls: ["systems/os/assets/fonts/brownland.otf"],
 				},
 				{
-					name: "PackardAntique",
-					urls: ["systems/litm/assets/fonts/packard-b.ttf"],
+					name: "Brownland",
+					urls: ["systems/os/assets/fonts/brownland.otf"],
 					weight: "bold",
 				},
 			],

@@ -3,7 +3,7 @@ import { titleCase } from "../utils.js";
 export class ThemeData extends foundry.abstract.DataModel {
 	static defineSchema() {
 		const fields = foundry.data.fields;
-		const abstract = game.litm.data;
+		const abstract = game.os.data;
 		return {
 			themebook: new fields.StringField({
 				initial: "THEMEBOOK",
@@ -50,7 +50,7 @@ export class ThemeData extends foundry.abstract.DataModel {
 			isBurnt: this.isBurnt,
 			type: "themeTag",
 		};
-		return game.litm.data.TagData.fromSource(item);
+		return game.os.data.TagData.fromSource(item);
 	}
 
 	get activatedPowerTags() {

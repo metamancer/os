@@ -1,82 +1,82 @@
-export class LitmConfig {
+export class OsConfig {
 	effects = {
-		"Litm.effects.category-target": {
+		"Os.effects.category-target": {
 			attack: {
-				description: "Litm.effects.attack.description",
-				action: "Litm.effects.attack.action",
-				cost: "Litm.effects.attack.cost",
+				description: "Os.effects.attack.description",
+				action: "Os.effects.attack.action",
+				cost: "Os.effects.attack.cost",
 			},
 			disrupt: {
-				description: "Litm.effects.disrupt.description",
-				action: "Litm.effects.disrupt.action",
-				cost: "Litm.effects.disrupt.cost",
+				description: "Os.effects.disrupt.description",
+				action: "Os.effects.disrupt.action",
+				cost: "Os.effects.disrupt.cost",
 			},
 			influence: {
-				description: "Litm.effects.influence.description",
-				action: "Litm.effects.influence.action",
-				cost: "Litm.effects.influence.cost",
+				description: "Os.effects.influence.description",
+				action: "Os.effects.influence.action",
+				cost: "Os.effects.influence.cost",
 			},
 			weaken: {
-				description: "Litm.effects.weaken.description",
-				action: "Litm.effects.weaken.action",
-				cost: "Litm.effects.weaken.cost",
+				description: "Os.effects.weaken.description",
+				action: "Os.effects.weaken.action",
+				cost: "Os.effects.weaken.cost",
 			},
 		},
-		"Litm.effects.category-ally": {
+		"Os.effects.category-ally": {
 			bestow: {
-				description: "Litm.effects.bestow.description",
-				action: "Litm.effects.bestow.action",
-				cost: "Litm.effects.bestow.cost",
+				description: "Os.effects.bestow.description",
+				action: "Os.effects.bestow.action",
+				cost: "Os.effects.bestow.cost",
 			},
 			enhance: {
-				description: "Litm.effects.enhance.description",
-				action: "Litm.effects.enhance.action",
-				cost: "Litm.effects.enhance.cost",
+				description: "Os.effects.enhance.description",
+				action: "Os.effects.enhance.action",
+				cost: "Os.effects.enhance.cost",
 			},
 			create: {
-				description: "Litm.effects.create.description",
-				action: "Litm.effects.create.action",
-				cost: "Litm.effects.create.cost",
+				description: "Os.effects.create.description",
+				action: "Os.effects.create.action",
+				cost: "Os.effects.create.cost",
 			},
 			restore: {
-				description: "Litm.effects.restore.description",
-				action: "Litm.effects.restore.action",
-				cost: "Litm.effects.restore.cost",
+				description: "Os.effects.restore.description",
+				action: "Os.effects.restore.action",
+				cost: "Os.effects.restore.cost",
 			},
 		},
-		"Litm.effects.category-process": {
+		"Os.effects.category-process": {
 			advance: {
-				description: "Litm.effects.advance.description",
-				action: "Litm.effects.advance.action",
-				cost: "Litm.effects.advance.cost",
+				description: "Os.effects.advance.description",
+				action: "Os.effects.advance.action",
+				cost: "Os.effects.advance.cost",
 			},
 			set_back: {
-				description: "Litm.effects.set_back.description",
-				action: "Litm.effects.set_back.action",
-				cost: "Litm.effects.set_back.cost",
+				description: "Os.effects.set_back.description",
+				action: "Os.effects.set_back.action",
+				cost: "Os.effects.set_back.cost",
 			},
 		},
-		"Litm.effects.category-other": {
+		"Os.effects.category-other": {
 			discover: {
-				description: "Litm.effects.discover.description",
-				action: "Litm.effects.discover.action",
-				cost: "Litm.effects.discover.cost",
+				description: "Os.effects.discover.description",
+				action: "Os.effects.discover.action",
+				cost: "Os.effects.discover.cost",
 			},
 			extra_feat: {
-				description: "Litm.effects.extra_feat.description",
-				action: "Litm.effects.extra_feat.action",
-				cost: "Litm.effects.extra_feat.cost",
+				description: "Os.effects.extra_feat.description",
+				action: "Os.effects.extra_feat.action",
+				cost: "Os.effects.extra_feat.cost",
 			},
 		},
-		"Litm.effects.category-consequence": {
+		"Os.effects.category-consequence": {
 			mitigate: {
-				description: "Litm.effects.mitigate.description",
-				action: "Litm.effects.mitigate.action",
-				cost: "Litm.effects.mitigate.cost",
+				description: "Os.effects.mitigate.description",
+				action: "Os.effects.mitigate.action",
+				cost: "Os.effects.mitigate.cost",
 			},
 		},
 	};
 	static createConfig() {
-		return new LitmConfig();
+		return new OsConfig();
 	}
 }

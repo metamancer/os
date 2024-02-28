@@ -11,44 +11,44 @@ import {
 } from "./scripts/system/handlebars.js";
 import { info, success } from "./scripts/logger.js";
 import { Fonts } from "./scripts/system/fonts.js";
-import { LitmHooks } from "./scripts/system/hooks.js";
-import { LitmRoll } from "./scripts/apps/roll.js";
-import { LitmRollDialog } from "./scripts/apps/roll-dialog.js";
-import { LitmConfig } from "./scripts/system/config.js";
+import { OsHooks } from "./scripts/system/hooks.js";
+import { OsRoll } from "./scripts/apps/roll.js";
+import { OsRollDialog } from "./scripts/apps/roll-dialog.js";
+import { OsConfig } from "./scripts/system/config.js";
 
-// Set the logo to the LitM logo
-$("#logo")[0].src = "systems/litm/assets/media/logo.webp";
+// Set the logo to the OS logo
+$("#logo")[0].src = "systems/os/assets/media/logo.webp";
 
 Hooks.once("init", () => {
-	info("Initializing Legend in the Mist...");
-	game.litm = {
-		config: LitmConfig.createConfig(),
+	info("Initializing Otherscape...");
+	game.os = {
+		config: OsConfig.createConfig(),
 		data: {
 			TagData,
 		},
 		importCharacter,
-		LitmRollDialog,
-		LitmRoll,
+		OsRollDialog,
+		OsRoll,
 	};
 
 	info("Initializing Config...");
 	CONFIG.Actor.dataModels.character = CharacterData;
-	CONFIG.Dice.rolls.push(LitmRoll);
+	CONFIG.Dice.rolls.push(OsRoll);
 	CONFIG.Item.dataModels.theme = ThemeData;
-	CONFIG.litm = game.litm.config;
+	CONFIG.os = game.os.config;
 
 	info("Registering Sheets...");
 	Actors.unregisterSheet("core", ActorSheet);
-	Actors.registerSheet("litm", CharacterSheet, {
+	Actors.registerSheet("os", CharacterSheet, {
 		types: ["character"],
 		makeDefault: true,
 	});
-	Actors.registerSheet("litm", ChallengeSheet, {
+	Actors.registerSheet("os", ChallengeSheet, {
 		types: ["challenge"],
 		makeDefault: true,
 	});
 	Items.unregisterSheet("core", ItemSheet);
-	Items.registerSheet("litm", ThemeSheet, {
+	Items.registerSheet("os", ThemeSheet, {
 		types: ["theme"],
 		makeDefault: true,
 	});
@@ -56,7 +56,7 @@ Hooks.once("init", () => {
 	HandlebarsHelpers.register();
 	HandlebarsPartials.register();
 	Fonts.register();
-	LitmHooks.register();
+	OsHooks.register();
 
-	success("Successfully initialized Legend in the Mist!");
+	success("Successfully initialized Otherscape!");
 });

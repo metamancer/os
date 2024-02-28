@@ -1,64 +1,64 @@
 <!-- Readonly version of the Theme template -->
 <!-- Intended for use embedded on a character sheet -->
 <input type="hidden" name="items.{{data._id}}.type" value="{{data.type}}" />
-<div class="litm--theme-background" data-tooltip="{{localize 'Litm.ui.dblclick-open'}}" data-tooltip-direction="LEFT">
-	<div class="litm--theme-meta litm--accent-bg">
-		<span class="litm--theme-meta-part">{{data.system.themebook}}</span>
-		<span class="litm--theme-meta-part">{{data.system.level}} THEME</span>
+<div class="os--theme-background" data-tooltip="{{localize 'Os.ui.dblclick-open'}}" data-tooltip-direction="LEFT">
+	<div class="os--theme-meta os--accent-bg">
+		<span class="os--theme-meta-part">{{data.system.themebook}}</span>
+		<span class="os--theme-meta-part">{{data.system.level}} THEME</span>
 	</div>
-	<div class="litm--theme-legend">
-		<span>{{localize "Litm.tags.power"}}
-			{{localize "Litm.other.tags"}}</span><span>・</span><span>{{localize "Litm.tags.weakness"}}
-			{{localize "Litm.other.tag"}}</span>
+	<div class="os--theme-legend">
+		<span>{{localize "Os.tags.power"}}
+			{{localize "Os.other.tags"}}</span><span>・</span><span>{{localize "Os.tags.weakness"}}
+			{{localize "Os.other.tag"}}</span>
 	</div>
-	<div class="litm--theme-title">
+	<div class="os--theme-title">
 		<!-- isActive checkbox -->
-		<label><span class="litm--sro">{{localize (tagActiveString data.system true)}}</span>
-			<input class="litm--checkbox litm--checkbox-with-bg" type="checkbox" name="items.{{data._id}}.system.isActive"
+		<label><span class="os--sro">{{localize (tagActiveString data.system true)}}</span>
+			<input class="os--checkbox os--checkbox-with-bg" type="checkbox" name="items.{{data._id}}.system.isActive"
 				data-tooltip="{{localize (tagActiveString data.system true)}}" disabled {{checked data.system.isActive}}>
 		</label>
 		<!-- Name input -->
 		<span>{{data.name}}</span>
 		<input type="hidden" name="items.{{data._id}}.name" value="{{data.name}}" />
 		<!-- isBurnt checkbox -->
-		<label><span class="litm--sro">{{localize (ifThen data.system.isBurnt 'Litm.tags.isBurnt' 'Litm.tags.burn')}}</span>
-			<input class="litm--burn" type="checkbox" name="items.{{data._id}}.system.isBurnt"
-				data-tooltip="{{localize (ifThen data.system.isBurnt 'Litm.tags.isBurnt' 'Litm.tags.burn')}}"
+		<label><span class="os--sro">{{localize (ifThen data.system.isBurnt 'Os.tags.isBurnt' 'Os.tags.burn')}}</span>
+			<input class="os--burn" type="checkbox" name="items.{{data._id}}.system.isBurnt"
+				data-tooltip="{{localize (ifThen data.system.isBurnt 'Os.tags.isBurnt' 'Os.tags.burn')}}"
 				{{checked data.system.isBurnt}} />
 		</label>
 	</div>
-	<ul class="litm--tags">
+	<ul class="os--tags">
 		{{#each data.system.powerTags as |tag|}}
-			{{> systems/litm/templates/partials/tag.html tag=tag key=@key path=(concat 'items.' ../data._id '.system.powerTags') readonly=true}}
+			{{> systems/os/templates/partials/tag.html tag=tag key=@key path=(concat 'items.' ../data._id '.system.powerTags') readonly=true}}
 		{{/each}}
 	</ul>
 	{{#with data.system.weakness as |tag|}}
-		<div class="litm--weakness">
+		<div class="os--weakness">
 			<!-- Name -->
-			<span class="litm--weakness-part">{{tag.name}}</span>
+			<span class="os--weakness-part">{{tag.name}}</span>
 		</div>
 	{{/with}}
-	<div class="litm--theme-progression">
+	<div class="os--theme-progression">
 		<!-- Experience buttons -->
 		<div data-click="increase" data-context="decrease" data-id="system.experience">
 			{{#progress-buttons data.system.experience 3}}
-				<span class="litm--checkbox litm--checkbox-with-bg {{ifThen @checked 'checked' ''}}"></span>
+				<span class="os--checkbox os--checkbox-with-bg {{ifThen @checked 'checked' ''}}"></span>
 			{{/progress-buttons}}
-			<label>{{localize "Litm.other.experience"}}
+			<label>{{localize "Os.other.experience"}}
 				<input type="hidden" name="items.{{data._id}}.system.experience" value="{{data.system.experience}}" />
 			</label>
 		</div>
 		<!-- Decay buttons -->
 		<div data-click="increase" data-context="decrease" data-id="system.decay">
 			{{#progress-buttons data.system.decay 3}}
-				<span class="litm--checkbox litm--checkbox-with-bg {{ifThen @checked 'checked' ''}}"></span>
+				<span class="os--checkbox os--checkbox-with-bg {{ifThen @checked 'checked' ''}}"></span>
 			{{/progress-buttons}}
-			<label>{{localize "Litm.tags.decay"}}
+			<label>{{localize "Os.tags.decay"}}
 				<input type="hidden" name="items.{{data._id}}.system.decay" value="{{data.system.decay}}" />
 			</label>
 		</div>
 	</div>
-	<div class="litm--accent-bg litm--theme-bottom">
+	<div class="os--accent-bg os--theme-bottom">
 		<div class="motivation">
 			<span role="textbox">{{data.system.motivation}}</span>
 			<input type="hidden" name="items.{{data._id}}.system.motivation" value="{{data.system.motivation}}" />

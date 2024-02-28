@@ -1,19 +1,19 @@
 import { info } from "../logger.js";
 import { sleep, localize as t } from "../utils.js";
 
-export class LitmHooks {
+export class OsHooks {
 	static register() {
 		info("Registering Hooks...");
-		LitmHooks.#addRollButtonAbovePlayerConfig();
-		LitmHooks.#addImportToActorSidebar();
-		LitmHooks.#iconOnlyHeaderButtons();
-		LitmHooks.#safeUpdateActorSheet();
-		LitmHooks.#safeUpdateItemSheet();
-		LitmHooks.#replaceLoadSpinner();
-		LitmHooks.#renderChallengeCardFixes();
-		LitmHooks.#prepareCharacterOnCreate();
-		LitmHooks.#prepareThemeOnCreate();
-		LitmHooks.#rendeWelcomeScreen();
+		OsHooks.#addRollButtonAbovePlayerConfig();
+		OsHooks.#addImportToActorSidebar();
+		OsHooks.#iconOnlyHeaderButtons();
+		OsHooks.#safeUpdateActorSheet();
+		OsHooks.#safeUpdateItemSheet();
+		OsHooks.#replaceLoadSpinner();
+		OsHooks.#renderChallengeCardFixes();
+		OsHooks.#prepareCharacterOnCreate();
+		OsHooks.#prepareThemeOnCreate();
+		OsHooks.#rendeWelcomeScreen();
 	}
 
 	static #iconOnlyHeaderButtons() {
@@ -61,7 +61,7 @@ export class LitmHooks {
 
 	static #safeUpdateActorSheet() {
 		Hooks.on("preUpdateActor", (_, data) => {
-			const { schema: tagSchema } = game.litm.data.TagData;
+			const { schema: tagSchema } = game.os.data.TagData;
 			const { system = {} } = data;
 			if (!("backpack" in system) || !system.backpack.length) return;
 
@@ -73,7 +73,7 @@ export class LitmHooks {
 				.filter(Boolean);
 
 			if (validationErrors.length) {
-				ui.notifications.error("Litm.ui.error-validating-actor", {
+				ui.notifications.error("Os.ui.error-validating-actor", {
 					localize: true,
 				});
 				return false;
@@ -83,7 +83,7 @@ export class LitmHooks {
 
 	static #safeUpdateItemSheet() {
 		Hooks.on("preUpdateItem", (_, data) => {
-			const { schema: tagSchema } = game.litm.data.TagData;
+			const { schema: tagSchema } = game.os.data.TagData;
 			const { system = {} } = data;
 			if (!("powerTags" in system) || !("weaknessTags" in system)) return;
 
@@ -95,7 +95,7 @@ export class LitmHooks {
 				.filter(Boolean);
 
 			if (validationErrors.length) {
-				ui.notifications.error("Litm.ui.error-validating-item", {
+				ui.notifications.error("Os.ui.error-validating-item", {
 					localize: true,
 				});
 				return false;
@@ -105,15 +105,15 @@ export class LitmHooks {
 
 	static #addRollButtonAbovePlayerConfig() {
 		const app = $(`
-		<button id="litm--roll-button" aria-label="${t(
-			"Litm.ui.roll-title",
-		)}" data-tooltip="${t("Litm.ui.roll-title")}">
-			<img src="systems/litm/assets/media/dice.webp" alt="Two Acorns" />
+		<button id="os--roll-button" aria-label="${t(
+			"Os.ui.roll-title",
+		)}" data-tooltip="${t("Os.ui.roll-title")}">
+			<img src="systems/os/assets/media/dice.webp" alt="Two Acorns" />
 		</button>`).click(() => {
 			if (!game.user.character)
-				return ui.notifications.warn(t("Litm.ui.warn-no-character"));
+				return ui.notifications.warn(t("Os.ui.warn-no-character"));
 			const actor = game.user.character;
-			game.litm.LitmRollDialog.create(
+			game.os.OsRollDialog.create(
 				actor._id,
 				actor.system.availablePowerTags,
 				actor.system.weaknessTags,
@@ -126,10 +126,10 @@ export class LitmHooks {
 		Hooks.on("renderSidebarTab", (app, html) => {
 			if (app.id !== "actors") return;
 			const button = $(
-				`<button class="litm--import-actor" data-tooltip="${t(
-					"Litm.ui.import-actor",
+				`<button class="os--import-actor" data-tooltip="${t(
+					"Os.ui.import-actor",
 				)}" aria-label="${t(
-					"Litm.ui.import-actor",
+					"Os.ui.import-actor",
 				)}"><i class="fas fa-file-import"></i></button>`,
 			);
 			button.on("click", () => {
@@ -140,7 +140,7 @@ export class LitmHooks {
 					const file = event.target.files[0];
 					const data = await file.text();
 					const actorData = JSON.parse(data);
-					await game.litm.importCharacter(actorData);
+					await game.os.importCharacter(actorData);
 				};
 				input.click();
 			});
@@ -150,7 +150,7 @@ export class LitmHooks {
 
 	static #replaceLoadSpinner() {
 		Hooks.on("renderPause", (_, html) => {
-			html.find("img").attr("src", "systems/litm/assets/media/disk.webp").css({
+			html.find("img").attr("src", "systems/os/assets/media/disk.webp").css({
 				opacity: 0.3,
 			});
 		});
@@ -166,20 +166,20 @@ export class LitmHooks {
 			// Replace default image
 			const img = html.find("img");
 			if (img.attr("src") === "icons/svg/mystery-man.svg")
-				img.attr("src", "systems/litm/assets/media/challenge-placeholder.webp");
+				img.attr("src", "systems/os/assets/media/challenge-placeholder.webp");
 
 			// Add a context menu to the avatar
 			html.find("form").contextmenu(async (event) => {
 				event.preventDefault();
 				const name = await Dialog.prompt({
-					title: t("Litm.ui.rename-challenge"),
+					title: t("Os.ui.rename-challenge"),
 					content: `
-						<div class="litm--rename-dialog">
+						<div class="os--rename-dialog">
 							<label for="name">${t("Name")}</label>
 							<input type="text" id="name" value="${app.actor.name}" required>
 						</div>
 					`,
-					label: t("Litm.ui.rename"),
+					label: t("Os.ui.rename"),
 					callback: (html) => html.find("input").val(),
 					options: { width: 200 },
 				});
@@ -222,7 +222,7 @@ export class LitmHooks {
 		Hooks.on("preCreateItem", (item, data) => {
 			if (data.type !== "theme") return;
 
-			const img = "systems/litm/assets/media/note.webp";
+			const img = "systems/os/assets/media/note.webp";
 			const powerTags = Array(5)
 				.fill()
 				.map((_, i) => ({
@@ -247,17 +247,17 @@ export class LitmHooks {
 
 	static #rendeWelcomeScreen() {
 		Hooks.once("ready", async () => {
-			let scene = game.scenes.getName("Legend in the Mist");
+			let scene = game.scenes.getName("Otherscape");
 			if (scene) return;
 
 			ui.sidebar.activateTab("actors");
 
 			scene = await Scene.create({
-				name: "Legend in the Mist",
+				name: "Otherscape",
 				permission: { default: 2 },
 				navigation: true,
 				background: {
-					src: "systems/litm/assets/media/litm_splash.webp",
+					src: "systems/os/assets/media/os_splash.webp",
 				},
 				width: 1920,
 				height: 1080,
@@ -279,24 +279,24 @@ export class LitmHooks {
 			await scene.update({ thumb });
 
 			const entry = await JournalEntry.create({
-				name: "Legend in the Mist",
+				name: "Otherscape",
 				permission: { default: 2 },
 				content: `
-					<h1 style="text-align:center"><span style="font-family: PackardAntique">Welcome!</span></h1>
+					<h1 style="text-align:center"><span style="font-family: Brownland">Welcome!</span></h1>
 					<p></p>
-					<p style="text-align: center"><span style="font-family: AlchemyItalic"><em><strong>I am thrilled to have you try out
+					<p style="text-align: center"><span style="font-family: Brownland"><em><strong>I am thrilled to have you try out
 													this system!</strong></em></span></p>
-					<blockquote style="padding:0.5em 10px;background:var(--litm-color-primary-bg);color:var(--litm-color-weakness)">
-							<p><span style="font-family: CaslonAntique"><strong>Please be aware that both the system—and game—is under heavy
+					<blockquote style="padding:0.5em 10px;background:var(--os-color-primary-bg);color:var(--os-color-weakness)">
+							<p><span style="font-family: Isotonic"><strong>Please be aware that both the system—and game—is under heavy
 													development. And that there might be breaking bugs or major changes down the road.</strong></span></p>
-							<p><br><span style="font-family: PackardAntique">PLEASE MAKE FREQUENT BACKUPS</span></p>
+							<p><br><span style="font-family: Brownland">PLEASE MAKE FREQUENT BACKUPS</span></p>
 					</blockquote>
 					<p></p>
 					<h2>What to expect</h2>
 					<p>At the moment only <strong>Themes</strong> and <strong>Characters</strong> are implemented, there is also a
 							rudimentary sheet that you can use to display the <strong>Challenge</strong> illustrations found in the <a
 									href="https://drive.google.com/drive/folders/1jS1dO4rz2uLxOZfdsShOTLjzsJeJqJ6H"
-									title="Legend in the Mist demo playkit">Tinderbox Demo</a>.</p>
+									title="Otherscape demo playkit">Tinderbox Demo</a>.</p>
 					<p></p>
 					<h3>To-be implemented</h3>
 					<p>The system is under active development and you can expect frequent updates as the year progresses. Following is a
@@ -365,10 +365,10 @@ export class LitmHooks {
 			});
 
 			ChatMessage.create({
-				title: "Welcome to Legend in the Mist",
+				title: "Welcome to Otherscape",
 				content: `
-				<p><strong>Welcome to Legend in the Mist</strong></p>
-				<p>Before you start playing, you might want to read the <a class="content-link" draggable="true" data-uuid="JournalEntry.QVA4cPjUWlDPMR8F.JournalEntryPage.5AWCygW0BCFdk4sd" data-id="5AWCygW0BCFdk4sd" data-type="JournalEntryPage" data-tooltip="Text Page"><i class="fas fa-file-lines"></i>Legend in the Mist</a> journal entry. It contains some important information about the system and what to expect.</p>
+				<p><strong>Welcome to Otherscape</strong></p>
+				<p>Before you start playing, you might want to read the <a class="content-link" draggable="true" data-uuid="JournalEntry.QVA4cPjUWlDPMR8F.JournalEntryPage.5AWCygW0BCFdk4sd" data-id="5AWCygW0BCFdk4sd" data-type="JournalEntryPage" data-tooltip="Text Page"><i class="fas fa-file-lines"></i>Otherscape</a> journal entry. It contains some important information about the system and what to expect.</p>
 				<p>Good luck and have fun!</p>
 			`,
 			});

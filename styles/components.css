@@ -1,5 +1,5 @@
-.app.litm.litm {
-	& .litm--sro {
+.app.os.os {
+	& .os--sro {
 		position: absolute;
 		width: 1px;
 		height: 1px;
@@ -11,7 +11,7 @@
 		border-width: 0;
 	}
 
-	& :where(.litm--checkbox) {
+	& :where(.os--checkbox) {
 		-webkit-appearance: none;
 		flex: none;
 		appearance: none;
@@ -44,7 +44,7 @@
 		}
 	}
 
-	& :where(.litm--checkbox-with-bg) {
+	& :where(.os--checkbox-with-bg) {
 		background: url('../assets/media/checkbox.svg') no-repeat;
 		height: 1.1em;
 		width: 1.1em;
@@ -68,7 +68,7 @@
 		}
 	}
 
-	& :where(.litm--burn) {
+	& :where(.os--burn) {
 		-webkit-appearance: none;
 		flex: none;
 		appearance: none;
@@ -78,7 +78,7 @@
 		color: currentColor;
 		height: 1.1em;
 		width: 1.1em;
-		filter: drop-shadow(0px 0px 2px color-mix(in hsl, var(--litm-color), transparent));
+		filter: drop-shadow(0px 0px 2px color-mix(in hsl, var(--os-color), transparent));
 		background: url('../assets/media/burn.svg') no-repeat;
 		background-size: contain;
 		background-position: center;
@@ -94,25 +94,25 @@
 		}
 	}
 
-	& .litm--accent-bg {
+	& .os--accent-bg {
 		background: url("/ui/parchment.jpg") repeat;
-		background-color: var(--litm-color-accent-bg);
+		background-color: var(--os-color-accent-bg);
 		background-blend-mode: color-burn;
-		color: var(--litm-color-accent);
+		color: var(--os-color-accent);
 	}
 
 	& button[data-click="add-tag"] {
 		margin-inline: 2rem;
-		padding-bottom: var(--litm-space-2);
+		padding-bottom: var(--os-space-2);
 		width: auto;
 		border: none;
 		border-radius: 0px;
 		border-top: 1.5px solid rgb(0, 0, 0, 0.4);
 		background-color: transparent;
-		color: var(--litm-color);
+		color: var(--os-color);
 		-webkit-font-smoothing: auto;
 		font-size: var(--font-size-20);
-		font-family: var(--litm-font-accent);
+		font-family: var(--os-font-accent);
 		transition: all 0.15s;
 
 		&:hover {

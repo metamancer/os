@@ -1,6 +1,6 @@
 import { getConfiggedEffect, sortTags } from "../utils.js";
 
-export class LitmRollDialog extends FormApplication {
+export class OsRollDialog extends FormApplication {
 	#radioSelected = null;
 	actorId = null;
 	powerTags = [];
@@ -8,17 +8,17 @@ export class LitmRollDialog extends FormApplication {
 
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			template: "systems/litm/templates/apps/roll-dialog.html",
-			classes: ["litm", "litm--roll"],
+			template: "systems/os/templates/apps/roll-dialog.html",
+			classes: ["os", "os--roll"],
 			width: 500,
 			height: 540,
 			resizable: true,
-			title: game.i18n.localize("Litm.ui.roll-title"),
+			title: game.i18n.localize("Os.ui.roll-title"),
 		});
 	}
 
 	static create(actorId, powerTags, weaknessTags) {
-		const app = new LitmRollDialog(actorId, powerTags, weaknessTags);
+		const app = new OsRollDialog(actorId, powerTags, weaknessTags);
 		return app.render(true);
 	}
 
@@ -39,7 +39,7 @@ export class LitmRollDialog extends FormApplication {
 		const data = super.getData();
 		return {
 			actorId: this.actorId,
-			effects: CONFIG.litm.effects,
+			effects: CONFIG.os.effects,
 			powerTags: sortTags(this.powerTags),
 			weaknessTags: sortTags(this.weaknessTags),
 			...data,
@@ -64,11 +64,11 @@ export class LitmRollDialog extends FormApplication {
 		const { actorId, burn, effect, status, title, tracked, ...rest } = formData;
 		const burnedTag = burn ? burn.split(".").pop() : null;
 		const effectData = tracked ? getConfiggedEffect(effect) : null;
-		const weaknessTags = LitmRollDialog.getFilteredArrayFromFormData(
+		const weaknessTags = OsRollDialog.getFilteredArrayFromFormData(
 			rest,
 			"weakness",
 		);
-		const powerTags = LitmRollDialog.getFilteredArrayFromFormData(
+		const powerTags = OsRollDialog.getFilteredArrayFromFormData(
 			rest,
 			"power",
 		).filter((tag) => tag !== burnedTag);
@@ -78,9 +78,9 @@ export class LitmRollDialog extends FormApplication {
 
 		const totalPower = (burnedTag ? 3 : 0) + power + status - weakness;
 		if (tracked && !effectData)
-			ui.notifications.warn(game.i18n.localize("Litm.ui.warn-no-effect-found"));
+			ui.notifications.warn(game.i18n.localize("Os.ui.warn-no-effect-found"));
 
-		const roll = new game.litm.LitmRoll(
+		const roll = new game.os.OsRoll(
 			`2d6 ${burn ? "+ @burnedTag" : ""} + @power + @status - @weakness`,
 			{
 				power,
@@ -186,7 +186,7 @@ export class LitmRollDialog extends FormApplication {
 			return actor.update({ "system.backpack": backpack });
 		} catch (error) {
 			console.error(error);
-			ui.notifications.error(game.i18n.localize("Litm.ui.error-burning-tag"));
+			ui.notifications.error(game.i18n.localize("Os.ui.error-burning-tag"));
 		}
 	}
 }

@@ -2,7 +2,7 @@ import { confirmDelete } from "../../utils.js";
 
 export class CharacterSheet extends ActorSheet {
 	static defaultOptions = mergeObject(ActorSheet.defaultOptions, {
-		classes: ["litm", "litm--character"],
+		classes: ["os", "os--character"],
 		width: 250,
 		height: 350,
 		left: window.innerWidth / 2 - 250,
@@ -11,7 +11,7 @@ export class CharacterSheet extends ActorSheet {
 	});
 
 	get template() {
-		return "systems/litm/templates/actor/character.html";
+		return "systems/os/templates/actor/character.html";
 	}
 
 	get items() {
@@ -192,7 +192,7 @@ export class CharacterSheet extends ActorSheet {
 		const powerTags = this.system.availablePowerTags;
 		const weaknessTags = this.system.weaknessTags;
 
-		const rc = game.litm.LitmRollDialog;
+		const rc = game.os.OsRollDialog;
 		rc.create(this.actor.id, powerTags, weaknessTags);
 	}
 
@@ -232,7 +232,7 @@ export class CharacterSheet extends ActorSheet {
 		const numThemes = this.items.filter((i) => i.type === "theme").length;
 		if (item.type === "theme" && numThemes >= 4)
 			return ui.notifications.warn(
-				game.i18n.localize("Litm.ui.warn-theme-limit"),
+				game.i18n.localize("Os.ui.warn-theme-limit"),
 			);
 
 		return super._onDropItem(event, data);

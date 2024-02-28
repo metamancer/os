@@ -28,15 +28,15 @@ export function titleCase(str) {
 }
 
 export function getConfiggedEffect(effect) {
-	const config = Object.values(CONFIG.litm.effects).find((e) => !!e[effect]);
+	const config = Object.values(CONFIG.os.effects).find((e) => !!e[effect]);
 	return { ...config?.[effect], name: effect };
 }
 
 export async function confirmDelete() {
 	const t = localize;
 	return Dialog.confirm({
-		title: t("Litm.ui.confirm-delete-title"),
-		content: t("Litm.ui.confirm-delete-content"),
+		title: t("Os.ui.confirm-delete-title"),
+		content: t("Os.ui.confirm-delete-content"),
 		defaultYes: false,
 	});
 }

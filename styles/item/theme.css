@@ -1,23 +1,23 @@
-.litm.litm--character .litm--character-theme,
-.litm.litm--theme {
+.os.os--character .os--character-theme,
+.os.os--theme {
 
 	& .window-header {
 		background: url(/ui/parchment.jpg) repeat;
-		background-color: var(--litm-color-accent-bg);
+		background-color: var(--os-color-accent-bg);
 		background-blend-mode: color-burn;
-		color: var(--litm-color-accent);
+		color: var(--os-color-accent);
 	}
 
 	& .window-content {
 		overflow: visible;
 	}
 
-	& .litm--theme-meta {
+	& .os--theme-meta {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 2px var(--litm-space-2) var(--litm-space-1);
-		font-family: var(--litm-font-primary);
+		padding: 2px var(--os-space-2) var(--os-space-1);
+		font-family: var(--os-font-primary);
 		font-size: var(--font-size-12);
 
 		&>* {
@@ -28,11 +28,11 @@
 			padding-block: 3px;
 		}
 
-		& .litm--theme-meta-part {
+		& .os--theme-meta-part {
 			border: none;
 			background-color: transparent;
-			color: color-mix(in hsl, var(--litm-color-primary-bg) 75%, transparent);
-			font-family: var(--litm-font-primary);
+			color: color-mix(in hsl, var(--os-color-primary-bg) 75%, transparent);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-12);
 			height: var(--font-size-14);
 			line-height: var(--font-size-16);
@@ -46,46 +46,46 @@
 			}
 		}
 
-		& .litm--theme-meta-part:last-of-type {
+		& .os--theme-meta-part:last-of-type {
 			margin-inline: auto 0;
 			text-align: right;
 		}
 
 
 		& span {
-			color: color-mix(in hsl, var(--litm-color-primary-bg) 75%, transparent);
+			color: color-mix(in hsl, var(--os-color-primary-bg) 75%, transparent);
 		}
 	}
 
-	& .litm--theme-legend {
-		margin-block-start: var(--litm-space-1);
-		padding: var(--litm-space-1) var(--litm-space-3);
+	& .os--theme-legend {
+		margin-block-start: var(--os-space-1);
+		padding: var(--os-space-1) var(--os-space-3);
 		display: flex;
 		justify-content: center;
 		align-items: baseline;
 		text-transform: uppercase;
-		font-family: var(--litm-font-primary);
+		font-family: var(--os-font-primary);
 		font-size: var(--font-size-11);
 
 		& span {
 
 			&:last-of-type {
-				color: var(--litm-color-weakness)
+				color: var(--os-color-weakness)
 			}
 		}
 	}
 
-	& .litm--theme-title {
-		margin: var(--litm-space-1) var(--litm-space-3);
+	& .os--theme-title {
+		margin: var(--os-space-1) var(--os-space-3);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		gap: var(--litm-space-2);
-		color: var(--litm-color);
+		gap: var(--os-space-2);
+		color: var(--os-color);
 		font-size: var(--font-size-16);
 
 		& span {
-			font-family: var(--litm-font-primary);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-26);
 			border: none;
 			background-color: transparent;
@@ -105,18 +105,18 @@
 		}
 	}
 
-	& .litm--tags {
+	& .os--tags {
 		display: flex;
 		flex-direction: column;
 		list-style: none;
-		margin: var(--litm-space-3) var(--litm-space-3) 0px;
+		margin: var(--os-space-3) var(--os-space-3) 0px;
 		padding: 0px;
 
 		& li {
 			display: flex;
 			align-items: center;
-			gap: var(--litm-space-3);
-			color: var(--litm-color);
+			gap: var(--os-space-3);
+			color: var(--os-color);
 
 			&:nth-child(odd) {
 				background-image: linear-gradient(to right, transparent, rgba(69, 59, 29, 0.1), transparent);
@@ -137,12 +137,12 @@
 				text-align: center;
 				border: none;
 				border-radius: 0px;
-				padding-block: var(--litm-space-2);
+				padding-block: var(--os-space-2);
 				min-height: var(--font-size-14);
 				height: auto;
 				background-color: transparent;
-				font-family: var(--litm-font-text);
-				color: var(--litm-color-primary);
+				font-family: var(--os-font-text);
+				color: var(--os-color-primary);
 				width: 100%;
 
 				&:focus,
@@ -164,7 +164,7 @@
 			& button {
 				background-color: transparent;
 				border: none;
-				color: var(--litm-color-contrast);
+				color: var(--os-color-contrast);
 				cursor: pointer;
 				font-size: 1rem;
 				line-height: 1;
@@ -180,22 +180,22 @@
 		}
 	}
 
-	& .litm--weakness {
-		padding: 0px var(--litm-space-3) 0px;
+	& .os--weakness {
+		padding: 0px var(--os-space-3) 0px;
 		display: flex;
 		align-items: baseline;
-		background-image: radial-gradient(ellipse at top, var(--litm-color-weakness-bg) 30%, transparent 70%);
+		background-image: radial-gradient(ellipse at top, var(--os-color-weakness-bg) 30%, transparent 70%);
 
-		& .litm--weakness-part {
+		& .os--weakness-part {
 			width: 100%;
 			height: auto;
 			min-height: var(--font-size-14);
 			border: none;
 			border-radius: 0px;
-			padding-block: var(--litm-space-2);
+			padding-block: var(--os-space-2);
 			background-color: transparent;
-			color: var(--litm-color-weakness);
-			font-family: var(--litm-font-text);
+			color: var(--os-color-weakness);
+			font-family: var(--os-font-text);
 			text-align: center;
 
 			&:focus,
@@ -207,7 +207,7 @@
 		& button {
 			background-color: transparent;
 			border: none;
-			color: var(--litm-color);
+			color: var(--os-color);
 			cursor: pointer;
 			font-size: 1rem;
 			line-height: 1;
@@ -222,8 +222,8 @@
 		}
 	}
 
-	& .litm--theme-progression {
-		padding: var(--litm-space-4) var(--litm-space-3) var(--litm-space-2);
+	& .os--theme-progression {
+		padding: var(--os-space-4) var(--os-space-3) var(--os-space-2);
 		display: flex;
 		justify-content: space-between;
 		background: url(../../assets/media/progress-bg.webp);
@@ -235,7 +235,7 @@
 			position: relative;
 			display: flex;
 			align-items: center;
-			gap: var(--litm-space-1);
+			gap: var(--os-space-1);
 			cursor: pointer;
 			font-size: var(--font-size-16);
 		}
@@ -243,30 +243,30 @@
 		& label {
 			margin-top: 5px;
 			text-transform: uppercase;
-			font-family: var(--litm-font-primary);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-12);
 			cursor: pointer;
 		}
 	}
 
-	& .litm--theme-bottom {
+	& .os--theme-bottom {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
 		margin: 0px -8.5px -10px;
 
 		& .motivation {
-			margin: var(--litm-space-1) var(--litm-space-3);
+			margin: var(--os-space-1) var(--os-space-3);
 			display: flex;
-			color: var(--litm-color-accent);
-			font-family: var(--litm-font-accent);
+			color: var(--os-color-accent);
+			font-family: var(--os-font-accent);
 			font-size: var(--font-size-20);
 			text-align: center;
 
 			& [role="textbox"] {
 				background: transparent;
-				color: var(--litm-color-accent);
-				font-family: var(--litm-font-accent);
+				color: var(--os-color-accent);
+				font-family: var(--os-font-accent);
 				border: none;
 				border-radius: 8px;
 				margin-inline: auto;
@@ -299,9 +299,9 @@
 			flex: 1;
 			margin: 0px 1.55rem 1rem;
 			background-image: radial-gradient(#999 -150%, transparent 70%);
-			color: var(--litm-color-primary-bg);
+			color: var(--os-color-primary-bg);
 			-webkit-font-smoothing: none;
-			font-family: var(--litm-font-text);
+			font-family: var(--os-font-text);
 			font-size: var(--font-size-12);
 			letter-spacing: 1px;
 			text-align: center;

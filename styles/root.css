@@ -1,39 +1,39 @@
 :root {
-	--litm-color-bg: hsl(40, 85%, 87%);
-	--litm-color: hsl(41, 23%, 24%);
-	--litm-color-alt-bg: hsl(34, 34%, 82%);
-	--litm-color-dark-bg: hsl(0 0.88% 44.51%);
-	--litm-color-accent-bg: hsl(225.94 10.66% 41.72%);
-	--litm-color-accent: hsl(46.61 81.44% 92.99%);
-	--litm-color-accent-2: hsl(24deg 20.72% 43.81%);
-	--litm-color-primary-bg: color-mix(in hsl, var(--litm-color-accent) 75%, hsl(0 0% 100%));
-	--litm-color-primary: color-mix(in hsl, var(--litm-color) 75%, hsl(0 0% 0%));
-	--litm-color-row-odd: rgb(0, 0, 0, 0.1);
-	--litm-color-weakness: hsl(10 41.04% 26.41%);
-	--litm-color-weakness-bg: hsl(6.5 42.05% 41.08% / 20%);
-	--litm-color-muted-bg: hsl(0 0% 45.42% / 20%);
+	--os-color-bg: hsl(40, 85%, 87%);
+	--os-color: hsl(41, 23%, 24%);
+	--os-color-alt-bg: hsl(34, 34%, 82%);
+	--os-color-dark-bg: hsl(0 0.88% 44.51%);
+	--os-color-accent-bg: hsl(225.94 10.66% 41.72%);
+	--os-color-accent: hsl(46.61 81.44% 92.99%);
+	--os-color-accent-2: hsl(24deg 20.72% 43.81%);
+	--os-color-primary-bg: color-mix(in hsl, var(--os-color-accent) 75%, hsl(0 0% 100%));
+	--os-color-primary: color-mix(in hsl, var(--os-color) 75%, hsl(0 0% 0%));
+	--os-color-row-odd: rgb(0, 0, 0, 0.1);
+	--os-color-weakness: hsl(10 41.04% 26.41%);
+	--os-color-weakness-bg: hsl(6.5 42.05% 41.08% / 20%);
+	--os-color-muted-bg: hsl(0 0% 45.42% / 20%);
 
 	/* Fonts */
-	--litm-font-heading: PackardAntique, CaslonAntique, 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-	--litm-font-primary: CaslonAntique, LibreCaslonText, 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-	--litm-font-accent: AlchemyItalic, 'Brush Script MT', 'Bradley Hand ITC', 'Lucida Calligraphy', 'Lucida Handwriting', 'Apple Chancery', cursive;
-	--litm-font-text: LibreCaslonText, 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+	--os-font-heading: Brownland, Isotonic, 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+	--os-font-primary: Isotonic, IsotonicMedI, 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+	--os-font-accent: Brownland, 'Brush Script MT', 'Bradley Hand ITC', 'Lucida Calligraphy', 'Lucida Handwriting', 'Apple Chancery', cursive;
+	--os-font-text: IsotonicMedI, 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
 
 	/* Vertical spacing */
-	--litm-space-1: 0.25rem;
-	--litm-space-2: 0.5rem;
-	--litm-space-3: 1rem;
-	--litm-space-4: 2rem;
-	--litm-space-5: 4rem;
+	--os-space-1: 0.25rem;
+	--os-space-2: 0.5rem;
+	--os-space-3: 1rem;
+	--os-space-4: 2rem;
+	--os-space-5: 4rem;
 
 	/* Foundry Overrides */
 	--font-size-26: 1.625rem;
-	--font-primary: 'PackardAntique' 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-	--color-text-light-1: var(--litm-color-accent);
-	--color-shadow-primary: var(--litm-color-primary);
-	--color-shadow-highlight: var(--litm-color-accent-bg);
-	--color-border-highlight: var(--litm-color-accent-bg);
-	--color-border-highlight-alt: var(--litm-color-accent-2);
+	--font-primary: 'Brownland' 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+	--color-text-light-1: var(--os-color-accent);
+	--color-shadow-primary: var(--os-color-primary);
+	--color-shadow-highlight: var(--os-color-accent-bg);
+	--color-border-highlight: var(--os-color-accent-bg);
+	--color-border-highlight-alt: var(--os-color-accent-2);
 }
 
 
@@ -44,30 +44,30 @@
 /* Background-colors not implemented using a token  */
 button,
 .directory .directory-header .header-search input {
-	background-color: var(--litm-color-alt-bg);
+	background-color: var(--os-color-alt-bg);
 }
 
 /* A border-color that was not implemented using a token  */
 #navigation #scene-list .scene.gm {
-	border-color: var(--litm-color-accent-bg);
+	border-color: var(--os-color-accent-bg);
 }
 
-.chat-message:has(.litm.dice-roll) {
-	background-color: var(--litm-color-weakness);
+.chat-message:has(.os.dice-roll) {
+	background-color: var(--os-color-weakness);
 	background-blend-mode: color-burn;
-	color: var(--litm-color-primary-bg);
-	font-family: var(--litm-font-text);
+	color: var(--os-color-primary-bg);
+	font-family: var(--os-font-text);
 	font-size: var(--font-size-12);
 
 	& .message-header {
-		color: color-mix(in hsl, var(--litm-color-accent) 70%, transparent);
+		color: color-mix(in hsl, var(--os-color-accent) 70%, transparent);
 	}
 }
 
 #logo {
 	object-fit: contain;
 	object-position: top;
-	filter: drop-shadow(0px 0px 3px color-mix(in hsl, var(--litm-color-bg) 60%, transparent));
+	filter: drop-shadow(0px 0px 3px color-mix(in hsl, var(--os-color-bg) 60%, transparent));
 	margin-inline: 16px;
 	image-rendering: -webkit-optimize-contrast;
 }
@@ -75,7 +75,7 @@ button,
 
 /* App core style overrides */
 
-.app.litm {
+.app.os {
 	-webkit-font-smoothing: antialiased;
 
 	background: url('../assets/media/background.webp') 0% 0% / cover;
@@ -84,7 +84,7 @@ button,
 	filter: drop-shadow(black 2px 4px 6px);
 
 	&:where(:not(.minimized)) {
-		outline: 2px solid var(--litm-color-primary);
+		outline: 2px solid var(--os-color-primary);
 		outline-offset: -10px;
 		padding: 10px;
 
@@ -107,7 +107,7 @@ button,
 
 	& .window-header {
 		border-bottom: none;
-		font-family: var(--litm-font-primary);
+		font-family: var(--os-font-primary);
 		justify-content: end;
 		flex: 0 0 24px;
 
