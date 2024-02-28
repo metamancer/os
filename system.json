@@ -58,6 +58,7 @@
 	"background": "systems/os/assets/media/os_splash.webp",
 	"bugs": "https://github.com/metamancer/os/issues?q=is:issue+is:open+sort:updated-desc",
 	"url": "https://github.com/metamancer/os",
+	"manifest": "https://raw.githubusercontent.com/metamancer/os/main/system.json",
 	"download": "https://github.com/metamancer/os/archive/refs/heads/main.zip",
 	"readme": "https://github.com/metamancer/os/blob/main/README.md"
 }
