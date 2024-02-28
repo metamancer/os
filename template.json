@@ -1,0 +1,13 @@
+{
+	"Actor": {
+		"types": ["character", "challenge"],
+		"htmlFields": ["note"],
+		"character": {},
+		"challenge": {}
+	},
+	"Item": {
+		"types": ["theme"],
+		"htmlFields": ["note"],
+		"theme": {}
+	}
+}

@@ -1,0 +1,64 @@
+{
+	"$schema": "https://json.schemastore.org/foundryvtt-system-manifest.json",
+	"id": "litm",
+	"version": 1,
+	"license": "LICENSE",
+	"title": "Legend in the Mist",
+	"description": "A Rustic Fantasy Game for Foundry VTT",
+	"authors": [
+		{
+			"name": "Filip",
+			"discord": "aMediocreDad#2483",
+			"email": "hello@amediocre.dev"
+		}
+	],
+	"esmodules": [
+		"litm.js"
+	],
+	"styles": [
+		"litm.css"
+	],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		}
+	],
+	"compatibility": {
+		"minimum": 11,
+		"verified": 11,
+		"maximum": 11
+	},
+	"flags": {
+		"hotReload": {
+			"extensions": [
+				"css",
+				"html",
+				"js",
+				"json"
+			],
+			"paths": [
+				"styles",
+				"templates",
+				"lang",
+				"litm.css",
+				"litm.js"
+			]
+		}
+	},
+	"relationships": {
+		"recommends": [
+			{
+				"id": "dice-so-nice",
+				"manifest": "https://gitlab.com/riccisi/foundryvtt-dice-so-nice/-/raw/master/module/module.json"
+			}
+		]
+	},
+	"background": "systems/litm/assets/media/litm_splash.webp",
+	"bugs": "https://github.com/aMediocreDad/litm/issues?q=is:issue+is:open+sort:updated-desc",
+	"url": "https://github.com/aMediocreDad/litm",
+	"manifest": "https://raw.githubusercontent.com/aMediocreDad/litm/main/system.json",
+	"download": "https://github.com/aMediocreDad/litm/archive/refs/heads/main.zip",
+	"readme": "https://github.com/aMediocreDad/litm/blob/main/README.md"
+}

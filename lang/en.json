@@ -1,0 +1,143 @@
+{
+	"Litm": {
+		"effects": {
+			"category-target": "Against an Opponent or a Target",
+			"category-ally": "For Yourself or for an Ally",
+			"category-process": "On a Process",
+			"category-other": "Other Effects",
+			"category-consequence": "Against a Consequence",
+			"effect": "Effect",
+			"attack": {
+				"key": "Attack",
+				"description": "Slash, punch, lay a curse, shoot",
+				"action": "Give your target a harmful status",
+				"cost": "1 Power per tier"
+			},
+			"disrupt": {
+				"key": "Disrupt",
+				"description": "Blind, confuse, shock, trip, interrupt",
+				"action": "Give your target a hindering tag or status",
+				"cost": "1 Power per tier, 2 Power per tag"
+			},
+			"influence": {
+				"key": "Influence",
+				"description": "Convince, threaten, provoke, mind control",
+				"action": "Give your target a compelling status",
+				"cost": "1 Power per tier"
+			},
+			"weaken": {
+				"key": "Weaken",
+				"description": "Break, sunder, neutralize, silence",
+				"action": "Remove a target’s useful tag or status",
+				"cost": "1 Power per tier 2 Power per tag"
+			},
+			"bestow": {
+				"key": "Bestow",
+				"description": "Teach, empower, enchant, equip",
+				"action": "Give yourself or an ally new abilities using tags",
+				"cost": "2 Power per tag"
+			},
+			"enhance": {
+				"key": "Enhance",
+				"description": "Assist, aim, boost, take cover",
+				"action": "Give yourself or an ally a helpful status",
+				"cost": "1 Power per tier"
+			},
+			"create": {
+				"key": "Create",
+				"description": "Craft, find, purchase, summon, rally",
+				"action": "Create a new object or being using tags",
+				"cost": "2 Power per tag"
+			},
+			"restore": {
+				"key": "Restore",
+				"description": "Heal, repair, rejuvenate, undo",
+				"action": "Reduce a harmful status or recover a burnt power tag",
+				"cost": "1 Power per tier 2 Power per tag"
+			},
+			"advance": {
+				"key": "Advance",
+				"description": "Make progress, get closer, push forward",
+				"action": "Increase a progress status 1 Power per tier",
+				"cost": "1 Power per tier"
+			},
+			"set_back": {
+				"key": "Set Back",
+				"description": "Delay, ruin, sabotage, reverse",
+				"action": "Decrease a progress status",
+				"cost": "1 Power per tier"
+			},
+			"discover": {
+				"key": "Discover",
+				"description": "Sense, recall, research, converse",
+				"action": "Discover a valuable detail",
+				"cost": "1 Power per detail"
+			},
+			"extra_feat": {
+				"key": "Extra Feat",
+				"description": "Add a feature or minor achievement to an action",
+				"action": "Any action",
+				"cost": "1 Power per additional feature or minor achievement included in the action"
+			},
+			"mitigate": {
+				"key": "Mitigate",
+				"description": "Block, dodge, shield, absorb",
+				"action": "Reduce or cancel incoming Effects",
+				"cost": "1 Power per tier; 2 Power per tag"
+			}
+		},
+		"name": "Legend in the Mist",
+		"other": {
+			"action": "Action",
+			"backpack": "Backpack",
+			"cost": "Cost",
+			"description": "Description",
+			"experience": "Experience",
+			"tag": "Tag",
+			"tags": "Tags"
+		},
+		"tags": {
+			"activate": "Activate",
+			"burn": "Burn",
+			"decay": "Decay",
+			"isActive": "Active",
+			"isInactive": "Not active",
+			"isBurnt": "Burned",
+			"item-tags": "Item Tags",
+			"power": "Power",
+			"weakness": "Weakness"
+		},
+		"ui": {
+			"add-tag": "Add Tag",
+			"cancel": "Cancel",
+			"challenge-prompt": "Click to add an image of a challenge card (as found in the tinderbox), right-click to rename.",
+			"confirm-delete-content": "Are you sure you want to delete this?",
+			"confirm-delete-title": "Confirm Delete",
+			"dblclick-open": "Double-click to edit",
+			"error-burning-tag": "There was an error trying to burn your tag. Please see the console for more information.",
+			"error-validating-actor": "There was an error validating the actor. Please see the console for more information.",
+			"import-actor": "Import Actor from JSON",
+			"remove-tag": "Remove Tag",
+			"rename": "Rename",
+			"rename-challenge": "Rename Challenge",
+			"roll": "Roll!",
+			"roll-consequence": "The action succeeds, but there are Consequences.",
+			"roll-failure": "The action fails. There are Consequences.",
+			"roll-quick": "Quick Outcome",
+			"roll-success": "The action succeeds. There are no Consequences.",
+			"roll-tracked-success": "You can push your roll by accepting Consequences to get 1 more Power to spend on Effects.",
+			"roll-title": "Roll Dice",
+			"roll-tracked": "Tracked Outcome",
+			"status": "Final Status Modifiers",
+			"warn-no-effect-found": "The game is misconfigured. The selected effect was not found.",
+			"warn-no-character": "Please assign a character to your user in the player configuration, below.",
+			"warn-theme-limit": "You have reached the maximum number of themes. Please remove a theme before adding another."
+		}
+	},
+	"TYPES.Actor.challenge": "Challenge",
+	"TYPES.Actor.character": "Character",
+	"Types.Item.theme": "Theme",
+	"failure": "Miss",
+	"consequence": "Mixed Hit",
+	"success": "Strong Hit"
+}
