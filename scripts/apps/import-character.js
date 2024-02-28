@@ -29,7 +29,7 @@ export async function importCharacter(data) {
 						"weaknessTag",
 					),
 				),
-				experience: theme.content.experience,
+				Upgrade: theme.content.Upgrade,
 				decay: theme.content.decay,
 				motivation: theme.content.bio.title,
 				note: theme.content.bio.body,
@@ -40,7 +40,7 @@ export async function importCharacter(data) {
 		name: data.name,
 		type: "character",
 		system: {
-			backpack: data.backpack.map((item) => createTag(item, "backpack")),
+			Loadout: data.Loadout.map((item) => createTag(item, "Loadout")),
 			note: "",
 		},
 		items: themeData,

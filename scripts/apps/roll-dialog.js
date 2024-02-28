@@ -180,10 +180,10 @@ export class OsRollDialog extends FormApplication {
 				]);
 			}
 
-			// We assume it's a backpack tag a this point
-			const backpack = actor.system.backpack;
-			backpack.find((t) => t.id === tag.id).isBurnt = true;
-			return actor.update({ "system.backpack": backpack });
+			// We assume it's a Loadout tag a this point
+			const Loadout = actor.system.Loadout;
+			Loadout.find((t) => t.id === tag.id).isBurnt = true;
+			return actor.update({ "system.Loadout": Loadout });
 		} catch (error) {
 			console.error(error);
 			ui.notifications.error(game.i18n.localize("Os.ui.error-burning-tag"));

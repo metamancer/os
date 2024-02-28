@@ -39,13 +39,13 @@
 		</div>
 	{{/with}}
 	<div class="os--theme-progression">
-		<!-- Experience buttons -->
-		<div data-click="increase" data-context="decrease" data-id="system.experience">
-			{{#progress-buttons data.system.experience 3}}
+		<!-- Upgrade buttons -->
+		<div data-click="increase" data-context="decrease" data-id="system.Upgrade">
+			{{#progress-buttons data.system.Upgrade 3}}
 				<span class="os--checkbox os--checkbox-with-bg {{ifThen @checked 'checked' ''}}"></span>
 			{{/progress-buttons}}
-			<label>{{localize "Os.other.experience"}}
-				<input type="hidden" name="items.{{data._id}}.system.experience" value="{{data.system.experience}}" />
+			<label>{{localize "Os.other.Upgrade"}}
+				<input type="hidden" name="items.{{data._id}}.system.Upgrade" value="{{data.system.Upgrade}}" />
 			</label>
 		</div>
 		<!-- Decay buttons -->

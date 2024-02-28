@@ -64,10 +64,10 @@ export class OsHooks {
 		Hooks.on("preUpdateActor", (_, data) => {
 			const { schema: tagSchema } = game.os.data.TagData;
 			const { system = {} } = data;
-			if (!("backpack" in system) || !system.backpack.length) return;
+			if (!("Loadout" in system) || !system.Loadout.length) return;
 
-			const { backpack } = system;
-			const validationErrors = backpack
+			const { Loadout } = system;
+			const validationErrors = Loadout
 				.map((item) =>
 					tagSchema.validate(item, { strict: true, partial: false }),
 				)
@@ -327,7 +327,7 @@ export class OsHooks {
 							list of coming feature improvements in no particular order:</p>
 					<ul>
 							<li>
-									<p><strong>Situational Tags & Statuses: </strong>Tags and Statuses not part of a backpack or theme will likely
+									<p><strong>Situational Tags & Statuses: </strong>Tags and Statuses not part of a Loadout or theme will likely
 											be implemented as Active Effects with their own interface and tracking.</p>
 							</li>
 							<li>
@@ -340,8 +340,8 @@ export class OsHooks {
 											<strong>Challenge</strong> actor.</p>
 							</li>
 							<li>
-									<p><strong>Backpacks:</strong> At the moment the backpack is hardcoded into the actor data. In the future
-											Backpacks will become their own items which can be moved between players, and added from premade backpacks
+									<p><strong>Loadouts:</strong> At the moment the Loadout is hardcoded into the actor data. In the future
+											Loadouts will become their own items which can be moved between players, and added from premade Loadouts
 											in the Item sidebar.</p>
 							</li>
 							<li>
@@ -357,9 +357,9 @@ export class OsHooks {
 					<ul>
 							<li>
 									<p><span style="font-family: Modesto Condensed"><strong>Right-clicking</strong></span> a <strong>Tag </strong>in
-											the <strong>Backpack</strong> will prompt you for deleting the tag. The same goes for
+											the <strong>Loadout</strong> will prompt you for deleting the tag. The same goes for
 											<strong>Themes</strong> in a <strong>Character</strong>-sheet. <strong>Right-clicking </strong>a tag in the
-											<strong>Backpack</strong>, will delete it.</p>
+											<strong>Loadout</strong>, will delete it.</p>
 							</li>
 							<li>
 									<p>If your <strong>Character</strong><em><strong> </strong></em>is missing <strong>Theme</strong>s you can
@@ -369,7 +369,7 @@ export class OsHooks {
 							<li>
 									<p><strong>Theme</strong>s can be <span
 													style="font-family: Modesto Condensed"><strong>rearranged</strong></span> on a sheet.
-											<strong>Tag</strong>s in the <strong>Backpack</strong> and on <strong>Theme</strong>s cannot.</p>
+											<strong>Tag</strong>s in the <strong>Loadout</strong> and on <strong>Theme</strong>s cannot.</p>
 							</li>
 							<li>
 									<p><span style="font-family: Modesto Condensed"><strong>Double-clicking </strong></span>a <strong>Theme</strong>

@@ -1,4 +1,4 @@
-import { titleCase, localize as t } from "../utils.js";
+import { titleCase } from "../utils.js";
 
 export class ThemeData extends foundry.abstract.DataModel {
 	static defineSchema() {
@@ -6,10 +6,10 @@ export class ThemeData extends foundry.abstract.DataModel {
 		const abstract = game.os.data;
 		return {
 			themebook: new fields.StringField({
-				initial: t("Os.other.themebook"),
+				initial: "THEMEBOOK",
 			}),
 			level: new fields.StringField({
-				initial: t("Os.other.level"),
+				initial: "LEVEL",
 			}),
 			isActive: new fields.BooleanField({
 				initial: true,
@@ -17,32 +17,11 @@ export class ThemeData extends foundry.abstract.DataModel {
 			isBurnt: new fields.BooleanField(),
 			powerTags: new fields.ArrayField(
 				new fields.EmbeddedDataField(abstract.TagData),
-				{
-					initial: () => Array(5)
-						.fill()
-						.map((_, i) => ({
-							id: randomID(),
-							name: `${t("Os.ui.name-power")} ${i + 1}`,
-							type: "powerTag",
-							isActive: i < 2,
-							isBurnt: false,
-						})),
-					validate: (tags) => tags.length === 5,
-				}
 			),
 			weaknessTags: new fields.ArrayField(
-				new fields.EmbeddedDataField(abstract.TagData), {
-				initial: () => [{
-					id: randomID(),
-					name: t("Os.ui.name-weakness"),
-					isActive: true,
-					isBurnt: false,
-					type: "weaknessTag",
-				}],
-				validate: (tags) => tags.length === 1,
-			}
+				new fields.EmbeddedDataField(abstract.TagData)
 			),
-			experience: new fields.NumberField({
+			Upgrade: new fields.NumberField({
 				integer: true,
 				min: 0,
 				initial: 0,
@@ -55,10 +34,10 @@ export class ThemeData extends foundry.abstract.DataModel {
 				max: 3,
 			}),
 			motivation: new fields.StringField({
-				initial: t("Os.ui.name-motivation"),
+				initial: "Write down your Motivation.",
 			}),
 			note: new fields.HTMLField({
-				initial: t("Os.ui.name-note"),
+				initial: "Give your Theme a description.",
 			}),
 		};
 	}

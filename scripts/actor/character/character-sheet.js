@@ -124,23 +124,23 @@ export class CharacterSheet extends ActorSheet {
 			name: "New Item",
 			isActive: false,
 			isBurnt: false,
-			type: "backpack",
+			type: "Loadout",
 			id: randomID(),
 		};
 
-		const backpack = this.system.backpack;
-		backpack.push(item);
+		const Loadout = this.system.Loadout;
+		Loadout.push(item);
 
-		return this.actor.update({ "system.backpack": backpack });
+		return this.actor.update({ "system.Loadout": Loadout });
 	}
 
 	async #removeTag(index) {
 		if (!(await confirmDelete())) return;
 
-		const backpack = this.system.backpack;
-		backpack.splice(index, 1);
+		const Loadout = this.system.Loadout;
+		Loadout.splice(index, 1);
 
-		return this.actor.update({ "system.backpack": backpack });
+		return this.actor.update({ "system.Loadout": Loadout });
 	}
 
 	async #removeItem(id) {

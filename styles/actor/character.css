@@ -180,13 +180,13 @@
 		}
 	}
 
-	& .backpack {
+	& .Loadout {
 		position: absolute;
 		right: -260px;
 		top: 0px;
 		isolation: isolate;
 
-		& .backpack--img {
+		& .Loadout--img {
 			position: absolute;
 			max-width: unset;
 			right: 10px;
@@ -198,7 +198,7 @@
 			pointer-events: none;
 		}
 
-		& .backpack--bg {
+		& .Loadout--bg {
 			position: relative;
 			top: -40px;
 			right: 20px;

@@ -4,7 +4,7 @@ export class ChallengeData extends foundry.abstract.DataModel {
 		const data = game.os.data;
 		return {
 			note: new fields.HTMLField(),
-			backpack: new fields.ArrayField(
+			Loadout: new fields.ArrayField(
 				new fields.EmbeddedDataField(data.TagData),
 			),
 		};
