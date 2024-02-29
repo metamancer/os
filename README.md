@@ -21,5 +21,7 @@ https://raw.githubusercontent.com/metamancer/os/main/system.json
 
 2. Create a new world using the "Otherscape" system.
 
+3. Play the game and report any bugs on [Github](https://github.com/metamancer/os/issues).
+
 > [!NOTE]
 > If you like the game consider becoming a late backer on [Kickstarter](https://www.kickstarter.com/projects/sonofoak/tokyo-otherworld-a-mythic-cyberpunk-rpg), and if you're interested in a Fantasy genre using the same rules engine, check out Legend in the Mist on [Kickstarter](https://www.kickstarter.com/projects/sonofoak/legend-in-the-mist-rpg).
