@@ -36,7 +36,6 @@
 			font-size: var(--font-size-12);
 			height: var(--font-size-14);
 			line-height: var(--font-size-16);
-
 			text-transform: uppercase;
 			min-width: 10px;
 			width: auto;
@@ -70,7 +69,8 @@
 		& span {
 
 			&:last-of-type {
-				color: var(--os-color-weakness)
+				color: var(--os-color-weakness);
+				background-image: var(--os-color-weakness-img-sm) no-repeat;
 			}
 		}
 	}
@@ -79,17 +79,19 @@
 		margin: var(--os-space-1) var(--os-space-3);
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: left;
 		gap: var(--os-space-2);
 		color: var(--os-color);
 		font-size: var(--font-size-16);
+		text-transform: uppercase;
 
 		& span {
 			font-family: var(--os-font-primary);
 			font-size: var(--font-size-26);
 			border: none;
 			background-color: transparent;
-			text-align: center;
+			text-align: left;
+			text-transform: uppercase;
 			margin-bottom: -0.85rem;
 			transition: all 0.15s;
 
@@ -134,7 +136,7 @@
 			}
 
 			& .tag--name {
-				text-align: center;
+				text-align: left;
 				border: none;
 				border-radius: 0px;
 				padding-block: var(--os-space-2);
@@ -184,7 +186,7 @@
 		padding: 0px var(--os-space-3) 0px;
 		display: flex;
 		align-items: baseline;
-		background-image: radial-gradient(ellipse at top, var(--os-color-weakness-bg) 30%, transparent 70%);
+		background-image: var(--os-color-weakness-img);
 
 		& .os--weakness-part {
 			width: 100%;
@@ -244,7 +246,7 @@
 			margin-top: 5px;
 			text-transform: uppercase;
 			font-family: var(--os-font-primary);
-			font-size: var(--font-size-12);
+			font-size: var(--font-size-14);
 			cursor: pointer;
 		}
 	}
@@ -261,14 +263,15 @@
 			color: var(--os-color-accent);
 			font-family: var(--os-font-accent);
 			font-size: var(--font-size-20);
-			text-align: center;
+			text-align: left;
+			text-transform: uppercase;
 
 			& [role="textbox"] {
 				background: transparent;
 				color: var(--os-color-accent);
 				font-family: var(--os-font-accent);
 				border: none;
-				border-radius: 8px;
+				border-radius: 0px;
 				margin-inline: auto;
 				letter-spacing: 1px;
 				transition: all 0.15s;

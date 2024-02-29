@@ -1,1 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 34 34"><path fill="#000" d="M26.075 28.575H7.85a2.499 2.499 0 0 1-2.499-2.499V7.852A2.498 2.498 0 0 1 7.85 5.355h18.224a2.498 2.498 0 0 1 2.498 2.497v18.224a2.499 2.499 0 0 1-2.498 2.499Z"/><path fill="#fff" d="m16.183 32.604-14.86-14.86c-.43-.43-.43-1.13 0-1.56l14.86-14.859c.43-.43 1.13-.43 1.56 0l14.86 14.859c.43.43.43 1.13 0 1.56l-14.86 14.86c-.43.43-1.13.43-1.56 0Z"/><path stroke="#000" stroke-miterlimit="10" stroke-width="1.333" d="m16.183 32.604-14.86-14.86c-.43-.43-.43-1.13 0-1.56l14.86-14.859c.43-.43 1.13-.43 1.56 0l14.86 14.859c.43.43.43 1.13 0 1.56l-14.86 14.86c-.43.43-1.13.43-1.56 0Z"/><path fill="#000" d="M8.515 17 17 8.514 25.485 17 17 25.485z"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 28.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 34 34" style="enable-background:new 0 0 34 34;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:none;stroke:#000000;stroke-width:1.333;stroke-miterlimit:10;}
+	.st2{display:none;stroke:#000000;stroke-width:1.333;stroke-miterlimit:10;}
+	.st3{fill:#FFFFFF;stroke:#000000;stroke-width:1.333;stroke-miterlimit:9.9999;}
+	.st4{display:none;}
+	.st5{display:inline;}
+	.st6{fill:#C6FF00;}
+</style>
+<g id="Layer_1">
+	<path class="st0" d="M16.2,32.6L1.3,17.7c-0.4-0.4-0.4-1.1,0-1.6L16.2,1.3c0.4-0.4,1.1-0.4,1.6,0l14.9,14.9c0.4,0.4,0.4,1.1,0,1.6
+		l-15,14.8C17.3,33,16.6,33,16.2,32.6z"/>
+	<path class="st1" d="M16.2,32.6L1.3,17.7c-0.4-0.4-0.4-1.1,0-1.6L16.2,1.3c0.4-0.4,1.1-0.4,1.6,0l14.9,14.9c0.4,0.4,0.4,1.1,0,1.6
+		l-15,14.8C17.3,33,16.6,33,16.2,32.6z"/>
+	<rect x="5.4" y="5.4" class="st2" width="23.2" height="23.2"/>
+	<rect x="5.4" y="5.4" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -7.0102 16.999)" class="st3" width="23.2" height="23.2"/>
+	<rect x="10.4" y="10.4" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -7.0102 16.999)" width="13.2" height="13.2"/>
+</g>
+<g id="Layer_2" class="st4">
+	<g class="st5">
+		<polygon class="st0" points="24.3,34 9.7,25.1 9.7,0 24.3,0 		"/>
+	</g>
+</g>
+<g id="Layer_3" class="st4">
+	<g class="st5">
+		<polygon class="st6" points="34,34 19.4,25.1 19.4,0 34,0 		"/>
+	</g>
+	<g class="st5">
+		<polygon class="st6" points="14.6,22.4 0,13.5 0,-11.6 14.6,-11.6 		"/>
+	</g>
+</g>
+</svg>
