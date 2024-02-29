@@ -1,7 +1,6 @@
 {
-	"$schema": "https://json.schemastore.org/foundryvtt-system-manifest.json",
 	"id": "os",
-	"version": 0,
+	"version": "0.1",
 	"license": "LICENSE",
 	"title": "Otherscape",
 	"description": "A Mythic Cyberpunk Game for Foundry VTT",
@@ -47,18 +46,10 @@
 			]
 		}
 	},
-	"relationships": {
-		"recommends": [
-			{
-				"id": "dice-so-nice",
-				"manifest": "https://gitlab.com/riccisi/foundryvtt-dice-so-nice/-/raw/master/module/module.json"
-			}
-		]
-	},
 	"background": "systems/os/assets/media/os_splash.webp",
 	"bugs": "https://github.com/metamancer/os/issues?q=is:issue+is:open+sort:updated-desc",
 	"url": "https://github.com/metamancer/os",
-	"manifest": "https://raw.githubusercontent.com/metamancer/os/main/system.json",
+	"manifest": "",
 	"download": "https://github.com/metamancer/os/archive/refs/heads/main.zip",
 	"readme": "https://github.com/metamancer/os/blob/main/README.md"
 }
