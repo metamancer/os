@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/foundryvtt-system-manifest.json",
 	"id": "os",
-	"version": 0,
+	"version": 0.1.0,
 	"license": "LICENSE",
 	"title": "Otherscape",
 	"description": "A Mythic Cyberpunk Game for Foundry VTT",
