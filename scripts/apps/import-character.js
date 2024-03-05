@@ -31,7 +31,6 @@ export async function importCharacter(data) {
 				),
 				experience: theme.content.experience,
 				decay: theme.content.decay,
-				improvement: theme.content.themebook.improvement,
 				motivation: theme.content.bio.title,
 				note: theme.content.bio.body,
 			},

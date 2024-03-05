@@ -58,24 +58,14 @@
 			</label>
 		</div>
 	</div>
-	<!-- FLIPSIDE -->
-	<!--
-	<div class="os--accent-bg os--theme-bottom">
-		<div class="improvement">
-			<span role="textbox">{{data.system.improvement}}</span>
-			<input type="hidden" name="items.{{data._id}}.system.improvement" value="{{data.system.improvement}}" />
-		</div>
-		<div class="note">
-			{{editor data.system.note target='items.{{data._id}}.system.note' owner=owner editable=false}}
-			<input type="hidden" name="items.{{data._id}}.system.note" value="{{data.system.note}}">
-		</div>
-	</div>
-	-->
 	<div class="os--accent-bg os--theme-bottom">
 		<div class="motivation">
 			<span role="textbox">{{data.system.motivation}}</span>
 			<input type="hidden" name="items.{{data._id}}.system.motivation" value="{{data.system.motivation}}" />
 		</div>
-		
+		<div class="note">
+			{{editor data.system.note target='items.{{data._id}}.system.note' owner=owner editable=false}}
+			<input type="hidden" name="items.{{data._id}}.system.note" value="{{data.system.note}}">
+		</div>
 	</div>
 </div>

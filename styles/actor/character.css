@@ -82,7 +82,6 @@
 		position: absolute;
 		left: -225px;
 		top: -64px;
-			  
 		border: none;
 		z-index: 0;
 	}
@@ -180,8 +179,6 @@
 		width: 450px;
 		max-width: unset;
 		font-family: var(--os-font-text);
-				   
-				 
 		z-index: 2;
 
 		&::before {
@@ -351,7 +348,6 @@
 					& label {
 						display: flex;
 						cursor: pointer;
-							
 					}
 
 					& button {

@@ -1,0 +1,7 @@
+2024/03/05-14:25:38.772 4ac4 Recovering log #63
+2024/03/05-14:25:38.780 4ac4 Delete type=0 #63
+2024/03/05-14:25:38.780 4ac4 Delete type=3 #61
+2024/03/05-14:26:58.582 5164 Level-0 table #68: started
+2024/03/05-14:26:58.582 5164 Level-0 table #68: 0 bytes OK
+2024/03/05-14:26:58.584 5164 Delete type=0 #66
+2024/03/05-14:26:58.588 5164 Manual compaction at level-0 from '!adventures!6Gp864ZlopbT97Zy' @ 72057594037927935 : 1 .. '!adventures!6Gp864ZlopbT97Zy' @ 0 : 0; will stop at (end)

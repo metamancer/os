@@ -60,9 +60,6 @@ export class ThemeData extends foundry.abstract.DataModel {
 			note: new fields.HTMLField({
 				initial: t("Os.ui.name-note"),
 			}),
-			/* improvement: new fields.StringField({
-				initial: t("Os.ui.name-improvement"),
-			}),*/
 		};
 	}
 

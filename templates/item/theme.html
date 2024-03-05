@@ -62,25 +62,15 @@
 			<label for="decay">{{localize "Os.tags.decay"}}</label>
 		</div>
 	</div>
-	<!-- FLIPSIDE -->
-	<!--
-	<div class="os--accent-bg os--theme-bottom">	
-		<div class="improvement">
-			<label class="os--sro" for="improvement">{{localize "Os.other.improvement"}}</label>
-			<input type="hidden" name="system.improvement" id="improvement" value="{{data.system.improvement}}" required />
-			<span role="textbox" contenteditable data-input="improvement">{{data.system.improvement}}</span>
-		</div>
-		<div class="note">
-			<label class="os--sro" for="note">{{localize "Notes"}}</label>
-			{{editor data.system.note target="system.note" owner=owner button=true editable=true}}
-		</div>
-	</div>
-	-->
-	<div class="os--accent-bg os--theme-bottom">	
+	<div class="os--accent-bg os--theme-bottom">
 		<div class="motivation">
 			<label class="os--sro" for="motivation">{{localize "Os.other.motivation"}}</label>
 			<input type="hidden" name="system.motivation" id="motivation" value="{{data.system.motivation}}" required />
 			<span role="textbox" contenteditable data-input="motivation">{{data.system.motivation}}</span>
+		</div>
+		<div class="note">
+			<label class="os--sro" for="note">{{localize "Notes"}}</label>
+			{{editor data.system.note target="system.note" owner=owner button=true editable=true}}
 		</div>
 	</div>
 </form>

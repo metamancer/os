@@ -110,7 +110,7 @@ export class OsHooks {
 		<button id="os--roll-button" aria-label="${t(
 			"Os.ui.roll-title",
 		)}" data-tooltip="${t("Os.ui.roll-title")}">
-			<img src="systems/os/assets/media/dice.webp" alt="three d12 dice" />
+			<img src="systems/os/assets/media/dice.webp" alt="Two Acorns" />
 		</button>`).click(() => {
 			if (!game.user.character)
 				return ui.notifications.warn(t("Os.ui.warn-no-character"));
@@ -297,19 +297,16 @@ export class OsHooks {
 				name: ":Otherscape",
 				permission: { default: 2 },
 				content: `
-				<h1 style="text-align:center"><span style="font-family: Bebas Neue">Welcome!</span></h1>
-					
-				<p style="text-align: center"><span style="font-family: SairaSC"><em><strong>Thanks for testing out this system!</strong></em></span></p>
-				<p></p>											 
+				<h1 style="text-align:center"><span style="font-family: PackardAntique">Welcome!</span></h1>
+				<p style="text-align: center"><em>I am thrilled to have you try out this system</em></p>
+				<p></p>
 				<blockquote style="padding:0.5em 10px;background:var(--os-color-primary-bg);color:var(--os-color-weakness)">
-							<p><span style="font-family: SairaSC"><strong>Please be aware that both the system—and game—is under heavy development. And that there might be breaking bugs or major changes down the road.</strong></span></p>
-							<p><em><strong><br>PLEASE MAKE FREQUENT BACKUPS</strong></em></p>
+						<p><em><strong>P</strong>lease be aware that both the system—and game—is under heavy development. And that there might be breaking bugs or major changes down the road.</em></p>
+						<p><em><strong><br>PLEASE MAKE FREQUENT BACKUPS</strong></em></p>
 				</blockquote>
 				<p></p>
 				<h2>What to expect</h2>
-				<p>At the moment only <strong>Themes</strong> and <strong>Characters</strong> are implemented, there is also a rudimentary sheet that you can use to display the <strong>Challenge</strong> illustrations found in the
-				<a href="https://drive.google.com/drive/folders/1jS1dO4rz2uLxOZfdsShOTLjzsJeJqJ6H" title=":Otherscape demo playkit">Demo</a>.</p>
-				<p></p>
+				<p>At the moment <strong>Themes</strong>, <strong>Threats</strong>,<strong> Challenges</strong> and <strong>Characters</strong> are implemented. These are all the things you need to play the Tinderbox demo <a href="https://drive.google.com/drive/folders/1jS1dO4rz2uLxOZfdsShOTLjzsJeJqJ6H" title=":Otherscape demo playkit">Tinderbox Demo</a>. <strong>Story Tags & Statuses</strong> need to be tracked manually, using something like <a href="https://foundryvtt.com/packages/ffs">Freeform Sheets</a>. A future update will add support.</p>
 				<h3>To-be implemented</h3>
 				<p>The system is under active development and you can expect frequent updates as the year progresses. Following is a list of coming feature improvements in no particular order:</p>
 				<ul>
@@ -357,14 +354,10 @@ export class OsHooks {
 				title: "Welcome to :Otherscape!",
 				content: /* html */ `
 				<p><strong>Welcome to :Otherscape</strong></p>
-				<p>Before you start playing, you should want to read the <a class="content-link" draggable="true" data-uuid="${entry.uuid}" data-id="VjGnXrz2K5S4dUhD" data-type="JournalEntryPage" data-tooltip="Text Page"><i class="fas fa-file-lines"></i>:Otherscape</a> journal entry. It contains some important information about the system, and what to expect.</p>
+				<p>Before you start playing, you should want to read the <a class="content-link" draggable="true" data-uuid="${entry.uuid}" data-id="5AWCygW0BCFdk4sd" data-type="JournalEntryPage" data-tooltip="Text Page"><i class="fas fa-file-lines"></i>:Otherscape</a> journal entry. It contains some important information about the system, and what to expect.</p>
+				<p>Once you've read the journal entry, you can click the button below to import all the rules and content required to play the Tinderbox Demo.</p>
+				<button type="button" id="os--import-adventure" style="background: var(--os-color-status-bg);"><strong>${t("Os.ui.import-adventure")}</strong></button>
 				<p style="text-align:center;">Good luck, and have fun!</p>
-				
-				// Future placement for demo adventure
-				/* <p>Once you've read the journal entry, you can click the button below to import all the rules and content required to play the Tinderbox Demo.</p>
-				
-				<button type="button" id="os--import-adventure" style="background: var(--os-color-status-bg);"><strong>${t("Litm.ui.import-adventure")}</strong></button> */
-				
 			`,
 			});
 
@@ -377,7 +370,7 @@ export class OsHooks {
 				height: 600,
 			});
 		});
-		/* Future demo placement
+
 		Hooks.on("renderChatMessage", (_app, html) => {
 			html.find("#os--import-adventure").on("click", async () => {
 				const adventure = await game.packs.get("os.tinderbox-demo").getDocuments();
@@ -396,6 +389,6 @@ export class OsHooks {
 			);
 			await Scene.updateDocuments(updates);
 			game.journal.getName("Tinderbox Demo Rules").sheet.render(true);
-		});*/
-	} 
+		});
+	}
 }

@@ -79,7 +79,7 @@ export class OsConfig {
 	}
 
 	tagStringRe = /\[([^\d\]]+)(?:[\s-\:](\d+))?\]/gi;
-	sceneLinkRe = /@ActivateScene\[([^\]]+)\](?:\{([^\}]+)\})?/gi;	   
+	sceneLinkRe = /@ActivateScene\[([^\]]+)\](?:\{([^\}]+)\})?/gi;
 
 	static createConfig() {
 		return new OsConfig();

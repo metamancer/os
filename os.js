@@ -22,7 +22,7 @@ import { OsConfig } from "./scripts/system/config.js";
 import { OsSettings } from "./scripts/system/settings.js";
 import { Enrichers } from "./scripts/system/enrichers.js";
 
-// Set the logo to the logo
+// Set the logo to the OS logo
 $("#logo")[0].src = "systems/os/assets/media/logo.webp";
 
 Hooks.once("init", () => {

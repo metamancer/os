@@ -6,7 +6,7 @@
 	--os-color-accent-bg: hsl(225.94 10.66% 41.72%);
 	--os-color-accent: hsl(46.61 81.44% 92.99%);
 	--os-color-accent-2: hsl(24deg 20.72% 43.81%);
-	--os-color-accent-3: hsl(32.06deg 89.89% 30.41%);									
+	--os-color-accent-3: hsl(32.06deg 89.89% 30.41%);
 	--os-color-primary-bg: color-mix(in hsl, var(--os-color-accent) 75%, hsl(0 0% 100%));
 	--os-color-primary: color-mix(in hsl, var(--os-color) 75%, hsl(0 0% 0%));
 	--os-color-row-odd: rgb(0, 0, 0, 0.1);
@@ -16,7 +16,7 @@
 	--os-color-tag-bg: hsl(45 98% 46% / 70%);
 	--os-color-status-bg: hsl(75.88 48.31% 42.3% / 70%);
 	--os-color-limit-bg: hsl(0 67.35% 63.41% / 70%);
-	
+
 	/* Fonts */
 	--os-font-heading: Bebas Neue, Saira, sans-serif;
 	--os-font-primary: Saira, sans-serif;
@@ -39,7 +39,7 @@
 	--color-shadow-highlight: var(--os-color-accent-bg);
 	--color-border-highlight: var(--os-color-accent-bg);
 	--color-border-highlight-alt: var(--os-color-accent-2);
-	--color-text-hyperlink: var(--os-color-accent-3);													
+	--color-text-hyperlink: var(--os-color-accent-3);
 }
 
 
@@ -138,7 +138,7 @@ a.content-link {
 		outline-offset: -10px;
 		padding: 10px;
 
-		.window-title {
+		& .window-title {
 			display: none;
 		}
 	}
@@ -161,7 +161,7 @@ a.content-link {
 		justify-content: end;
 		flex: 0 0 24px;
 
-		.document-id-link {
+		& .document-id-link {
 			margin-inline: 0 auto;
 		}
 	}
@@ -170,7 +170,7 @@ a.content-link {
 		padding: 0px;
 		background: none;
 
-		form {
+		& form {
 			display: flex;
 			flex-direction: column;
 		}
@@ -180,7 +180,7 @@ a.content-link {
 		min-height: 100px;
 		height: 100%;
 
-		.tox.tox-tinymce .tox-edit-area__iframe {
+		& .tox.tox-tinymce .tox-edit-area__iframe {
 			background-color: #fff;
 		}
 	}

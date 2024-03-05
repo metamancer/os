@@ -21,7 +21,7 @@
 		top: -24px;
 	}
 
-	form {
+	& form {
 		position: relative;
 		margin: 4px;
 		overflow: hidden;
@@ -47,7 +47,7 @@
 		grid-template-columns: auto 1fr 70px;
 		align-items: center;
 		gap: var(--os-space-1);
-		padding: var(--os-space-1) 16px);
+		padding: var(--os-space-1) 16px;
 		background-image: linear-gradient(to bottom, rgb(16 34 44 / 80%) 70%, transparent);
 
 		& input {
@@ -224,7 +224,6 @@
 			padding: 0px 0px var(--os-space-3);
 			overflow: auto hidden;
 			scrollbar-width: none;
-
 
 			& li {
 				flex: none;

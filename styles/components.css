@@ -1,4 +1,3 @@
-	
 .os--sro {
 	position: absolute;
 	width: 1px;
@@ -9,7 +8,7 @@
 	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
 	border-width: 0;
-}	  
+}
 
 :where(.os--checkbox),
 .app.os.os :where(.os--checkbox) {
@@ -30,7 +29,6 @@
 	rotate: 45deg;
 	cursor: pointer;
 
-				   
 	&::after {
 		content: "";
 		width: 0.36em;
@@ -44,7 +42,7 @@
 	&:checked::after {
 		scale: 1;
 	}
-}			 
+}
 
 :where(.os--checkbox-with-bg),
 .app.os.os :where(.os--checkbox-with-bg) {
@@ -64,11 +62,9 @@
 
 	&::after {
 		display: none;
-   
 	}
 
 	&:disabled {
-						   
 		cursor: auto;
 	}
 }
@@ -96,16 +92,13 @@
 
 	&:checked {
 		background-image: url('../assets/media/burn-c.svg');
-											  									
 	}
 }
 
 .os--accent-bg {
 	background: url("/ui/parchment.jpg") repeat;
-				  
 	background-color: var(--os-color-accent-bg);
 	background-blend-mode: color-burn;
-				   
 	color: var(--os-color-accent);
 }
 
@@ -128,13 +121,13 @@
 
 	&.os--status {
 		background: var(--os-color-status-bg);
-   
 	}
 
 	&.os--limit {
 		background: var(--os-color-limit-bg);
 	}
 }
+
 
 .app.os.os {
 	& button[data-click="add-tag"] {
