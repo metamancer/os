@@ -9,7 +9,7 @@
 
 ## Installation
 
-We're still under extremely heavy development; as things change, your games may break or have adverse impact. Please keep this in mind and backup your character/world data frequently. This system is built directly from the code supporting the [:Otherscape system](https://github.com/aMediocreDad/os) by [aMediocreDad](https://github.com/aMediocreDad), with his permission.
+We're still under extremely heavy development; as things change, your games may break or have adverse impact. Please keep this in mind and backup your character/world data frequently. This system is built directly from the code supporting the [Legends in the Mist system](https://github.com/aMediocreDad/os) by [aMediocreDad](https://github.com/aMediocreDad), with his permission.
 
 **To install the system in Foundry Virtual Tabletop:**
 
