@@ -21,7 +21,7 @@ function log(status) {
 	 */
 	return (...args) => {
 		return console.log(
-			`%cOtherscape | %c${args.join("\n")}`,
+			`%c:Otherscape | %c${args.join("\n")}`,
 			`font-weight: bold; color: ${status};`,
 			"color: hsl(240, 100%, 98%);",
 		);

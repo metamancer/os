@@ -25,14 +25,14 @@
 		<label class="os--sro">{{localize "Notes"}}</label>
 		{{editor data.system.note target="system.note" owner=owner button=true editable=true}}
 	</div>
-	<div class="Loadout">
-		<img width="300px" class="Loadout--img" src="systems/os/assets/media/Loadout.webp" />
-		<div class="Loadout--bg">
+	<div class="backpack">
+		<img width="300px" class="backpack--img" src="systems/os/assets/media/backpack.webp" />
+		<div class="backpack--bg">
 			<div class="meta">{{localize 'Os.tags.item-tags'}}</div>
-			<div class="title">{{localize 'Os.other.Loadout'}}</div>
+			<div class="title">{{localize 'Os.other.backpack'}}</div>
 			<ul class="taglist">
-				{{#each data.system.Loadout as |tag|}}
-					{{> systems/os/templates/partials/tag.html tag=tag key=@key path="system.Loadout" readonly=false remove=true}}
+				{{#each data.system.backpack as |tag|}}
+					{{> systems/os/templates/partials/tag.html tag=tag key=@key path="system.backpack" readonly=false remove=true}}
 				{{/each}}
 			</ul>
 			<button type="button" data-click="add-tag">{{localize "Os.ui.add-tag"}}</button>

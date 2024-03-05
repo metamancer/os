@@ -33,6 +33,9 @@ export class ThemeData extends foundry.abstract.DataModel {
 				initial: 0,
 				max: 3,
 			}),
+			improvement: new fields.StringField({
+				initial: "Write down your Improvement.",
+			}),
 			motivation: new fields.StringField({
 				initial: "Write down your Motivation.",
 			}),

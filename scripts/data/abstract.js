@@ -5,11 +5,12 @@ export class TagData extends foundry.abstract.DataModel {
 			id: new fields.StringField({
 				required: true,
 				nullable: false,
+				validate: (id) => foundry.data.validators.isValidId(id),
+				initial: () => randomID()
 			}),
 			name: new fields.StringField({
 				required: true,
 				nullable: false,
-				validate: (name) => name.length > 2,
 			}),
 			isActive: new fields.BooleanField({
 				required: true,
@@ -21,9 +22,7 @@ export class TagData extends foundry.abstract.DataModel {
 			}),
 			type: new fields.StringField({
 				required: true,
-				nullable: false,
-				initial: "Loadout",
-				choices: ["weaknessTag", "powerTag", "Loadout", "themeTag"],
+				choices: ["weaknessTag", "powerTag", "backpack", "themeTag"],
 			}),
 		};
 	}

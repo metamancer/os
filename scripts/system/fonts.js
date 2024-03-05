@@ -3,45 +3,74 @@ import { info } from "../logger.js";
 export class Fonts {
 	static register() {
 		info("Registering Fonts...");
-		FontConfig.loadFont("Isotonic", {
+		FontConfig.loadFont("Saira", {
 			editor: true,
 			fonts: [
 				{
-					name: "Isotonic",
-					urls: ["systems/os/assets/fonts/isotonic.otf"],
+					name: "Saira",
+					urls: ["systems/os/assets/fonts/saira.otf"],
+					sizeAdjust: "110%"
 				},
 				{
-					name: "Isotonic",
-					urls: ["systems/os/assets/fonts/isotonic-s-b.otf"],
+					name: "Saira",
+					urls: ["systems/os/assets/fonts/saira-b.otf"],
 					weight: "bold",
+					sizeAdjust: "110%"
 				},
 				{
-					name: "Isotonic",
-					urls: ["systems/os/assets/fonts/isotonic-i.otf"],
+					name: "Saira",
+					urls: ["systems/os/assets/fonts/saira-i.otf"],
 					style: "italic",
+					sizeAdjust: "110%"
 				},
 			],
 		});
-		FontConfig.loadFont("IsotonicMedI", {
+		FontConfig.loadFont("Saira Semi", {
 			editor: true,
 			fonts: [
 				{
-					name: "IsotonicMedI",
-					urls: ["systems/os/assets/fonts/isontonic-m-i.otf"],
+					name: "Saira Semi",
+					urls: ["systems/os/assets/fonts/saira-sc.otf"],
+					weight: "300 800",
+				},
+				{
+					name: "Saira Semi",
+					urls: ["systems/os/assets/fonts/saira-sc-i.otf"],
+					style: "italic",
+					weight: "300 800",
 				},
 			],
 		});
-		FontConfig.loadFont("Brownland", {
+		FontConfig.loadFont("Saira Italic", {
 			editor: true,
 			fonts: [
 				{
-					name: "Brownland",
-					urls: ["systems/os/assets/fonts/brownland.otf"],
+					name: "Saira Italic",
+					urls: ["systems/os/assets/fonts/saira-i.otf"],
+				},
+			],
+		});
+		FontConfig.loadFont("Saira Condensed", {
+			editor: true,
+			fonts: [
+				{
+					name: "Saira Condensed",
+					urls: ["systems/os/assets/fonts/saira-condensed.otf"],
 				},
 				{
-					name: "Brownland",
-					urls: ["systems/os/assets/fonts/brownland.otf"],
+					name: "Saira Condensed",
+					urls: ["systems/os/assets/fonts/saira-condensed-sb.otf"],
 					weight: "bold",
+				},
+			],
+		});
+		FontConfig.loadFont("Bebas Neue", {
+			editor: true,
+			fonts: [
+				{
+					name: "Bebas Neue",
+					urls: ["systems/os/assets/fonts/bebasneue.ttf"],
+					sizeAdjust: "110%",
 				},
 			],
 		});

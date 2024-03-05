@@ -1,14 +1,15 @@
 {
+	"$schema": "https://json.schemastore.org/foundryvtt-module-manifest.json",
 	"id": "os",
-	"version": "0.1",
+	"version": 1,
 	"license": "LICENSE",
-	"title": "Otherscape",
-	"description": "A Mythic Cyberpunk Game for Foundry VTT",
+	"title": ":Otherscape",
+	"description": "A <strong>Mythic Cyberpunk</strong> Game for Foundry Virtual Tabletop",
 	"authors": [
 		{
 			"name": "Metamancer",
 			"discord": "metamancer#3336",
-			"email": "themetamaner@gmail.com"
+			"email": "themetamaner@gmail.com",
 		}
 	],
 	"esmodules": [
@@ -46,10 +47,19 @@
 			]
 		}
 	},
-	"background": "systems/os/assets/media/os_splash.webp",
+	"relationships": {
+		"systems": [
+			{
+				"id": "litm",
+				"type": "system",
+				"manifest": "https://raw.githubusercontent.com/aMediocreDad/litm/main/system.json",
+			}
+		]
+	},
+	"background": "modules/os/assets/media/splash.webp",
 	"bugs": "https://github.com/metamancer/os/issues?q=is:issue+is:open+sort:updated-desc",
 	"url": "https://github.com/metamancer/os",
-	"manifest": "https://raw.githubusercontent.com/metamancer/os/module/module.json",
+	"manifest": "https://raw.githubusercontent.com/metamancer/os/main/system.json",
 	"download": "https://github.com/metamancer/os/archive/refs/heads/main.zip",
 	"readme": "https://github.com/metamancer/os/blob/main/README.md"
 }

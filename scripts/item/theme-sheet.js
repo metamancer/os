@@ -1,91 +1,115 @@
-import { confirmDelete } from "../utils.js";
+import { SheetMixin } from "../../mixins/sheet-mixin.js";
+import { confirmDelete, localize as t } from "../../utils.js";
 
-export class ThemeSheet extends ItemSheet {
-	static defaultOptions = mergeObject(ItemSheet.defaultOptions, {
-		classes: ["os", "os--theme"],
-		width: 330,
-		height: 620,
-	});
+export class ThreatSheet extends SheetMixin(ItemSheet) {
+	isEditing = false; 
+
+	/** @override */
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			classes: ["os", "os--threat"],
+			template: "systems/os/templates/item/threat.html",
+			width: 500,
+			height: 200,
+			resizable: true,
+			submitOnChange: true,
+		});
+	}
 
 	get system() {
 		return this.item.system;
 	}
 
-	get template() {
-		return "systems/os/templates/item/theme.html";
-	}
-
-	getData() {
+	/** @override */
+	async getData() {
 		const { data, ...rest } = super.getData();
 
-		data.system.weakness = this.system.weakness;
-		return { data, ...rest };
+		if (!this.isEditing)
+			data.system.consequences = await Promise.all(data.system.consequences.map(c => TextEditor.enrichHTML(c)));
+
+		return {
+			...rest,
+			data,
+			isEditing: this.isEditing,
+		};
 	}
 
 	activateListeners(html) {
 		super.activateListeners(html);
 
-		html.find("[data-click]").click(this.#handleClicks.bind(this));
-		html.find("[data-context").contextmenu(this.#handleContextmenu.bind(this));
+		html.find("[data-click]").on("click", this.#handleClick.bind(this));
+		html.find("[data-context]").on("contextmenu", this.#handleContextMenu.bind(this));
 
-		html
-			.find("[data-input")
-			.on("input", (event) => this.#handleInput(event))
-			.on("blur", () => this._onSubmit(new Event("submit")));
+		if (this.isEditing)
+			html.find("[contenteditable]:has(+#consequence)").focus();	
+		
 	}
 
-	#handleClicks(event) {
-		const t = event.currentTarget;
-		const action = t.dataset.click;
-		const id = t.dataset.id;
-		switch (action) {
-			case "add-tag":
-				this.#addTag();
-				break;
-			case "remove-tag":
-				this.#removeTag(id);
-				break;
-			case "increase":
-				this.#increase(id);
+	async _onSubmit(formData, options = {}) {
+		const res = await super._onSubmit(formData, options);
+		if (!res['system.consequences']) return res;
+
+		// Delete existing tags and statuses
+		await this.item.deleteEmbeddedDocuments("ActiveEffect", this.item.effects.map((e) => e._id));
+
+		const matches = res['system.consequences'].flatMap(string => string.matchAll(CONFIG.os.tagStringRe));
+
+		// Create new tags and statuses
+		await this.item.createEmbeddedDocuments("ActiveEffect", Array.from(matches.map(([_, tag, status]) => {
+			const type = status !== undefined ? "status" : "tag";
+			return {
+				name: tag,
+				label: tag,
+				flags: {
+					os: {
+						type,
+					},
+				},
+				changes: [
+					{
+						key: type === "tag" ? "TAG" : "STATUS",
+						mode: 0,
+						value: type === "tag" ? 1 : status,
+					},
+				],
+			}
+		})));
+	}
+
+	#handleClick(event) {
+		const { click } = event.currentTarget.dataset;
+		switch (click) {
+			case "add-consequence":
+				this.#addConsequence();
 				break;
 		}
 	}
 
-	#handleContextmenu(event) {
-		const t = event.currentTarget;
-		const action = t.dataset.context;
-		const id = t.dataset.id;
-		switch (action) {
-			case "decrease":
-				this.#decrease(id);
+	#handleContextMenu(event) {
+		event.preventDefault();
+		const { context } = event.currentTarget.dataset;		  
+		switch (context) {
+			case "remove-consequence":
+				this.#removeConsequence(event);
 				break;
 		}
 	}
 
-	#handleInput(event) {
-		const t = event.currentTarget;
-		const targetId = t.dataset.input;
-		const value = t.innerText || t.value;
-		const target = $(t).siblings(`input#${targetId}`);
-		target.val(value);
+	async #addConsequence() {
+		this.isEditing = false;
+		await this.submit(new Event("submit"));
+	
+		const consequences = this.system.consequences;
+		consequences.push(t("Os.ui.name-consequence"));
+		this.item.update({ "system.consequences": consequences });
 	}
 
-	async #addTag() {
-		throw new Error("Not implemented");
-	}
-
-	async #removeTag(_) {
+	async #removeConsequence(event) {
 		if (!(await confirmDelete())) return;
-		throw new Error("Not implemented");
-	}
-
-	async #increase(field) {
-		const attribute = foundry.utils.getProperty(this.item, field);
-		await this.item.update({ [field]: attribute + 1 });
-	}
-
-	async #decrease(field) {
-		const attribute = foundry.utils.getProperty(this.item, field);
-		await this.item.update({ [field]: attribute - 1 });
+									 
+  		const { id } = event.currentTarget.dataset;
+		this.system.consequences.splice(id, 1);												 
+  		
+		this.item.update({ "system.consequences": this.system.consequences });											 
 	}
 }

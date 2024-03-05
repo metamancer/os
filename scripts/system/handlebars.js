@@ -35,6 +35,7 @@ export class HandlebarsHelpers {
 export class HandlebarsPartials {
 	static partials = [
 		"systems/os/templates/apps/roll-dialog.html",
+		"systems/os/templates/apps/story-tags.html",
 		"systems/os/templates/chat/message.html",
 		"systems/os/templates/chat/message-tooltip.html",
 		"systems/os/templates/item/theme-ro.html",

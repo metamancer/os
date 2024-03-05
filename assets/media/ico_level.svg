@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.57 39.11">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #fff;
+        stroke-linecap: square;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <g id="Theme_Types" data-name="Theme Types">
+    <g>
+      <path class="cls-1" d="M34.32,19.56c0,7.9-6.41,14.31-14.31,14.31s-14.31-6.41-14.31-14.31,6.41-14.31,14.31-14.31,14.31,6.41,14.31,14.31ZM20.01,10.01V1M29.57,19.56h9M19.56,38.11v-9.01M10,19.56H1"/>
+      <circle class="cls-2" cx="20.01" cy="19.56" r="2.91"/>
+    </g>
+  </g>
+</svg>

@@ -39,13 +39,13 @@
 		</div>
 	{{/with}}
 	<div class="os--theme-progression">
-		<!-- Upgrade buttons -->
-		<div data-click="increase" data-context="decrease" data-id="system.Upgrade">
-			{{#progress-buttons data.system.Upgrade 3}}
+		<!-- Experience buttons -->
+		<div data-click="increase" data-context="decrease" data-id="system.experience">
+			{{#progress-buttons data.system.experience 3}}
 				<span class="os--checkbox os--checkbox-with-bg {{ifThen @checked 'checked' ''}}"></span>
 			{{/progress-buttons}}
-			<label>{{localize "Os.other.Upgrade"}}
-				<input type="hidden" name="items.{{data._id}}.system.Upgrade" value="{{data.system.Upgrade}}" />
+			<label>{{localize "Os.other.experience"}}
+				<input type="hidden" name="items.{{data._id}}.system.experience" value="{{data.system.experience}}" />
 			</label>
 		</div>
 		<!-- Decay buttons -->
@@ -58,14 +58,24 @@
 			</label>
 		</div>
 	</div>
+	<!-- FLIPSIDE -->
+	<!--
 	<div class="os--accent-bg os--theme-bottom">
-		<div class="motivation">
-			<span role="textbox">{{data.system.motivation}}</span>
-			<input type="hidden" name="items.{{data._id}}.system.motivation" value="{{data.system.motivation}}" />
+		<div class="improvement">
+			<span role="textbox">{{data.system.improvement}}</span>
+			<input type="hidden" name="items.{{data._id}}.system.improvement" value="{{data.system.improvement}}" />
 		</div>
 		<div class="note">
 			{{editor data.system.note target='items.{{data._id}}.system.note' owner=owner editable=false}}
 			<input type="hidden" name="items.{{data._id}}.system.note" value="{{data.system.note}}">
 		</div>
+	</div>
+	-->
+	<div class="os--accent-bg os--theme-bottom">
+		<div class="motivation">
+			<span role="textbox">{{data.system.motivation}}</span>
+			<input type="hidden" name="items.{{data._id}}.system.motivation" value="{{data.system.motivation}}" />
+		</div>
+		
 	</div>
 </div>

@@ -16,13 +16,13 @@ We're still under heavy development; as things change, your games may break or h
 1. Install Legend in the Mist (if you don't have yet). Copy and paste this manifest into the "Install System" Prompt
    
 ```
-https://raw.githubusercontent.com/aMediocreDad/litm/main/system.json
+https://raw.githubusercontent.com/aMediocreDad/os/main/system.json
 ```
 
 2. Copy and paste this manifest into the "Install Module" Prompt
 
 ```
-https://raw.githubusercontent.com/metamancer/os/main/module.json
+https://raw.githubusercontent.com/metamancer/os/main/system.json
 ```
 
 3. Create a new world using the "Legend in the Mist" system.
