@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/aMediocreDad/os/main/system.json
 2. Copy and paste this manifest into the "Install Module" Prompt
 
 ```
-https://raw.githubusercontent.com/metamancer/os/main/system.json
+https://raw.githubusercontent.com/metamancer/os/main/module.json
 ```
 
 3. Create a new world using the "Legend in the Mist" system.
