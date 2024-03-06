@@ -1,15 +1,15 @@
 {
 	"$schema": "https://json.schemastore.org/foundryvtt-system-manifest.json",
 	"id": "os",
-	"version": 0.1.0,
+	"version": "0.1.1",
 	"license": "LICENSE",
-	"title": "Otherscape",
-	"description": "A Mythic Cyberpunk Game for Foundry VTT",
+	"title": ":Otherscape",
+	"description": "A <strong>Mythic Cyberpunk</strong> Game for Foundry Virtual Tabletop",
 	"authors": [
 		{
 			"name": "Metamancer",
 			"discord": "metamancer#3336",
-			"email": "themetamaner@gmail.com"
+			"email": "themetamancer@gmail.com"
 		}
 	],
 	"esmodules": [

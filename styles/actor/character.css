@@ -381,7 +381,7 @@
 		left: -225px;
 		width: 300px;
 		outline-offset: -2px;
-		border-radius: 2px;
+		border-radius: 0px;
 		translate: -20% -18%;
 		rotate: 1deg;
 		scale: 0.7;

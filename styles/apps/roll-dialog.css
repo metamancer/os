@@ -1,11 +1,9 @@
 .os.os--roll {
 	background: url(../../assets/media/bg-alt.webp);
 	background-size: cover;
-	background-blend-mode: luminosity;
-	background-color: var(--os-color);
 
 	& .window-header {
-		color: var(--os-color-primary)
+		color: var(--os-color-bg)
 	}
 
 
@@ -28,7 +26,7 @@
 
 	& .title {
 		grid-area: title;
-		font-family: var(--os-font-accent);
+		font-family: var(--os-font-heading);
 		font-size: var(--font-size-32);
 		color: var(--os-color);
 		background: transparent;
@@ -49,7 +47,7 @@
 		overflow: auto;
 
 		&>span {
-			font-family: var(--os-font-primary);
+			font-family: var(--os-font-heading);
 			font-size: var(--font-size-20);
 			color: var(--os-color-primary);
 			display: block;
@@ -69,6 +67,7 @@
 				font-family: var(--os-font-text);
 				font-weight: 600;
 				font-size: var(--font-size-12);
+				text-transform: uppercase;
 				gap: var(--os-space-3);
 				color: var(--os-color);
 				padding-block: var(--os-space-1);
@@ -142,7 +141,7 @@
 		border-top: 2px solid var(--os-color-muted-bg);
 
 		& label {
-			font-family: var(--os-font-primary);
+			font-family: var(--os-font-heading);
 			font-size: var(--font-size-20);
 			color: var(--os-color-primary);
 		}
@@ -190,7 +189,7 @@
 		& label,
 		& input {
 			cursor: pointer;
-			font-family: var(--os-font-primary);
+			font-family: var(--os-font-heading);
 			font-size: var(--font-size-20);
 			color: var(--os-color-primary);
 		}
@@ -207,7 +206,7 @@
 
 
 		& label {
-			font-family: var(--os-font-primary);
+			font-family: var(--os-font-heading);
 			font-size: var(--font-size-20);
 			color: var(--os-color-primary);
 		}

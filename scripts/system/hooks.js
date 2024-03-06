@@ -297,53 +297,68 @@ export class OsHooks {
 				name: ":Otherscape",
 				permission: { default: 2 },
 				content: `
-				<h1 style="text-align:center"><span style="font-family: PackardAntique">Welcome!</span></h1>
-				<p style="text-align: center"><em>I am thrilled to have you try out this system</em></p>
-				<p></p>
+				<h1 style="text-align:center"><span style="font-family: Bebas Neue">Well, hello there…</span></h1>
+				<p style="text-align: center"><em>Than</em><span style="font-family: Saira Italic"><em>k you for testing this system in Alpha!</em></span></p>
 				<blockquote style="padding:0.5em 10px;background:var(--os-color-primary-bg);color:var(--os-color-weakness)">
-						<p><em><strong>P</strong>lease be aware that both the system—and game—is under heavy development. And that there might be breaking bugs or major changes down the road.</em></p>
-						<p><em><strong><br>PLEASE MAKE FREQUENT BACKUPS</strong></em></p>
+					<p><em><strong>P</strong>lease be aware that both the system—and game—is under heavy development. There will be frequent changes and updates that can result in game breaking bugs.</em></p>
+					<p><em><strong><br>PLEASE MAKE FREQUENT BACKUPS</strong></em></p>
 				</blockquote>
 				<p></p>
-				<h2>What to expect</h2>
-				<p>At the moment <strong>Themes</strong>, <strong>Threats</strong>,<strong> Challenges</strong> and <strong>Characters</strong> are implemented. These are all the things you need to play the Tinderbox demo <a href="https://drive.google.com/drive/folders/1jS1dO4rz2uLxOZfdsShOTLjzsJeJqJ6H" title=":Otherscape demo playkit">Tinderbox Demo</a>. <strong>Story Tags & Statuses</strong> need to be tracked manually, using something like <a href="https://foundryvtt.com/packages/ffs">Freeform Sheets</a>. A future update will add support.</p>
-				<h3>To-be implemented</h3>
-				<p>The system is under active development and you can expect frequent updates as the year progresses. Following is a list of coming feature improvements in no particular order:</p>
+				<h2><span style="font-family: Bebas Neue">What to expect</span></h2>
+				<p>This version is still feature minimal. At the moment <strong>Themes</strong>, <strong>Threats</strong>,<strong> Challenges</strong> and <strong>Characters</strong> are implemented. I hope to implement the Kickstarter Demo (with updated rules) soon for a quick-start adventure and demos.</p>
+				<p><strong>For now, Story Tags & Statuses</strong> still need to be tracked manually, with something like <a href="https://foundryvtt.com/packages/ffs">Freeform Sheets</a>.</p>
+				<p></p>
+				<h2><span style="font-family: Bebas Neue">upcoming features/improvements</span></h2>
+				<p>The system is under active development and you can expect frequent updates as the year progresses. Following is a list of coming features/improvements in no particular order:</p>
 				<ul>
-						<li>
-								<p><strong>Story Tags & Statuses: </strong>Tags and Statuses not part of a backpack or theme will likely be implemented as Active Effects with their own interface and tracking.</p>
-						</li>
-						<li>
-								<p><strong>Backpacks:</strong> At the moment the backpack is hardcoded into the actor data. In the future Backpacks will become their own items which can be moved between players, and added from premade backpacks in the Item sidebar.</p>
-						</li>
-						<li>
-								<p><strong>Crew Theme </strong>and<strong> Theme Improvements:</strong> The Crew theme and theme improvements are yet to be revealed by <a href="https://cityofmist.co/blogs/news/son-of-oaks-new-game-engine">Son of Oak</a>. When the details on these are released work will commence on implementing them in the system.</p>
-						</li>
+					<li>
+						<p><strong>Story Tags & Statuses</strong></p>
+					</li>
+					<li>
+						<p><strong>Crew Themes & Relationships</strong></p>
+					</li>
+					<li>
+						<p><strong>Character & Crew Evolution (</strong>Essence, Upgrades, Transformations, Evolution)</p>
+					</li>
+					<li>
+						<p>Refined Roll dialogue</p>
+					</li>
+					<li>
+						<p>Overall UI Upgrades to match the Otherscape theme more closely</p>
+					</li>
+					<li>
+						<p><strong>Loadout trading/swapping</strong></p>
+					</li>
+					<li>
+						<p>Compendium of Character Creation, Themebooks, & Street Catalog</p>
+					</li>
 				</ul>
-				<h2>How play</h2>
-				<p>Beyond the <em>Tinderbox demo</em> linked above, there are few ins-and-outs of the system, yet. Some interactions to be aware of:</p>
+				<p><em>*all content subject to approval from Son of Oak</em></p>
+				<p></p>
+				<h2><span style="font-family: Bebas Neue">How play</span></h2>
+				<p>There are few ins-and-outs of the system and some interactions to be aware of:</p>
 				<ul>
-						<li>
-								<p><span style="font-family: Modesto Condensed"><strong>Right-clicking</strong></span> in general will prompt you to delete whatever you are right clicking. This includes (<strong>Themes</strong>, <strong>Consequences</strong>, <strong>Threats</strong>, <strong>Tags</strong> in <strong>Backpack</strong>).</p>
-						</li>
-						<li>
-								<p><span style="font-family: Modesto Condensed"><strong>Double-clicking </strong></span>in general means you will open the item sheet, there are currently two item types that support this (<strong>Themes</strong> and <strong>Threats</strong>), in the future the <strong>Backpack</strong> will also become an item.</p>
-						</li>
-						<li>
-								<p><strong>Tags</strong> can be written as <code>[tag]</code> <code>[status-4]</code> and <code>[-limit:4]</code>, and are recognized and highlighted in <strong>Journal Entries</strong>, and <strong>Textareas</strong> on <strong>Sheets</strong>.</p>
-						</li>
-						<li>
-								<p>If your <strong>Character</strong><em><strong> </strong></em>is missing <strong>Themes</strong> you can create an empty one in the <em>Item Sidebar</em> <em>(or ask the one with GM permissions to do it)</em>, and <span style="font-family: Modesto Condensed"><strong>drag</strong></span> it onto the sheet.</p>
-						</li>
-						<li>
-								<p><strong>Themes</strong> can also be <span style="font-family: Modesto Condensed"><strong>rearranged</strong></span> on a sheet. <strong>Tags</strong> in the <strong>Backpack</strong> and on <strong>Themes</strong> cannot.</p>
-						</li>
-						<li>
-								<p>If you see a title, it may be <span style="font-family: Modesto Condensed"><strong>editable</strong></span>. This goes for the title on the <strong>Character</strong>-sheet<strong>, Theme</strong>-sheet, and <strong>Roll</strong>-dialog.</p>
-						</li>
-						<li>
-								<p><span style="font-family: Modesto Condensed"><strong>Right-clicking</strong></span> the <em>Chat Card</em> of an <strong>Effect roll</strong> opens a context menu that lets you post extra effects to chat for reference.</p>
-						</li>
+					<li>
+						<p><span style="font-family: Bebas Neue"><strong>Right-clicking</strong></span> in general will prompt you to delete whatever you are right clicking. This includes (<strong>Themes</strong>, <strong>Consequences</strong>, <strong>Threats</strong>, <strong>Tags</strong> in <strong>Backpack</strong>).</p>
+					</li>
+					<li>
+						<p><span style="font-family: Bebas Neue"><strong>Double-clicking</strong></span><span style="font-family: Modesto Condensed"><strong> </strong></span>in general means you will open the item sheet, there are currently two item types that support this (<strong>Themes</strong> and <strong>Threats</strong>), in the future the <strong>Backpack</strong> will also become an item.</p>
+					</li>
+					<li>
+						<p><strong>Tags</strong> can be written as <code>[tag]</code> <code>[status-4]</code> and <code>[-limit:4]</code>, and are recognized and highlighted in <strong>Journal Entries</strong>, and <strong>Textareas</strong> on <strong>Sheets</strong>.</p>
+					</li>
+					<li>
+						<p>If your <strong>Character</strong><em><strong> </strong></em>is missing <strong>Themes</strong> you can create an empty one in the <em>Item Sidebar</em> <em>(or ask the one with GM permissions to do it)</em>, and <span style="font-family: Bebas Neue"><strong>drag</strong></span> it onto the sheet.</p>
+					</li>
+					<li>
+						<p><strong>Themes</strong> can also be <span style="font-family: Bebas Neue"><strong>rearranged</strong></span> on a sheet. <strong>Tags</strong> in the <strong>Backpack</strong> and on <strong>Themes</strong> cannot.</p>
+					</li>
+					<li>
+						<p>If you see a title, it may be <span style="font-family: Bebas Neue"><strong>editable</strong></span>. This goes for the title on the <strong>Character</strong>-sheet<strong>, Theme</strong>-sheet, and <strong>Roll</strong>-dialog.</p>
+					</li>
+					<li>
+						<p><span style="font-family: Bebas Neue"><strong>Right-clicking</strong></span> the <em>Chat Card</em> of an <strong>Effect roll</strong> opens a context menu that lets you post extra effects to chat for reference.</p>
+					</li>
 				</ul>
 				`,
 			});
@@ -355,8 +370,6 @@ export class OsHooks {
 				content: /* html */ `
 				<p><strong>Welcome to :Otherscape</strong></p>
 				<p>Before you start playing, you should want to read the <a class="content-link" draggable="true" data-uuid="${entry.uuid}" data-id="5AWCygW0BCFdk4sd" data-type="JournalEntryPage" data-tooltip="Text Page"><i class="fas fa-file-lines"></i>:Otherscape</a> journal entry. It contains some important information about the system, and what to expect.</p>
-				<p>Once you've read the journal entry, you can click the button below to import all the rules and content required to play the Tinderbox Demo.</p>
-				<button type="button" id="os--import-adventure" style="background: var(--os-color-status-bg);"><strong>${t("Os.ui.import-adventure")}</strong></button>
 				<p style="text-align:center;">Good luck, and have fun!</p>
 			`,
 			});
@@ -370,7 +383,7 @@ export class OsHooks {
 				height: 600,
 			});
 		});
-
+		/* placeholder for adventure
 		Hooks.on("renderChatMessage", (_app, html) => {
 			html.find("#os--import-adventure").on("click", async () => {
 				const adventure = await game.packs.get("os.tinderbox-demo").getDocuments();
@@ -389,6 +402,6 @@ export class OsHooks {
 			);
 			await Scene.updateDocuments(updates);
 			game.journal.getName("Tinderbox Demo Rules").sheet.render(true);
-		});
+		}); */
 	}
 }

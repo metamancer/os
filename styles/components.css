@@ -21,7 +21,7 @@
 	color: currentColor;
 	height: 0.8em;
 	width: 0.8em;
-	border: 0.1em solid currentColor;
+	border: 0em solid currentColor;
 	border-radius: 0.1em;
 	transform: translateY(0.025em);
 	display: grid;
