@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/metamancer/os/main/system.json
 4. Play and report any bugs/issues on [Github](https://github.com/metamancer/os/issues) or join the discussion on [Discord](https://discord.gg/XwJe4QWyfy)!
 
 > [!NOTE]
-> If you like the game consider becoming a late backer on [Kickstarter](https://www.kickstarter.com/projects/sonofoak/tokyo-otherworld-a-mythic-cyberpunk-rpg), and if you're interested in a Fantasy genre using the same rules engine, check out :Otherscape on [Kickstarter](https://www.kickstarter.com/projects/sonofoak/legend-in-the-mist-rpg).
+> If you like the game consider becoming a late backer on [Kickstarter](https://www.kickstarter.com/projects/sonofoak/tokyo-otherworld-a-mythic-cyberpunk-rpg), and if you're interested in a Fantasy genre using the same rules engine, check out Legend in the Mist on [Kickstarter](https://www.kickstarter.com/projects/sonofoak/legend-in-the-mist-rpg).
 
 ## Contributors
 
