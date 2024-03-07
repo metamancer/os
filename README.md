@@ -1,6 +1,4 @@
-<h1 align="center">🔶 <a href="https://www.kickstarter.com/projects/sonofoak/tokyo-otherworld-a-mythic-cyberpunk-rpg" rel="noreferrer" target="_blank">:Otherscape</a> 🔶</h1>
-<div align="center"><strong><em>For Foundry Virtual Tabletop</em></strong></div>
-<div align="center"><img width="30px" src="https://foundryvtt.com/static/assets/icons/fvtt.png" /></div>
+<h1 align="center"><img width="30px" src="https://foundryvtt.com/static/assets/icons/fvtt.png" /><a href="https://www.kickstarter.com/projects/sonofoak/tokyo-otherworld-a-mythic-cyberpunk-rpg" rel="noreferrer" target="_blank"> :Otherscape for Foundry VTT</a> <img width="30px" src="https://foundryvtt.com/static/assets/icons/fvtt.png" /></h1>
 
 <br />
 
@@ -26,4 +24,19 @@ https://raw.githubusercontent.com/metamancer/os/main/system.json
 > [!NOTE]
 > If you like the game consider becoming a late backer on [Kickstarter](https://www.kickstarter.com/projects/sonofoak/tokyo-otherworld-a-mythic-cyberpunk-rpg), and if you're interested in a Fantasy genre using the same rules engine, check out :Otherscape on [Kickstarter](https://www.kickstarter.com/projects/sonofoak/legend-in-the-mist-rpg).
 
+## Contributors
 
+🔧 Currently developed by [@metamancer](https://github.com/metamancer) (Jules Braddock)
+
+✏️ Original system (LitM) developed by [@aMediocreDad](https://github.com/aMediocreDad) (Filip Ambrosius)
+
+✨ Contribution to the project UX and user flow by [@Daegony]() (Jorge Pongitor)
+
+🎲 3D dice graphics by Metamancer, supported by the [Dice So Nice](https://gitlab.com/riccisi/foundryvtt-dice-so-nice) module on Foundry VTT
+
+All the support, feedback and testing from the various folks on our [Discord](https://discord.gg/XwJe4QWyfy) server!
+
+## Licenses
+**Foundry VTT:** The project is created following the Foundry VTT Limited License Agreement for system and module development.
+
+**Fonts:** The fonts used in this project carry their own licenses included in the repository under OFL.
