@@ -42,7 +42,7 @@
 		}
 
 		.part-flavor {
-			color: color-mix(in hsl, var(--os-color-weakness) 60%, var(--os-color-accent));
+			color: color-mix(in hsl, var(--os-color-dark-bg) 60%, var(--os-color-accent));
 		}
 	}
 

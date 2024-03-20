@@ -5,7 +5,7 @@ export class ThemeSheet extends SheetMixin(ItemSheet) {
 	static defaultOptions = mergeObject(ItemSheet.defaultOptions, {
 		classes: ["os", "os--theme"],
 		width: 330,
-		height: 620,
+		height: 660,
 	});
 
 	get system() {
@@ -63,7 +63,7 @@ export class ThemeSheet extends SheetMixin(ItemSheet) {
 	}
 
 	async #removeTag(_) {
-		if (!(await confirmDelete())) return;
+		if (!(await confirmDelete("Os.other.tag"))) return;
 		throw new Error("Not implemented");
 	}
 

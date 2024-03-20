@@ -4,8 +4,8 @@
 		<label for="limits">{{localize title}}</label>
 		<img src="systems/os/assets/media/right-div.webp" aria-hidden="true" />
 		{{#if add}}
-			<button class="os--challenge-add" type="button" data-click="add-{{add}}" aria-label="{{localize "Os.ui.add"}}"
-				data-tooltip="{{localize (concat 'Os.ui.add-' add) }}">
+			<button class="os--challenge-add" type="button" data-click="{{concat 'add-' add}}"
+				aria-label="{{localize (concat 'Os.ui.add-' add)}}" data-tooltip="{{localize (concat 'Os.ui.add-' add) }}">
 				<i class="far fa-plus"></i>
 			</button>
 		{{/if}}

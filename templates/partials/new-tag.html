@@ -1,0 +1,21 @@
+<form autocomplete="off">
+	<label for="tag-name">
+		{{concat (localize "Os.other.tag") " " (localize "Name")}}
+		<input type="text" id="tag-name" name="name" required />
+	</label>
+	<label for="tiered-status">
+		{{localize "Os.tags.tiered-status"}}
+		{{#progress-buttons 0 6}}
+			<input type="checkbox" id="tiered-status" name="value" value="{{add @index 1}}" {{checked @checked}} />
+		{{/progress-buttons}}
+	</label>
+	<label for="attach-to">
+		{{localize "Os.ui.attach-to"}}
+		<select id="attach-to" name="target">
+			<option value="story" selected>{{concat (localize "Os.tags.story") " " (localize "Os.other.tag")}}</option>
+			{{#each actors as |actor|}}
+				<option value="{{actor.id}}">{{actor.name}}</option>
+			{{/each}}
+		</select>
+	</label>
+</form>

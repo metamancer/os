@@ -1,12 +1,16 @@
 import { confirmDelete } from "../../utils.js";
 
 export class CharacterSheet extends ActorSheet {
+	#editImageTimeout = null;
+	#notesEditorOpened = false;
+
 	static defaultOptions = mergeObject(ActorSheet.defaultOptions, {
 		classes: ["os", "os--character"],
 		width: 250,
 		height: 350,
 		left: window.innerWidth / 2 - 250,
 		top: window.innerHeight / 2 - 250,
+		scrollY: [".taglist"],
 		resizable: false,
 	});
 
@@ -22,11 +26,32 @@ export class CharacterSheet extends ActorSheet {
 		return this.actor.system;
 	}
 
+	async render(force = false, options = {}) {
+		await super.render(force, options);
+		if (this.#notesEditorOpened)
+			setTimeout(() => this.element.find("#note").show(100));
+	}
+
 	async getData() {
-		const { data, ...rest } = super.getData();
-		const items = await Promise.all(this.items.map((i) => i.sheet.getData()));
-		data.system.note = await TextEditor.enrichHTML(data.system.note);
-		return { ...rest, data, items };
+		const themes = await Promise.all(
+			this.items
+				.filter((i) => i.type === "theme")
+				.map((i) => i.sheet.getData()),
+		);
+		const note = await TextEditor.enrichHTML(this.system.note);
+		const backpack = this.system.backpack.sort((a, b) =>
+			a.isActive ? a.name.localeCompare(b.name) : 1,
+		);
+		return {
+			...this.object.system,
+			_id: this.actor.id,
+			img: this.actor.img,
+			name: this.actor.name,
+			backpack,
+			backpackId: this.items.find((i) => i.type === "backpack")?._id,
+			note,
+			themes,
+		};
 	}
 
 	activateListeners(html) {
@@ -47,7 +72,7 @@ export class CharacterSheet extends ActorSheet {
 	// Prevent dropping more than 4 themes on the character sheet
 	async _onDropItem(event, data) {
 		const item = await Item.implementation.fromDropData(data);
-		if (item.type !== "theme") return;
+		if (!["backpack", "theme"].includes(item.type)) return;
 
 		if (this.items.get(item.id)) return this._onSortItem(event, item);
 
@@ -79,6 +104,11 @@ export class CharacterSheet extends ActorSheet {
 		return data;
 	}
 
+	_onEditImage(event) {
+		if (this.#editImageTimeout) return clearTimeout(this.#editImageTimeout);
+		super._onEditImage(event);
+	}
+
 	#handleClicks(event) {
 		event.stopPropagation();
 		event.preventDefault();
@@ -88,9 +118,6 @@ export class CharacterSheet extends ActorSheet {
 		const id = t.dataset.id;
 
 		switch (action) {
-			case "add-tag":
-				this.#addTag();
-				break;
 			case "increase":
 				this.#increase(event);
 				break;
@@ -126,9 +153,6 @@ export class CharacterSheet extends ActorSheet {
 		const id = t.dataset.id;
 
 		switch (action) {
-			case "remove-tag":
-				this.#removeTag(id);
-				break;
 			case "decrease":
 				this.#decrease(event);
 				break;
@@ -142,13 +166,16 @@ export class CharacterSheet extends ActorSheet {
 		event.stopPropagation();
 		event.preventDefault();
 
+		this.#editImageTimeout = null;
+
 		const t = event.currentTarget;
-		const parent = $(t).parent();
+		const parent = $(t).parents(".window-app").first();
 
 		const x = event.clientX - parent.position().left;
 		const y = event.clientY - parent.position().top;
 
 		const handleDrag = (event) => {
+			this.#editImageTimeout = true;
 			parent.css({
 				left: event.clientX - x,
 				top: event.clientY - y,
@@ -157,36 +184,16 @@ export class CharacterSheet extends ActorSheet {
 
 		$(document).on("mousemove", handleDrag);
 		$(document).on("mouseup", () => {
+			if (this.#editImageTimeout)
+				this.#editImageTimeout = setTimeout(() => {
+					this.#editImageTimeout = null;
+				}, 100);
 			$(document).off("mousemove", handleDrag);
 		});
 	}
 
-	async #addTag() {
-		const item = {
-			name: "New Item",
-			isActive: false,
-			isBurnt: false,
-			type: "backpack",
-			id: randomID(),
-		};
-
-		const backpack = this.system.backpack;
-		backpack.push(item);
-
-		return this.actor.update({ "system.backpack": backpack });
-	}
-
-	async #removeTag(index) {
-		if (!(await confirmDelete())) return;
-
-		const backpack = this.system.backpack;
-		backpack.splice(index, 1);
-
-		return this.actor.update({ "system.backpack": backpack });
-	}
-
 	async #removeItem(id) {
-		if (!(await confirmDelete())) return;
+		if (!(await confirmDelete("TYPES.Item.theme"))) return;
 
 		const item = this.items.get(id);
 		return item.delete();
@@ -215,6 +222,7 @@ export class CharacterSheet extends ActorSheet {
 	#open(id) {
 		switch (id) {
 			case "note":
+				this.#notesEditorOpened = true;
 				this.element.find("#note").show(100);
 				break;
 			case "roll":
@@ -226,6 +234,7 @@ export class CharacterSheet extends ActorSheet {
 	#close(id) {
 		switch (id) {
 			case "note":
+				this.#notesEditorOpened = false;
 				this.element.find("#note").hide(100);
 		}
 	}

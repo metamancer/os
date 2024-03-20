@@ -21,7 +21,7 @@ function log(status) {
 	 */
 	return (...args) => {
 		return console.log(
-			`%c:Otherscape | %c${args.join("\n")}`,
+			`%cLegend in the Mist | %c${args.join("\n")}`,
 			`font-weight: bold; color: ${status};`,
 			"color: hsl(240, 100%, 98%);",
 		);

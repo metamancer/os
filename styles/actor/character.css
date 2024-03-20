@@ -1,9 +1,14 @@
 .os.os--character {
-	background: url("../../assets/media/bg.webp");
-	background-size: cover;
-	background-position: center;
+	position: absolute;
+	left: -30px;
+	top: -10px;
+	background: url(../../assets/media/bg-character.webp) no-repeat / auto;
+	/*height: 170px;
+	width: 500px;*/
 	overflow: visible;
-	z-index: unset;
+	z-index: -1;
+	border-radius: 0px;
+	color: var(--os-color-lines);
 
 	&:not(.minimized) {
 		& .window-header {
@@ -28,6 +33,7 @@
 	& .window-header {
 		border: none;
 		font-family: var(--os-font-text);
+		color: var(--os-color-lines);
 		justify-content: space-between;
 
 		&::before {
@@ -59,28 +65,28 @@
 			width: 40%;
 			z-index: 1;
 			pointer-events: none;
-			bottom: 90px;
-			right: -9px;
-			rotate: 40deg;
-			z-index: -1;
+			bottom: 92px;
+			right: 0px;
+			rotate: 0deg;
 		}
 
 		&::after {
 			content: "";
 			position: absolute;
 			background: url(../../assets/media/necklace.webp) no-repeat center / contain;
-			height: 55%;
-			width: 55%;
+			height: 50%;
+			width: 50%;
 			z-index: 1;
 			pointer-events: none;
-			top: -70px;
-			left: 370px;
+			top: -60px;
+			left: 358px;
+			rotate: 10deg;
 		}
 	}
 
 	& .avatar {
 		position: absolute;
-		left: -225px;
+		left: -235px;
 		top: -64px;
 		border: none;
 		z-index: 0;
@@ -89,22 +95,27 @@
 	& #name {
 		position: absolute;
 		top: -60px;
-		left: -10px;
+		left: -15px;
+		padding-left: 30px;
+		padding-bottom: 6px;
 		font-family: var(--os-font-heading);
 		font-weight: 800;
+		font-style: italic;
 		font-size: var(--font-size-32);
-		height: auto;
-		width: 520px;
+		background: url(../../assets/media/bg-name.webp) no-repeat;
+		height: 53px;
+		width: 401px;
 		background-color: transparent;
 		border: none;
-		color: var(--os-color-primary-bg);
+		color: var(--os-color-weakness);
 		text-shadow: 0 0 6px var(--os-color), 0 0 12px var(--os-color-dark-bg);
 		transition: background-color 0.15s;
+		rotate: -1deg;
 
 		&:focus {
 			box-shadow: none;
 			background-color: rgb(0, 0, 0, 0.1);
-		}
+		}		
 	}
 
 	& .nav {
@@ -165,32 +176,34 @@
 		position: absolute;
 		top: 50px;
 		left: 70px;
-		background: url("../../assets/media/bg.webp");
-		background-size: cover;
-		background-position: top;
-		outline: 2px solid var(--os-color-primary);
-		color: var(--os-color-primary-bg);
-		outline-offset: -10px;
+		background: url("../../assets/media/bg-note.webp") no-repeat left / contain;
+		color: var(--os-color-bg); /* journal entry text color */
+		box-shadow: none;
 		filter: drop-shadow(0 0 6px var(--os-color-primary));
 		padding: var(--os-space-3);
 		display: none;
 		flex-direction: column;
-		height: 450px;
-		width: 450px;
+		height: 455px;
+		width: 455px;
 		max-width: unset;
 		font-family: var(--os-font-text);
 		z-index: 2;
+		
+		/* scrollbar styling */
+		-ms-overflow-style: none; /* for Internet Explorer, Edge */
+		scrollbar-width: none; /* for Firefox */
+		overflow-y: scroll;
 
 		&::before {
 			content: "";
 			position: absolute;
 			background: url(../../assets/media/bottom-branch.webp) no-repeat center / contain;
-			height: 45%;
-			width: 65%;
+			height: 46%;
+			width: 55%;
 			z-index: 1;
 			pointer-events: none;
-			bottom: -80px;
-			right: -90px;
+			bottom: -60px;
+			right: -70px;
 		}
 
 		&::after {
@@ -198,11 +211,11 @@
 			position: absolute;
 			background: url(../../assets/media/feather.webp) no-repeat center / contain;
 			height: 45%;
-			width: 45%;
+			width: 35%;
 			z-index: 1;
 			pointer-events: none;
-			top: -100px;
-			left: 50px;
+			top: -80px;
+			left: 45px;
 		}
 
 		&[style*="display: block"] {
@@ -213,14 +226,15 @@
 			margin-block-end: var(--os-space-2);
 			display: flex;
 			justify-content: space-between;
-			align-items: center;
-			padding-inline: var(--os-space-2) var(--os-space-1);
+			align-items: left;
+			padding-inline: var(--os-space-1);
+			flex: none;
 
 			& button {
 				border: none;
 				background: none;
 				width: auto;
-				color: var(--os-color-primary-bg);
+				color: var(--os-color-lines);
 
 				&:hover,
 				&:focus,
@@ -240,133 +254,27 @@
 		}
 	}
 
-	& .backpack {
-		position: absolute;
-		right: -260px;
-		top: 0px;
+	& .os--character-backpack {
 		isolation: isolate;
+		position: absolute;
+		right: -300px;
+		width: 300px;
+		height: 300px;
+		top: -32px;
+		pointer-events: none;
 
-		& .backpack--img {
-			position: absolute;
-			max-width: unset;
-			right: -50px;
-			top: -46px;
-			border: none;
-			rotate: -2deg;
-			filter: drop-shadow(0 0 4px var(--os-color-primary));
-			z-index: -1;
-			pointer-events: none;
+		& .os--backpack-bg-frame,
+		& .os--backpack-bg {
+			transform: translate(-10px, -20px) scale(0.8) rotate(2deg);
 		}
 
-		& .backpack--bg {
-			position: relative;
-			top: -40px;
-			right: 35px;
-			background: url("../../assets/media/background.webp") 0% 0% / cover;
-			outline: 2px solid var(--os-color);
-			outline-offset: -10px;
-			padding: 10px;
-			overflow: hidden;
-			box-shadow: none;
-			filter: drop-shadow(black 2px 4px 6px);
-			color: var(--os-color);
-			height: 310px;
-			width: 280px;
-			display: flex;
-			flex-direction: column;
-			scale: 0.8;
-			rotate: 7deg;
-
-			& .meta {
-				background: var(--os-color-accent-2) url("/ui/parchment.jpg") repeat;
-				background-blend-mode: color-burn;
-				color: var(--os-color-accent);
-				font-family: var(--os-font-primary);
-				font-size: var(--font-size-16);
-				text-align: center;
-				padding: var(--os-space-1) var(--os-space-3);
-			}
-
-			& .title {
-				color: var(--os-color);
-				font-size: var(--font-size-32);
-				font-family: var(--os-font-accent);
-				text-align: center;
-			}
+		& .os--backpack-bg {
+			height: 97%;
+			width: 260px;
+			pointer-events: all;
 
 			& .taglist {
-				display: flex;
-				flex-direction: column;
-				list-style: none;
-				margin: var(--os-space-1) 0px 0px;
-				padding: 0px var(--os-space-3);
-				max-height: 200px;
-				overflow: auto;
-
-				& li {
-					display: flex;
-					align-items: center;
-					gap: var(--os-space-3);
-					color: var(--os-color);
-
-					&:nth-child(odd) {
-						background-image: linear-gradient(to right,
-								transparent,
-								rgba(69, 59, 29, 0.1),
-								transparent);
-
-						& .tag--name {
-							border-top: 1.5px solid rgb(0, 0, 0, 0.2);
-							border-bottom: 1.5px solid rgb(0, 0, 0, 0.2);
-						}
-					}
-
-					&:last-child {
-						.tag--name {
-							border-bottom: 1.5px solid rgba(88, 9, 9, 0.2);
-						}
-					}
-
-					& .tag--name {
-						text-align: center;
-						border: none;
-						border-radius: 0px;
-						padding-block: var(--os-space-2);
-						min-height: var(--font-size-14);
-						height: auto;
-						background-color: transparent;
-						font-family: var(--os-font-text);
-						color: var(--os-color-primary);
-						width: 100%;
-
-						&:focus,
-						&:active {
-							box-shadow: none;
-						}
-					}
-
-					& label {
-						display: flex;
-						cursor: pointer;
-					}
-
-					& button {
-						background-color: transparent;
-						border: none;
-						color: var(--os-color-contrast);
-						cursor: pointer;
-						font-size: 1rem;
-						line-height: 1;
-						padding: 0;
-						transition: color 0.2s;
-						width: min-content;
-
-						&:hover {
-							box-shadow: none;
-							text-shadow: 0 0 4px rgb(0, 0, 0, 0.5);
-						}
-					}
-				}
+				height: 210px;
 			}
 		}
 	}
@@ -376,34 +284,21 @@
 	}
 
 	& .os--character-theme {
+		isolation: isolate;
 		position: absolute;
 		top: 0px;
 		left: -225px;
 		width: 300px;
 		outline-offset: -2px;
-		border-radius: 0px;
+		border-radius: 2px;
 		translate: -20% -18%;
-		rotate: 1deg;
-		scale: 0.7;
-		transition: scale 0.15s;
-
-		& .os--theme-background {
-			background: url("../../assets/media/background.webp") 0% 0% / cover;
-			outline: 2px solid var(--os-color);
-			outline-offset: -10px;
-			padding: 10px;
-			overflow: hidden;
-			box-shadow: none;
-			filter: drop-shadow(rgb(0, 0, 0, 0.2) -4px -2px 6px);
-			color: var(--os-color);
-		}
-
-		& .meta {
-			padding-block-start: 8px;
-		}
+		rotate: 0deg;
+		scale: 0.71;
+		transition: scale 0.13s;
+		filter: drop-shadow(0px 2px 4px rgb(0, 0, 0, 0.5));
 
 		&:hover {
-			scale: 0.8;
+			scale: 0.85;
 			z-index: 1;
 		}
 
@@ -413,7 +308,7 @@
 			background: url(../../assets/media/middle-branches.webp) no-repeat center / contain;
 			height: 55%;
 			width: 55%;
-			z-index: 1;
+			z-index: 3;
 			pointer-events: none;
 			bottom: -80px;
 			left: -63px;
@@ -421,14 +316,28 @@
 		}
 
 		&:nth-child(2) {
-			top: 20px;
-			left: -20px;
+			top: 16px;
+			left: -22px;
 			rotate: -1deg;
+
+			&::before {
+				content: "";
+				position: absolute;
+				background: url(../../assets/media/raven.webp) no-repeat center / contain;
+				height: 55%;
+				width: 55%;
+				z-index: 3;
+				pointer-events: none;
+				bottom: -150px;
+				left: -80px;
+				rotate: -10deg;
+				transform: scale(-0.6, 0.6);
+			}
 		}
 
 		&:nth-child(3) {
-			top: 65px;
-			left: 180px;
+			top: 60px;
+			left: 176px;
 			rotate: 0deg;
 
 			&::before {
@@ -437,7 +346,7 @@
 				background: url(../../assets/media/flowers-top.webp) no-repeat center / contain;
 				height: 55%;
 				width: 55%;
-				z-index: 1;
+				z-index: 3;
 				pointer-events: none;
 				top: 280px;
 				left: -90px;
@@ -446,9 +355,9 @@
 		}
 
 		&:nth-child(4) {
-			top: 50px;
+			top: 63px;
 			left: 380px;
-			rotate: -2deg;
+			rotate: 0deg;
 
 			&::before {
 				content: "";
@@ -458,10 +367,18 @@
 				width: 120%;
 				z-index: 0;
 				pointer-events: none;
-				top: -140px;
-				left: -10px;
-				rotate: -10deg;
+				top: -125px;
+				left: -30px;
+				rotate: 0deg;
 			}
+		}
+
+		& .os--theme-background {
+			overflow: hidden;
+		}
+
+		& .os--theme-top .os--theme-meta {
+			padding-block: 12px;
 		}
 	}
 }

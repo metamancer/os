@@ -3,7 +3,7 @@
 	background-size: cover;
 
 	& .window-header {
-		color: var(--os-color-bg)
+		color: var(--os-color-lines);
 	}
 
 
@@ -28,7 +28,7 @@
 		grid-area: title;
 		font-family: var(--os-font-heading);
 		font-size: var(--font-size-32);
-		color: var(--os-color);
+		color: var(--os-color-lines);
 		background: transparent;
 		border: none;
 		text-align: center;
@@ -47,7 +47,7 @@
 		overflow: auto;
 
 		&>span {
-			font-family: var(--os-font-heading);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-20);
 			color: var(--os-color-primary);
 			display: block;
@@ -67,8 +67,7 @@
 				font-family: var(--os-font-text);
 				font-weight: 600;
 				font-size: var(--font-size-12);
-				text-transform: uppercase;
-				gap: var(--os-space-3);
+				gap: var(--os-space-2);
 				color: var(--os-color);
 				padding-block: var(--os-space-1);
 
@@ -141,7 +140,7 @@
 		border-top: 2px solid var(--os-color-muted-bg);
 
 		& label {
-			font-family: var(--os-font-heading);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-20);
 			color: var(--os-color-primary);
 		}
@@ -189,7 +188,7 @@
 		& label,
 		& input {
 			cursor: pointer;
-			font-family: var(--os-font-heading);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-20);
 			color: var(--os-color-primary);
 		}
@@ -206,7 +205,7 @@
 
 
 		& label {
-			font-family: var(--os-font-heading);
+			font-family: var(--os-font-primary);
 			font-size: var(--font-size-20);
 			color: var(--os-color-primary);
 		}

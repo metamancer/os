@@ -3,7 +3,7 @@ import { confirmDelete } from "../../utils.js";
 export class ChallengeSheet extends SheetMixin(ActorSheet) {
 	static defaultOptions = mergeObject(ActorSheet.defaultOptions, {
 		classes: ["os", "os--challenge"],
-		width: 320,
+		width: 350,
 		height: 700,
 		resizable: false,
 	});
@@ -34,11 +34,14 @@ export class ChallengeSheet extends SheetMixin(ActorSheet) {
 		super.activateListeners(html);
 
 		html.find("[data-click]").on("click", this.#handleClick.bind(this));
-		html.find("[data-dblclick]").on("dblclick", this.#handleDblClick.bind(this));
-		html.find("[data-context]").on("contextmenu", this.#handleContext.bind(this));
+		html
+			.find("[data-dblclick]")
+			.on("dblclick", this.#handleDblClick.bind(this));
+		html
+			.find("[data-context]")
+			.on("contextmenu", this.#handleContext.bind(this));
 
-		if (this.isEditing)
-			html.find("[contenteditable]:has(+#tags)").focus();
+		if (this.isEditing) html.find("[contenteditable]:has(+#tags)").focus();
 	}
 
 	async _updateObject(event, formData) {
@@ -120,12 +123,14 @@ export class ChallengeSheet extends SheetMixin(ActorSheet) {
 	}
 
 	async #addThreat() {
-		const threats = await this.actor.createEmbeddedDocuments("Item", [{ name: "New Threat", type: "threat" }]);
+		const threats = await this.actor.createEmbeddedDocuments("Item", [
+			{ name: "New Threat", type: "threat" },
+		]);
 		threats[0].sheet.render(true);
 	}
 
 	async #removeLimit(button) {
-		if (!(await confirmDelete())) return;
+		if (!(await confirmDelete("Os.other.limit"))) return;
 		const index = Number(button.dataset.id);
 		const limits = this.system.limits;
 
@@ -134,7 +139,7 @@ export class ChallengeSheet extends SheetMixin(ActorSheet) {
 	}
 
 	async #removeThreat(button) {
-		if (!(await confirmDelete())) return;
+		if (!(await confirmDelete("TYPES.Item.threat"))) return;
 		const item = this.items.get(button.dataset.id);
 		item.delete();
 	}
@@ -159,10 +164,10 @@ export class ChallengeSheet extends SheetMixin(ActorSheet) {
 	}
 
 	#sanitizeTags(formData) {
-		if (!formData['system.tags']) return formData;
+		if (!formData["system.tags"]) return formData;
 		const re = CONFIG.os.tagStringRe;
-		const tags = formData['system.tags'].match(re);
-		formData['system.tags'] = tags ? tags.join(" ") : "";
+		const tags = formData["system.tags"].match(re);
+		formData["system.tags"] = tags ? tags.join(" ") : "";
 
 		return formData;
 	}

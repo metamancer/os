@@ -4,6 +4,11 @@ export class HandlebarsHelpers {
 	static register() {
 		info("Registering Handlebars Helpers...");
 
+		Handlebars.registerHelper("add", (...args) => {
+			args.pop();
+			return args.reduce((acc, val) => acc + val, 0);
+		});
+
 		Handlebars.registerHelper(
 			"progress-buttons",
 			function (current, max, block) {
@@ -26,8 +31,8 @@ export class HandlebarsHelpers {
 			tag.isActive
 				? "Os.tags.isActive"
 				: readonly
-					? "Os.tags.isInactive"
-					: "Os.tags.activate",
+				  ? "Os.tags.isInactive"
+				  : "Os.tags.activate",
 		);
 	}
 }
@@ -38,7 +43,9 @@ export class HandlebarsPartials {
 		"systems/os/templates/apps/story-tags.html",
 		"systems/os/templates/chat/message.html",
 		"systems/os/templates/chat/message-tooltip.html",
+		"systems/os/templates/item/backpack-ro.html",
 		"systems/os/templates/item/theme-ro.html",
+		"systems/os/templates/partials/new-tag.html",
 		"systems/os/templates/partials/tag.html",
 	];
 

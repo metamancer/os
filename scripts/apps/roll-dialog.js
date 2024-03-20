@@ -143,13 +143,13 @@ export class OsRollDialog extends FormApplication {
 
 	#increase(id) {
 		const input = this.element.find(`#${id}`);
-		const value = parseInt(input.val());
+		const value = Number.parseInt(input.val());
 		input.val(value + 1);
 	}
 
 	#decrease(id) {
 		const input = this.element.find(`#${id}`);
-		const value = parseInt(input.val());
+		const value = Number.parseInt(input.val());
 		input.val(value - 1);
 	}
 
@@ -181,9 +181,14 @@ export class OsRollDialog extends FormApplication {
 			}
 
 			// We assume it's a backpack tag a this point
-			const backpack = actor.system.backpack;
-			backpack.find((t) => t.id === tag.id).isBurnt = true;
-			return actor.update({ "system.backpack": backpack });
+			const backpack = actor.items
+				.find((item) => item.type === "backpack")
+				.toObject();
+			const { contents } = backpack.system;
+			contents.find((t) => t.id === tag.id).isBurnt = true;
+			return actor.updateEmbeddedDocuments("Item", [
+				{ _id: backpack._id, "system.contents": contents },
+			]);
 		} catch (error) {
 			console.error(error);
 			ui.notifications.error(game.i18n.localize("Os.ui.error-burning-tag"));

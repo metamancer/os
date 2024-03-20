@@ -76,9 +76,9 @@ export class OsConfig {
 			action: "Os.additionalEffects.extra_feat.action",
 			cost: "Os.additionalEffects.extra_feat.cost",
 		},
-	}
+	};
 
-	tagStringRe = /\[([^\d\]]+)(?:[\s-\:](\d+))?\]/gi;
+	tagStringRe = /(?!\b|\s)\[([^\d\]]+)(?:[\s\-\:](\d+))?\]/gi;
 	sceneLinkRe = /@ActivateScene\[([^\]]+)\](?:\{([^\}]+)\})?/gi;
 
 	static createConfig() {

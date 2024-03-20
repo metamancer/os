@@ -1,0 +1,15 @@
+<div class="os--backpack-wrapper item" data-item-id="{{backpackId}}">
+	<img width="300px" class="os--backpack-img" src="systems/os/assets/media/backpack.webp"
+		alt="illustration of a backpack" />
+	<!-- <img width="250px" class="os--backpack-bg-frame" src="systems/os/assets/media/background-frame.webp"
+		aria-hidden="true"> -->
+	<div class="os--backpack-bg">
+		<div class="meta">{{localize 'Os.tags.item-tags'}}</div>
+		<div class="title">{{localize 'Os.other.backpack'}}</div>
+		<ul class="taglist">
+			{{#each backpack as |tag|}}
+				{{> systems/os/templates/partials/tag.html tag=tag key=@key path=(concat "items." ../backpackId ".system.contents") readonly=true remove=false}}
+			{{/each}}
+		</ul>
+	</div>
+</div>

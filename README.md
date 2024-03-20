@@ -26,13 +26,13 @@ https://raw.githubusercontent.com/metamancer/os/main/system.json
 
 ## Contributors
 
-🔧 Currently developed by [@metamancer](https://github.com/metamancer) (Jules Braddock)
+🔧 Under development by [@metamancer](https://github.com/metamancer) (Jules Braddock)
 
 ✏️ Original system (LitM) developed by [@aMediocreDad](https://github.com/aMediocreDad) (Filip Ambrosius)
 
 ✨ Contribution to the project UX and user flow by [@Daegony]() (Jorge Pongitor)
 
-🎲 3D dice graphics by Metamancer, supported by the [Dice So Nice](https://gitlab.com/riccisi/foundryvtt-dice-so-nice) module on Foundry VTT
+🎲 3D dice graphics by Metamancer, supported by the [Dice So Nice](https://foundryvtt.com/packages/dice-so-nice) module on Foundry VTT
 
 All the support, feedback and testing from the various folks on our [Discord](https://discord.gg/XwJe4QWyfy) server!
 

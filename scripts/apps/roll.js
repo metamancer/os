@@ -50,7 +50,9 @@ export class OsRoll extends Roll {
 
 	get burnedTag() {
 		if (!this.os.burnedTag) return null;
-		return this.actor.system.allTags.find((tag) => tag.id === this.os.burnedTag);
+		return this.actor.system.allTags.find(
+			(tag) => tag.id === this.os.burnedTag,
+		);
 	}
 
 	get outcome() {
