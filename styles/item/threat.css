@@ -33,6 +33,7 @@
 		& li {
 			display: flex;
 			gap: var(--os-space-1);
+			transform: skew(-10deg);
 		}
 	}
 
@@ -40,7 +41,7 @@
 		background-color: transparent;
 		padding: var(--os-space-1);
 		border: none;
-		border-radius: 4px;
+		border-radius: 0px;
 		width: 100%;
 
 		&:focus {

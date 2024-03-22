@@ -85,6 +85,7 @@
 	height: 1.2em;
 	width: 1.2em;
 	background: url('../assets/media/burn.svg') no-repeat;
+	rotate: -80deg;
 	background-size: contain;
 	background-position: center;
 	cursor: pointer;
@@ -149,25 +150,37 @@
 :where(.os--status),
 :where(.os--limit) {
 	padding: 0px 0.4em;
-	border-radius: 0.2em;
+	border-radius: 0em;
 	white-space: nowrap;
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
-	color: var(--os-color-primary);
 	font-style: italic;
 	font-weight: 400;
 	box-shadow: 1px 1px 1px var(--os-color-weakness-bg);
+	transform: skew(-10deg) !important;
 
 	&.os--tag {
-		background: var(--os-color-tag-bg);
+		background: transparent;
+		border: 1px solid var(--os-color-tag-bg);
+		border-left: 10px solid var(--os-color-tag-bg);
+		box-shadow: inset 0px 0px 5px 0px var(--os-color-tag-bg);
+		color: var(--os-color-bg);
 	}
 
 	&.os--status {
-		background: var(--os-color-status-bg);
+		background: transparent;
+		border: 1px solid var(--os-color-status-bg);
+		border-left: 10px solid var(--os-color-status-bg);
+		box-shadow: inset 0px 0px 5px 0px var(--os-color-status-bg);
+		color: var(--os-color-bg);	
 	}
 
 	&.os--limit {
-		background: var(--os-color-limit-bg);
+		background: transparent;
+		border: 1px solid var(--os-color-limit-bg);
+		border-left: 10px solid var(--os-color-limit-bg);
+		box-shadow: inset 0px 0px 5px 0px var(--os-color-limit-bg);
+		color: var(--os-color-bg);
 	}
 }
 

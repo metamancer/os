@@ -10,10 +10,11 @@
 	--os-color-primary-bg: color-mix(in hsl, var(--os-color-accent) 75%, hsl(0 0% 100%));
 	--os-color-primary: color-mix(in hsl, var(--os-color) 75%, hsl(0 0% 0%));
 	--os-color-row-odd: rgb(0, 0, 0, 0.1);
-	--os-color-lines: hsl(185, 31%, 77%); /* sea glass */	
+	--os-color-lines: hsl(185, 31%, 77%); /* sea glass */
+	--os-color-lines-bg: hsl(185 31% 77% / 50%); /* sea glass darker*/	
 	--os-color-muted-bg: hsl(0 0% 45.42% / 20%); /* medDark grey */
-	--os-color-tag-bg: hsl(56 100% 60% / 100%);  /* story tag yellow */
-	--os-color-status-bg: hsl(168 100% 50% /100%);  /* status tag neon blue-green */
+	--os-color-tag-bg: hsl(56 90% 55% / 100%);  /* story tag yellow */
+	--os-color-status-bg: hsl(168 80% 55% /100%);  /* status tag neon blue-green */
 	--os-color-limit-bg: hsl(73 100% 50% / 100%); /* limit neon green */
 
 	/* Themebook Palettes */
@@ -49,17 +50,65 @@
 	--color-border-highlight: var(--os-color-accent-bg);
 	--color-border-highlight-alt: var(--os-color-accent-2);
 	--color-text-hyperlink: var(--os-color-accent-3);
+	
+	scrollbar-width: thin;
+	scrollbar-color: var(--os-color-noise-bg);
 }
 
+/* TODO: better method for override styles */
+/* GLOBAL */
 
-/* DANGER AREA */
-/* TODO: Find a better way to override styles like this */
+/* Custom Scrollbar */
 
+/* width and height */
+::-webkit-scrollbar {
+	width: 2px;
+	height: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--os-color-lines-bg);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--os-color-lines);
+}
 
 /* Background-colors not implemented using css variables  */
-button,
-.directory .directory-header .header-search input {
+button {
 	background-color: var(--os-color-alt-bg);
+}
+
+#settings button,
+.directory .action-buttons button {
+	font-size: 1.2em;
+	color: var(--os-color-lines);
+	border: 1px solid var(--os-color-lines);
+	box-shadow: 0 0 10px var(--os-color-lines-bg), 0 0 15px var(--os-color-lines-bg) inset;
+	border-radius: 0px;
+	display: inline-block;
+	position: relative;
+	font-family: var(--os-font-heading);
+	background: var(--os-color-lines-bg);
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+#settings button:hover,
+.directory .action-buttons button:hover {
+	color: #000000;
+	background: var(--os-color-lines);
+	box-shadow: 0 0 5px var(--os-color-lines-bg), 0 0 10px var(--os-color-lines-bg) inset;
 }
 
 /* A border-color that was not implemented using css variables */
@@ -74,14 +123,14 @@ button,
 
 /* Custom dice roll chat messages */
 .chat-message:has(.os.dice-roll) {
-	background-color: var(--os-color-weakness);
-	background-blend-mode: color-burn;
+	background-color: var(--os-color); /* main bg color */
+	background-blend-mode: multiply;
 	color: var(--os-color-primary-bg);
 	font-family: var(--os-font-text);
 	font-size: var(--font-size-12);
 
 	&.whisper {
-		background-color: var(--color-border-dark-primary);
+		background-color: var(--color-border-dark-bg);
 	}
 
 	&.blind {

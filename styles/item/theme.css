@@ -6,7 +6,6 @@
 	background-color: transparent;
 	background-blend-mode: unset;
 	padding: 0px;
-	outline: none;
 
 	& .window-header {
 		position: absolute;
@@ -110,25 +109,34 @@
 		}
 
 		& .os--theme-title {
+			height: auto;
 			margin: var(--os-space-1) 10px;
 			display: flex;
 			justify-content: space-between;
-			align-items: center;
+			align-items: left;
 			gap: var(--os-space-2);
 			color: var(--os-color);
 			font-size: var(--font-size-16);
+			background: transparent;
+			border: 1px solid var(--os-color-lines);
+			border-radius: 0px;
+			border-left: 10px solid var(--os-color-lines);
+			box-shadow: inset 0px 0px 5px 0px var(--os-color-lines-bg);
+			transform: skew(-10deg);
+			min-height:var(--font-size-20);
 
 			& span {
 				font-family: var(--os-font-sc);
 				font-size: var(--font-size-20);
 				color: var(--os-color-bg);
 				text-transform: uppercase;
+				text-align: left;
 				border: none;
 				background-color: transparent;
 				margin-bottom: -0.85rem;
 				transition: all 0.15s;
 
-				&:focus {
+				*&:focus {
 					outline: none;
 					background-color: rgb(0, 0, 0, 0.1);
 				}
@@ -147,14 +155,22 @@
 			margin: var(--os-space-3) 10px 0px;
 			padding: 0px;
 
+
 			& li {
 				display: flex;
 				align-items: center;
 				gap: var(--os-space-3);
 				color: var(--os-color);
 				margin-block-start: -1px;
+				background: transparent;
+				border: 1px solid var(--os-color-lines);
+				border-radius: 0px;
+				border-left: 10px solid var(--os-color-lines);
+				box-shadow: inset 0px 0px 5px 0px var(--os-color-lines-bg);
+				transform: skew(-10deg);
+				margin-bottom: 10px;
 
-				&:nth-child(odd) {
+				/*&:nth-child(odd) {
 					background-image: linear-gradient(to right, transparent, rgba(69, 59, 29, 0.1), transparent);
 				}
 
@@ -162,27 +178,26 @@
 					.tag--name {
 						border-bottom: 1.5px solid rgb(0, 0, 0, 0.2);
 					}
-				}
+				}*/
 
 				& .tag--name {
-					text-align: center;
-					border: none;
-					border-radius: 0px;
+					color: var(--os-color-bg);
+					text-align: left;
 					padding-block: 0.4rem;
-					min-height: var(--font-size-14);
+					min-height: var(--font-size-16);
 					height: auto;
-					background-color: transparent;
 					font-family: var(--os-font-sc);
 					font-size: var(--font-size-16);
 					color: var(--os-color-bg);
 					text-transform: uppercase;
 					width: 100%;
-					border-top: 1.5px solid rgb(0, 0, 0, 0.2);
-					border-image: url("../../assets/media/item-divider.webp") 14 / 3;
+					border: none;
+					background-color: transparent;
 
 					&:focus,
 					&:active {
 						box-shadow: none;
+						background: transparent;
 					}
 
 					&:read-only {
@@ -200,7 +215,7 @@
 				& button {
 					background-color: transparent;
 					border: none;
-					color: var(--os-color-contrast);
+					/*color: var(--os-color-contrast);*/
 					cursor: pointer;
 					font-size: 1rem;
 					line-height: 1;
@@ -217,14 +232,22 @@
 		}
 
 		& .os--weakness {
-			margin-block-start: -2px;
-			padding: 0px var(--os-space-3) 0px;
 			display: flex;
-			align-items: baseline;
-			background-image: linear-gradient(to right, transparent, var(--os-color-weakness-bg) 30%, transparent);
+			align-items: center;
+			text-align: left;
+			padding: 0px var(--os-space-3) 0px;
+			margin-left: 10px;
+			margin-right: 10px;
+			max-width: 100%;
+			background: repeating-linear-gradient(130deg, rgba(198, 255, 0, 0.1) 0%, rgba(198, 255, 0, 0.1) 5%, rgba(255,255,0,0) 5%, rgba(255,255,0,0) 10%);
+			border: 1px solid var(--os-color-weakness);
+			border-left: 10px solid var(--os-color-weakness);
+			border-radius: 0px;
+			box-shadow: inset 0px 0px 5px 0px var(--os-color-weakness-bg);
+			transform: skew(-10deg);
+			
 
 			& .os--weakness-part {
-				width: 100%;
 				height: auto;
 				min-height: var(--font-size-14);
 				border: none;
@@ -233,8 +256,10 @@
 				background-color: transparent;
 				color: var(--os-color-weakness);
 				font-family: var(--os-font-sc);
+				text-shadow: 0 0 6px var(--os-color);
 				text-transform: uppercase;
 				text-align: center;
+				z-index: 3;
 
 				&:focus,
 				&:active {
@@ -321,7 +346,7 @@
 			display: flex;
 			flex-direction: column;
 			background: url("../../assets/media/theme-bg-bottom.webp");
-			background-color: transparent;
+			background-color: var(--os-color-accent-bg);
 			background-blend-mode: unset;
 			overflow: hidden;
 			overflow: clip;
@@ -330,17 +355,17 @@
 		& .motivation {
 			margin: var(--os-space-1) var(--os-space-3);
 			display: flex;
-			color: var(--os-color-accent);
-			font-family: var(--os-font-accent);
-			font-size: var(--font-size-20);
-			text-align: center;
+			color: var(--os-color-weakness);
+			font-family: var(--os-font-heading);
+			font-size: var(--font-size-18);
+			text-align: left;
 
 			& [role="textbox"] {
 				background: transparent;
 				color: var(--os-color-accent);
 				font-family: var(--os-font-accent);
 				border: none;
-				border-radius: 8px;
+				border-radius: 0px;
 				margin-inline: auto;
 				letter-spacing: 1px;
 				transition: all 0.15s;
@@ -357,7 +382,7 @@
 
 				&::before {
 					content: "“";
-					margin-inline-start: 8px;
+					margin-inline-start: 1px;
 				}
 
 				&::after {
@@ -368,6 +393,7 @@
 		}
 
 		& .note {
+			display:none;
 			flex: 1;
 			background-image: radial-gradient(#999 -150%, transparent 70%);
 			color: var(--os-color-primary-bg);

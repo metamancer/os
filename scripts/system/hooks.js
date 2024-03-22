@@ -393,7 +393,7 @@ export class OsHooks {
 					<h1 style="text-align:center"><span style="font-family: Bebas Neue">Well, hello there…</span></h1>
 					<p>Thank you for testing this system in Alpha!</p>
 					<blockquote style="padding:0.5em 10px;color:var(--os-color-self)">
-						<p><em>Be aware that both the system—and game—are under heavy development. There will be frequent changes and updates that can result in game breaking bugs.</em></p>
+						<p><em>Be aware that both the system—and game—are under development. There will be frequent changes and updates that can result in game breaking bugs.</em></p>
 						<p><em><strong><br>PLEASE MAKE FREQUENT BACKUPS!</strong></em></p>
 					</blockquote>
 					<p></p>
@@ -465,10 +465,6 @@ export class OsHooks {
 				<p>Before you start playing, you should want to read the <a class="content-link" draggable="true" data-uuid="${entry.uuid
 					}" data-id="${entry._id
 					}" data-type="JournalEntryPage" data-tooltip="Text Page"><i class="fas fa-file-lines"></i>:Otherscape</a> journal entry. It contains some important information about the system, and what to expect.</p>
-				<p>Once you've read the journal entry, you can click the button below to import all the rules and content required to play the Tinderbox Demo.</p>
-				<button type="button" id="os--import-adventure" style="background: var(--os-color-status-bg);"><strong>${t(
-						"Os.ui.import-adventure"
-					)}</strong></button>
 				<p style="text-align:center;">Good luck, and have fun!</p>
 			`,
 			});
@@ -482,14 +478,15 @@ export class OsHooks {
 				height: 600,
 			});
 		});
-
+		/*
 		Hooks.on("renderChatMessage", (_app, html) => {
 			html.find("#os--import-adventure").on("click", async () => {
 				const adventure = await game.packs.get("os.tinderbox-demo").getDocuments();
 				adventure?.[0]?.sheet.render(true);
 			});
-		});
-
+		}); 
+		*/
+		/*
 		Hooks.on("importAdventure", async () => {
 			const updates = await Promise.all(
 				game.scenes
@@ -502,5 +499,6 @@ export class OsHooks {
 			await Scene.updateDocuments(updates);
 			game.journal.getName("Tinderbox Demo Rules").sheet.render(true);
 		});
+		*/
 	}
 }

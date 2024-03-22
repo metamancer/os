@@ -8,25 +8,25 @@
 	background: url(/ui/parchment.jpg) repeat;
 	background-color: var(--os-color-accent-bg);
 	background-blend-mode: color-burn;
-	border: 1px solid color-mix(in hsl, var(--os-color-accent) 70%, transparent);
-	border-radius: 6px;
+	border: 1px solid var(--os-color-lines);
+	border-radius: 0px;
 	transition: all 0.15s;
 
 	&:hover {
-		box-shadow: 0 0 3px var(--os-color-primary-bg);
+		box-shadow: 0 0 3px var(--os-color);
 
 	}
 
-	& .dice-flavor {
+	& .dice-flavor { /* effect title */
 		font-family: var(--os-font-heading);
 		font-size: var(--font-size-24);
 		color: var(--os-color-bg);
 		text-align: center;
 	}
 
-	& .dice-effect {
+	& .dice-effect { /* describing effect & cost */
 		& p:first-of-type {
-			color: var(--os-color-alt-bg);
+			color: var(--os-color-lines);
 			font-family: var(--os-font-primary);
 			font-size: var(--font-size-16);
 			text-align: center;
