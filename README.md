@@ -3,7 +3,7 @@
 <br />
 
 > [!WARNING]
-> This system is still in early development, is not feature complete or bug free. Please report all issues/bugs/feedback on [Github Issues](https://github.com/metamancer/os/issues?q=is:issue+is:open+sort:updated-desc)
+> This system is still in early development, is not feature complete or bug free. It is not recommended to actively use this the Alpha version has been released. As always, please report all issues/bugs/feedback on [Github Issues](https://github.com/metamancer/os/issues?q=is:issue+is:open+sort:updated-desc) or via [Discord](https://discord.gg/XwJe4QWyfy).
 
 ## Installation
 
