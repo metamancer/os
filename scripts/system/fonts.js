@@ -3,25 +3,11 @@ import { info } from "../logger.js";
 export class Fonts {
 	static register() {
 		info("Registering Fonts...");
-		FontConfig.loadFont("Saira", {
-			editor: true,
+		FontConfig.loadFont("OS Dice", {
 			fonts: [
 				{
-					name: "Saira",
-					urls: ["systems/os/assets/fonts/saira.otf"],
-					sizeAdjust: "110%"
-				},
-				{
-					name: "Saira",
-					urls: ["systems/os/assets/fonts/saira-b.otf"],
-					weight: "bold",
-					sizeAdjust: "110%"
-				},
-				{
-					name: "Saira",
-					urls: ["systems/os/assets/fonts/saira-i.otf"],
-					style: "italic",
-					sizeAdjust: "110%"
+					name: "OS Dice",
+					urls: ["systems/os/assets/fonts/os-dice.otf"],
 				},
 			],
 		});

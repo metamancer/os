@@ -1,13 +1,9 @@
-import { getConfiggedEffect, sortTags } from "../utils.js";
+import { Sockets } from "../system/sockets.js";
+import { localize as t, sortTags } from "../utils.js";
 
 export class OsRollDialog extends FormApplication {
-	#radioSelected = null;
-	actorId = null;
-	powerTags = [];
-	weaknessTags = [];
-
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			template: "systems/os/templates/apps/roll-dialog.html",
 			classes: ["os", "os--roll"],
 			width: 500,
@@ -17,32 +13,234 @@ export class OsRollDialog extends FormApplication {
 		});
 	}
 
-	static create(actorId, powerTags, weaknessTags) {
-		const app = new OsRollDialog(actorId, powerTags, weaknessTags);
-		return app.render(true);
+	static create({
+		actorId,
+		characterTags,
+		speaker,
+		tagState,
+		shouldRoll,
+		type,
+		title,
+		id,
+	}) {
+		return new OsRollDialog(actorId, characterTags, {
+			tagState,
+			speaker,
+			shouldRoll,
+			type,
+			title,
+			id,
+		});
 	}
 
-	static getFilteredArrayFromFormData(formData, key) {
-		return Object.entries(formData)
-			.filter(([k, v]) => v && k.startsWith(key))
-			.map(([key]) => key.split(".")[1]);
+	static roll({ actorId, tags, title, type, speaker }) {
+		// Separate tags
+		const {
+			burnedTags,
+			powerTags,
+			weaknessTags,
+			positiveStatuses,
+			negativeStatuses,
+		} = OsRollDialog.#filterTags(tags);
+
+		// Values
+		const {
+			burnedValue,
+			powerValue,
+			weaknessValue,
+			positiveStatusValue,
+			negativeStatusValue,
+			totalPower,
+		} = OsRollDialog.#calculateTotalPower({
+			burnedTags,
+			powerTags,
+			weaknessTags,
+			positiveStatuses,
+			negativeStatuses,
+		});
+
+		// Roll
+		const roll = new game.os.OsRoll(
+			"2d6 + @burnedValue + @powerValue + @positiveStatusValue - @weaknessValue - @negativeStatusValue",
+			{
+				burnedValue,
+				powerValue,
+				positiveStatusValue,
+				weaknessValue,
+				negativeStatusValue,
+			},
+			{
+				actorId,
+				title,
+				type,
+				burnedTags,
+				powerTags,
+				weaknessTags,
+				positiveStatuses,
+				negativeStatuses,
+				speaker,
+				totalPower,
+			},
+		);
+
+		return roll
+			.toMessage({
+				speaker,
+				flavor: title,
+			})
+			.then((res) => {
+				// Reset roll dialog
+				res.rolls[0]?.actor?.sheet.resetRollDialog();
+				Sockets.dispatch("resetRollDialog", { actorId });
+				return res;
+			});
 	}
 
-	constructor(actorId, powerTags, weaknessTags, options) {
+	static #filterTags(tags) {
+		const burnedTags = tags.filter((t) => t.state === "burned");
+		const powerTags = tags.filter(
+			(t) => t.type !== "status" && t.state === "positive",
+		);
+		const weaknessTags = tags.filter(
+			(t) => t.type !== "status" && t.state === "negative",
+		);
+		const positiveStatuses = tags.filter(
+			(t) => t.type === "status" && t.state === "positive",
+		);
+		const negativeStatuses = tags.filter(
+			(t) => t.type === "status" && t.state === "negative",
+		);
+
+		return {
+			burnedTags,
+			powerTags,
+			weaknessTags,
+			positiveStatuses,
+			negativeStatuses,
+		};
+	}
+
+	static #calculateTotalPower(tags) {
+		const burnedValue = tags.burnedTags.length * 3;
+
+		const powerValue = tags.powerTags.length;
+
+		const weaknessValue = tags.weaknessTags.length;
+
+		const positiveStatusValue = tags.positiveStatuses.reduce(
+			(a, t) => a + Number.parseInt(t.value),
+			0,
+		);
+
+		const negativeStatusValue = tags.negativeStatuses.reduce(
+			(a, t) => a + Number.parseInt(t.value),
+			0,
+		);
+
+		const totalPower =
+			burnedValue +
+			powerValue +
+			positiveStatusValue -
+			weaknessValue -
+			negativeStatusValue;
+
+		return {
+			burnedValue,
+			powerValue,
+			weaknessValue,
+			positiveStatusValue,
+			negativeStatusValue,
+			totalPower,
+		};
+	}
+
+	#rollId = null;
+	#tagState = [];
+	#shouldRoll = () => false;
+
+	constructor(actorId, characterTags = [], options = {}) {
 		super({}, options);
+
+		this.#tagState = options.tagState || [];
+		this.#shouldRoll = options.shouldRoll || (() => false);
+
 		this.actorId = actorId;
-		this.powerTags = powerTags;
-		this.weaknessTags = weaknessTags;
+		this.characterTags = characterTags;
+		this.speaker =
+			options.speaker || ChatMessage.getSpeaker({ actor: this.actor });
+		this.rollName = options.title || OsRollDialog.defaultOptions.title;
+		this.type = options.type || "tracked";
+		this.#rollId = options.id;
+	}
+
+	get actor() {
+		return game.actors.get(this.actorId);
+	}
+
+	get statuses() {
+		const { tags } = game.os.storyTags;
+		const statuses = tags.filter((tag) => tag.values.some((v) => !!v));
+		return [...statuses, ...this.actor.system.statuses].map((tag) => ({
+			...tag,
+			state: this.#tagState.find((t) => t.id === tag.id)?.state || "",
+			states: ",negative,positive",
+		}));
+	}
+
+	get tags() {
+		const { tags } = game.os.storyTags;
+		return [
+			...tags.filter((tag) => tag.values.every((v) => !v)),
+			...this.actor.system.storyTags,
+		].map((tag) => ({
+			...tag,
+			state: this.#tagState.find((t) => t.id === tag.id)?.state || "",
+			states: ",negative,positive,burned",
+		}));
+	}
+
+	get gmTags() {
+		const { actors } = game.os.storyTags;
+		const tags = actors
+			.filter((actor) => actor.id !== this.actorId)
+			.flatMap((actor) => actor.tags);
+		return tags
+			.map((tag) => ({
+				...tag,
+				state: this.#tagState.find((t) => t.id === tag.id)?.state || "",
+				states:
+					tag.type === "tag" ? ",negative,positive,burned" : ",negative,positive",
+			}))
+			.filter(tag => game.user.isGM || tag.state !== "");
+	}
+
+	get totalPower() {
+		const state = [...this.#tagState, ...this.characterTags];
+		const tags = OsRollDialog.#filterTags(state);
+		const { totalPower } = OsRollDialog.#calculateTotalPower(tags);
+		return totalPower;
 	}
 
 	getData() {
 		const data = super.getData();
+		const skipModeration = this.#shouldRoll();
 		return {
-			actorId: this.actorId,
-			effects: CONFIG.os.effects,
-			powerTags: sortTags(this.powerTags),
-			weaknessTags: sortTags(this.weaknessTags),
 			...data,
+			actorId: this.actorId,
+			characterTags: sortTags(this.characterTags),
+			rollTypes: {
+				quick: "Os.ui.roll-quick",
+				tracked: "Os.ui.roll-tracked",
+				mitigate: "Os.ui.roll-mitigate",
+			},
+			skipModeration,
+			statuses: sortTags(this.statuses),
+			tags: sortTags(this.tags),
+			gmTags: sortTags(this.gmTags),
+			isGM: game.user.isGM,
+			title: this.rollName,
+			type: this.type,
+			totalPower: this.totalPower,
 		};
 	}
 
@@ -50,9 +248,46 @@ export class OsRollDialog extends FormApplication {
 		super.activateListeners(html);
 
 		html
-			.find("input[type='radio'][name='burn']")
-			.click(this.#handleBurnToggleClick.bind(this));
-		html.find("[data-click]").click(this.#handleClick.bind(this));
+			.find("[data-click]")
+			.on("click", this.#handleClick.bind(this))
+			.on("keydown", (event) => {
+				if (event.key === "Enter" || event.key === " ")
+					this.#handleClick(event);
+			});
+
+		html
+			.find("os-super-checkbox")
+			.on("change", this.#handleCheckboxChange.bind(this));
+	}
+
+	addTag(tag, toBurn) {
+		tag.state =
+			tag.type === "weaknessTag" ? "negative" : toBurn ? "burned" : "positive";
+		tag.states = tag.type === "weaknessTag" ? ",negative" : ",positive,burned";
+
+		this.characterTags.push(tag);
+		this.element.find("[data-update='totalPower']").text(this.totalPower);
+		this.#dispatchUpdate();
+	}
+
+	removeTag(tag) {
+		this.characterTags = this.characterTags.filter((t) => t.id !== tag.id);
+		this.element.find("[data-update='totalPower']").text(this.totalPower);
+		this.#dispatchUpdate();
+	}
+
+	getFilteredArrayFromFormData(formData) {
+		const allTags = [...this.#tagState, ...this.characterTags];
+		return Object.entries(formData)
+			.filter(([_, v]) => !!v)
+			.map(([key]) => allTags.find((t) => t.id === key));
+	}
+
+	reset() {
+		this.characterTags = [];
+		this.#tagState = [];
+		this.#shouldRoll = () => game.settings.get("os", "skip_roll_moderation");
+		if (this.actor.sheet.rendered) this.actor.sheet.render(true);
 	}
 
 	/**
@@ -61,132 +296,115 @@ export class OsRollDialog extends FormApplication {
 	 * @param {Object} formData - The form data
 	 */
 	async _updateObject(_event, formData) {
-		const { actorId, burn, effect, status, title, tracked, ...rest } = formData;
-		const burnedTag = burn ? burn.split(".").pop() : null;
-		const effectData = tracked ? getConfiggedEffect(effect) : null;
-		const weaknessTags = OsRollDialog.getFilteredArrayFromFormData(
-			rest,
-			"weakness",
-		);
-		const powerTags = OsRollDialog.getFilteredArrayFromFormData(
-			rest,
-			"power",
-		).filter((tag) => tag !== burnedTag);
+		const { actorId, title, type, shouldRoll, ...rest } = formData;
+		const tags = this.getFilteredArrayFromFormData(rest);
 
-		const weakness = weaknessTags.length;
-		const power = powerTags.length;
+		const data = {
+			actorId,
+			type,
+			tags,
+			title,
+			speaker: this.speaker,
+		};
 
-		const totalPower = (burnedTag ? 3 : 0) + power + status - weakness;
-		if (tracked && !effectData)
-			ui.notifications.warn(game.i18n.localize("Os.ui.warn-no-effect-found"));
-
-		const roll = new game.os.OsRoll(
-			`2d6 ${burn ? "+ @burnedTag" : ""} + @power + @status - @weakness`,
-			{
-				power,
-				status,
-				weakness,
-				burnedTag: 3,
-			},
-			{
-				actorId,
-				burnedTag,
-				effectData,
-				powerTags,
-				status,
-				title,
-				totalPower,
-				tracked,
-				weaknessTags,
-			},
-		);
-
-		if (burnedTag) this.#burnActorTag(actorId, burnedTag);
-
-		return roll.toMessage({
-			flavor: title,
-		});
-	}
-
-	#handleBurnToggleClick(event) {
-		const input = event.currentTarget;
-		const value = input.value;
-		const id = value.split(".").pop();
-		const sibling = $(`[name="power.${id}"]`);
-
-		if (input.checked && this.#radioSelected === value) {
-			input.checked = false;
-			this.#radioSelected = null;
-		} else {
-			this.#radioSelected = input.value;
-			sibling.prop("checked", true);
-		}
+		this.#shouldRoll = () => shouldRoll;
+		// User has authority to initiate the roll
+		if (this.#shouldRoll()) return OsRollDialog.roll(data);
+		// Else create a moderation request
+		return this.#createModerationRequest(data);
 	}
 
 	#handleClick(event) {
 		const button = event.currentTarget;
 		const action = button.dataset.click;
-		const id = button.dataset.id;
 
 		switch (action) {
-			case "increase":
-				this.#increase(id);
+			case "add-tag": {
+				this.actor.sheet.render(true);
 				break;
-			case "decrease":
-				this.#decrease(id);
-				break;
+			}
 			case "cancel":
 				this.close();
 				break;
 		}
 	}
 
-	#increase(id) {
-		const input = this.element.find(`#${id}`);
-		const value = parseInt(input.val());
-		input.val(value + 1);
-	}
+	#handleCheckboxChange(event) {
+		const checkbox = event.currentTarget;
+		const { name: id, value } = checkbox;
+		const { type } = checkbox.dataset;
 
-	#decrease(id) {
-		const input = this.element.find(`#${id}`);
-		const value = parseInt(input.val());
-		input.val(value - 1);
-	}
-
-	#burnActorTag(actorId, tagId) {
-		try {
-			const actor = game.actors.get(actorId);
-			const tag = actor.system.powerTags.find((tag) => tag.id === tagId);
-
-			if (!tag) throw new Error(`Tag: ${tagId} not found in ${actorId}.`);
-
-			if (tag.type === "powerTag") {
-				const theme = actor.items
-					.find((theme) => theme.system.powerTags.find((t) => t.id === tag.id))
-					?.toObject();
-				const { powerTags } = theme.system;
-				powerTags.find((t) => t.id === tag.id).isBurnt = true;
-				return actor.updateEmbeddedDocuments("Item", [
-					{ _id: theme._id, "system.powerTags": powerTags },
-				]);
+		switch (type) {
+			case "powerTag":
+			case "themeTag":
+			case "backpack":
+			case "weaknessTag": {
+				const tag = this.characterTags.find((t) => t.id === id);
+				tag.state = value;
+				break;
 			}
-
-			if (tag.type === "themeTag") {
-				const theme = actor.items.find((theme) =>
-					theme.system.allTags.find((t) => t.id === tag.id),
-				);
-				return actor.updateEmbeddedDocuments("Item", [
-					{ _id: theme._id, "system.isBurnt": true },
-				]);
+			default: {
+				const existingTag = this.#tagState.find((t) => t.id === id);
+				if (existingTag) existingTag.state = value;
+				else {
+					const tag = [...this.tags, ...this.statuses, ...this.gmTags].find(
+						(t) => t.id === id,
+					);
+					this.#tagState.push({
+						...tag,
+						state: value,
+					});
+				}
 			}
-
-			// We assume it's a backpack tag a this point
-			const backpack = actor.system.backpack;
-			backpack.find((t) => t.id === tag.id).isBurnt = true;
-			return actor.update({ "system.backpack": backpack });
-		} catch (error) {
-			console.error(error);
-			ui.notifications.error(game.i18n.localize("Os.ui.error-burning-tag"));
 		}
+
+		this.element.find("[data-update='totalPower']").text(this.totalPower);
+		this.#dispatchUpdate();
+	}
+
+	async #createModerationRequest(data) {
+		const id = foundry.utils.randomID();
+		this.#rollId = id;
+		const userId = game.user.id;
+		const tags = OsRollDialog.#filterTags(data.tags);
+		const { totalPower } = OsRollDialog.#calculateTotalPower(tags);
+		const recipients = Object.entries(this.actor.ownership)
+			.filter(u => u[1] === 3 && u[0] !== 'default')
+			.map(u => u[0])
+
+		ChatMessage.create({
+			content: await renderTemplate(
+				"systems/os/templates/chat/moderation.html",
+				{
+					title: t("Os.ui.roll-moderation"),
+					rollId: id,
+					type: data.type,
+					name: this.actor.name,
+					tags,
+					totalPower,
+				},
+			),
+			type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
+			whisper: recipients,
+			flags: { os: { id, userId, data } },
+		});
+	}
+
+	#dispatchUpdate() {
+		Sockets.dispatch("updateRollDialog", {
+			actorId: this.actorId,
+			characterTags: this.characterTags,
+			tagState: this.#tagState,
+		});
+	}
+
+	async receiveUpdate({ characterTags, tagState, actorId }) {
+		if (actorId !== this.actorId) return;
+
+		if (characterTags) this.characterTags = characterTags;
+		if (tagState) this.#tagState = tagState;
+
+		if (this.actor.sheet.rendered) this.actor.sheet.render();
+		if (this.rendered) this.render();
 	}
 }

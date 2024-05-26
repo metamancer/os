@@ -6,7 +6,26 @@ export class OsSettings {
 			scope: "world",
 			config: false,
 			type: Object,
-			default: {},
+			default: {
+				tags: [],
+				actors: [],
+			},
+		});
+		game.settings.register("os", "show_tag_window_on_load", {
+			name: "Os.ui.show-tag-window-on-load",
+			hint: "Os.ui.show-tag-window-on-load-hint",
+			scope: "client",
+			config: true,
+			type: Boolean,
+			default: true,
+		});
+		game.settings.register("os", "skip_roll_moderation", {
+			name: "Os.settings.skip-roll-moderation",
+			hint: "Os.settings.skip-roll-moderation-hint",
+			scope: "client",
+			config: true,
+			type: Boolean,
+			default: false,
 		});
 	}
 }

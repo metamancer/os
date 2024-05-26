@@ -1,13 +1,26 @@
-import { confirmDelete } from "../../utils.js";
+import { SheetMixin } from "../../mixins/sheet-mixin.js";
+import { confirmDelete, dispatch } from "../../utils.js";
 
-export class CharacterSheet extends ActorSheet {
-	static defaultOptions = mergeObject(ActorSheet.defaultOptions, {
+export class CharacterSheet extends SheetMixin(ActorSheet) {
+	static defaultOptions = foundry.utils.mergeObject(ActorSheet.defaultOptions, {
 		classes: ["os", "os--character"],
 		width: 250,
 		height: 350,
 		left: window.innerWidth / 2 - 250,
 		top: window.innerHeight / 2 - 250,
+		scrollY: [".taglist"],
 		resizable: false,
+	});
+
+	#dragAvatarTimeout = null;
+	#notesEditorOpened = false;
+	#focusedTags = null;
+	#themeHovered = null;
+	#contextmenu = null;
+	#roll = game.os.OsRollDialog.create({
+		actorId: this.actor._id,
+		characterTags: [],
+		shouldRoll: () => game.settings.get("os", "skip_roll_moderation")
 	});
 
 	get template() {
@@ -22,20 +35,173 @@ export class CharacterSheet extends ActorSheet {
 		return this.actor.system;
 	}
 
+	get storyTags() {
+		return [...this.system.storyTags, ...this.system.statuses];
+	}
+
+	updateRollDialog(data) {
+		this.#roll.receiveUpdate(data);
+	}
+
+	renderRollDialog({ toggle } = { toggle: false }) {
+		if (toggle && this.#roll.rendered) this.#roll.close();
+		else this.#roll.render(true);
+	}
+
+	resetRollDialog() {
+		this.#roll.reset();
+		this.render();
+	}
+
+	async toggleBurnTag(tag) {
+		switch (tag.type) {
+			case "powerTag": {
+				const parentTheme = this.items.find(
+					(i) =>
+						i.type === "theme" &&
+						i.system.powerTags.some((t) => t.id === tag.id),
+				);
+				const { powerTags } = parentTheme.system.toObject();
+				powerTags.find((t) => t.id === tag.id).isBurnt = !tag.isBurnt;
+				this.actor.updateEmbeddedDocuments("Item", [
+					{
+						_id: parentTheme.id,
+						"system.powerTags": powerTags,
+					},
+				]);
+				break;
+			}
+			case "themeTag": {
+				const theme = this.items.get(tag.id);
+				this.actor.updateEmbeddedDocuments("Item", [
+					{
+						_id: theme.id,
+						"system.isBurnt": !tag.isBurnt,
+					},
+				]);
+				break;
+			}
+			case "backpack": {
+				const backpack = this.items.find((i) => i.type === "backpack");
+				const { contents } = backpack.system.toObject();
+				contents.find((i) => i.id === tag.id).isBurnt = !tag.isBurnt;
+				this.actor.updateEmbeddedDocuments("Item", [
+					{
+						_id: backpack.id,
+						"system.contents": contents,
+					},
+				]);
+				break;
+			}
+		}
+	}
+
+	async gainExperience(tag) {
+		const parentTheme = this.items.find(
+			(i) =>
+				i.type === "theme" &&
+				i.system.weaknessTags.some((t) => t.id === tag.id),
+		);
+		this.actor.updateEmbeddedDocuments("Item", [
+			{
+				_id: parentTheme.id,
+				"system.experience": parentTheme.system.experience + 1,
+			},
+		]);
+	}
+
 	async getData() {
-		const { data, ...rest } = super.getData();
-		const items = await Promise.all(this.items.map((i) => i.sheet.getData()));
-		data.system.note = await TextEditor.enrichHTML(data.system.note);
-		return { ...rest, data, items };
+		const themes = await Promise.all(
+			this.items
+				.filter((i) => i.type === "theme")
+				.sort((a, b) => a.sort - b.sort)
+				.map((i) => i.sheet.getData()),
+		);
+		const note = await TextEditor.enrichHTML(this.system.note);
+		const backpack = {
+			name: this.items.find((i) => i.type === "backpack")?.name,
+			id: this.items.find((i) => i.type === "backpack")?._id,
+			contents: this.system.backpack
+				.sort((a, b) => a.name.localeCompare(b.name))
+				.sort((a, b) => (a.isActive && b.isActive ? 0 : a.isActive ? -1 : 1)),
+		};
+		return {
+			...this.object.system,
+			_id: this.actor.id,
+			img: this.actor.img,
+			name: this.actor.name,
+			storyTags: this.storyTags,
+			backpack,
+			note,
+			themes,
+			tagsFocused: this.#focusedTags,
+			themeHovered: this.#themeHovered,
+			notesEditorOpened: this.#notesEditorOpened,
+			rollTags: this.#roll.characterTags,
+			burntTags: this.#roll.characterTags.filter(
+				(t) => t.isBurnt || t.state === "burned",
+			),
+		};
 	}
 
 	activateListeners(html) {
 		super.activateListeners(html);
 
-		html.find("[data-click]").click(this.#handleClicks.bind(this));
-		html.find("[data-dblclick").dblclick(this.#handleDblclick.bind(this));
-		html.find("[data-context").contextmenu(this.#handleContextmenu.bind(this));
-		html.find(".draggable").mousedown(this.#onDragHandleMouseDown.bind(this));
+		html.find("[data-click]").on("click", this.#handleClicks.bind(this));
+		html.find("[data-dblclick").on("dblclick", this.#handleDblclick.bind(this));
+		html
+			.find("[data-context]")
+			.on("contextmenu", this.#handleContextmenu.bind(this));
+		html
+			.find("[data-mousedown]")
+			.on("mousedown", this.#handleMouseDown.bind(this));
+		html
+			.find("[data-drag]")
+			.on("mousedown", this.#onDragHandleMouseDown.bind(this));
+		html.on("mouseover", (event) => {
+			html.find(".os--character-theme").removeClass("hovered");
+
+			const t = event.target.classList.contains("os--character-theme")
+				? event.target
+				: event.target.closest(".os--character-theme");
+
+			if (t) this.#themeHovered = t.dataset.id;
+			else this.#themeHovered = null;
+		});
+
+		this.#contextmenu = ContextMenu.create(
+			this,
+			html,
+			"[data-context='menu']",
+			[
+				{
+					name: game.i18n.localize("Os.ui.edit"),
+					icon: '<i class="fas fa-edit"></i>',
+					callback: (html) => {
+						const id = html.parent().data("id");
+						const item = this.actor.items.get(id);
+						item.sheet.render(true);
+					},
+				},
+				{
+					name: game.i18n.localize("Os.ui.remove"),
+					icon: "<i class='fas fa-trash'></i>",
+					callback: (html) => {
+						const id = html.parent().data("id");
+						this.#removeItem(id);
+					},
+				},
+			],
+			{
+				hookName: "OsItemContextMenu",
+			},
+		);
+		this.#contextmenu._setPosition = function (html, target) {
+			this._expandUp = true;
+			html.toggleClass("expand-up", this._expandUp);
+			target.append(html);
+			target.addClass("context");
+		};
 	}
 
 	// Hack to allow updating the embedded items
@@ -47,7 +213,7 @@ export class CharacterSheet extends ActorSheet {
 	// Prevent dropping more than 4 themes on the character sheet
 	async _onDropItem(event, data) {
 		const item = await Item.implementation.fromDropData(data);
-		if (item.type !== "theme") return;
+		if (!["backpack", "theme"].includes(item.type)) return;
 
 		if (this.items.get(item.id)) return this._onSortItem(event, item);
 
@@ -79,18 +245,28 @@ export class CharacterSheet extends ActorSheet {
 		return data;
 	}
 
-	#handleClicks(event) {
-		event.stopPropagation();
-		event.preventDefault();
+	_onEditImage(event) {
+		if (this.#dragAvatarTimeout) return clearTimeout(this.#dragAvatarTimeout);
+		return super._onEditImage(event);
+	}
 
+	#handleMouseDown(event) {
+		const t = event.currentTarget;
+		const action = t.dataset.mousedown;
+
+		switch (action) {
+			case "keep-open":
+				this.#keepOpen(event);
+				break;
+		}
+	}
+
+	#handleClicks(event) {
 		const t = event.currentTarget;
 		const action = t.dataset.click;
 		const id = t.dataset.id;
 
 		switch (action) {
-			case "add-tag":
-				this.#addTag();
-				break;
 			case "increase":
 				this.#increase(event);
 				break;
@@ -99,96 +275,81 @@ export class CharacterSheet extends ActorSheet {
 				break;
 			case "close":
 				this.#close(id);
+				break;
+			case "select":
+				this.#select(event);
+				break;
 		}
 	}
 
 	#handleDblclick(event) {
-		event.stopPropagation();
-		event.preventDefault();
-
 		const t = event.currentTarget;
 		const action = t.dataset.dblclick;
-		const id = t.dataset.id;
 
 		switch (action) {
-			case "edit":
-				this.actor.items.get(id).sheet.render(true);
+			case "return":
+				this.#focusedTags = null;
+				t.classList.remove("focused");
+				t.style.cssText = this.#focusedTags;
 				break;
 		}
 	}
 
 	#handleContextmenu(event) {
-		event.stopPropagation();
-		event.preventDefault();
-
 		const t = event.currentTarget;
 		const action = t.dataset.context;
-		const id = t.dataset.id;
 
 		switch (action) {
-			case "remove-tag":
-				this.#removeTag(id);
-				break;
 			case "decrease":
+				event.preventDefault();
+				event.stopPropagation();
 				this.#decrease(event);
-				break;
-			case "delete":
-				this.#removeItem(id);
 				break;
 		}
 	}
 
 	#onDragHandleMouseDown(event) {
-		event.stopPropagation();
-		event.preventDefault();
+		this.#dragAvatarTimeout = null;
 
 		const t = event.currentTarget;
-		const parent = $(t).parent();
+		const target = t.dataset.drag;
+		const parent = $(t).parents(target).first();
 
 		const x = event.clientX - parent.position().left;
 		const y = event.clientY - parent.position().top;
 
 		const handleDrag = (event) => {
+			if (target === ".window-app") this.#dragAvatarTimeout = true;
+
 			parent.css({
 				left: event.clientX - x,
 				top: event.clientY - y,
 			});
 		};
 
-		$(document).on("mousemove", handleDrag);
-		$(document).on("mouseup", () => {
-			$(document).off("mousemove", handleDrag);
-		});
-	}
+		const handleMouseUp = () => {
+			if (this.#dragAvatarTimeout) {
+				this.setPosition({
+					left: parent.position().left,
+					top: parent.position().top,
+				});
+				this.#dragAvatarTimeout = setTimeout(() => {
+					this.#dragAvatarTimeout = null;
+				}, 100);
+			}
 
-	async #addTag() {
-		const item = {
-			name: "New Item",
-			isActive: false,
-			isBurnt: false,
-			type: "backpack",
-			id: randomID(),
+			$(document).off("mousemove", handleDrag);
+			$(document).off("mouseup", handleMouseUp);
 		};
 
-		const backpack = this.system.backpack;
-		backpack.push(item);
-
-		return this.actor.update({ "system.backpack": backpack });
-	}
-
-	async #removeTag(index) {
-		if (!(await confirmDelete())) return;
-
-		const backpack = this.system.backpack;
-		backpack.splice(index, 1);
-
-		return this.actor.update({ "system.backpack": backpack });
+		$(document).on("mousemove", handleDrag);
+		$(document).on("mouseup", handleMouseUp);
 	}
 
 	async #removeItem(id) {
-		if (!(await confirmDelete())) return;
-
 		const item = this.items.get(id);
+		if (!(await confirmDelete(`TYPES.Item.${item.type}`))) return;
+
 		return item.delete();
 	}
 
@@ -215,10 +376,11 @@ export class CharacterSheet extends ActorSheet {
 	#open(id) {
 		switch (id) {
 			case "note":
+				this.#notesEditorOpened = true;
 				this.element.find("#note").show(100);
 				break;
 			case "roll":
-				this.#roll();
+				this.renderRollDialog();
 				break;
 		}
 	}
@@ -226,37 +388,100 @@ export class CharacterSheet extends ActorSheet {
 	#close(id) {
 		switch (id) {
 			case "note":
+				this.#notesEditorOpened = false;
 				this.element.find("#note").hide(100);
 		}
 	}
 
-	#roll() {
-		const powerTags = this.system.availablePowerTags;
-		const weaknessTags = this.system.weaknessTags;
+	#select(event) {
+		// Prevent double clicks from selecting the tag
+		if (event.detail > 1) return;
 
-		const rc = game.os.OsRollDialog;
-		rc.create(this.actor.id, powerTags, weaknessTags);
+		const t = event.currentTarget;
+		const toBurn = event.shiftKey;
+		const toBurnNoRoll = event.altKey;
+		const id = t.dataset.id;
+		const tag = this.system.allTags.find((t) => t.id === id).toObject();
+		const selected = t.hasAttribute("data-selected");
+
+		if (toBurnNoRoll) return this.toggleBurnTag(tag);
+		if (!selected && tag.isBurnt) return;
+
+		// Add or remove the tag from the roll
+		switch (selected) {
+			case true:
+				this.#roll.removeTag(tag);
+				break;
+			case false:
+				this.#roll.addTag(tag, toBurn);
+				break;
+		}
+
+		// Render the roll dialog if it's open
+		if (this.#roll.rendered) this.#roll.render();
+		this.render();
+	}
+
+	#keepOpen(event) {
+		const t = event.currentTarget;
+
+		t.classList.add("focused");
+		const listener = t.addEventListener("mouseup", () => {
+			this.#focusedTags = t.style.cssText;
+			t.removeEventListener("mouseup", listener);
+		});
 	}
 
 	async #handleUpdateEmbeddedItems(formData) {
-		const updateMap = {};
+		const itemMap = {};
 		for (const [key, value] of Object.entries(formData)) {
 			if (!key.startsWith("items.")) continue;
 
 			delete formData[key];
 			const [_, _id, subkey, ...rest] = key.split(".");
-			updateMap[_id] ??= {};
-			updateMap[_id][subkey] ??= {};
-			if (rest.length === 0) updateMap[_id][subkey] = value;
-			else updateMap[_id][subkey][rest.join(".")] = value;
+			itemMap[_id] ??= {};
+			itemMap[_id][subkey] ??= {};
+			if (rest.length === 0) itemMap[_id][subkey] = value;
+			else itemMap[_id][subkey][rest.join(".")] = value;
 		}
 
-		const toUpdate = Object.entries(updateMap).reduce((acc, [id, data]) => {
+		const itemsToUpdate = Object.entries(itemMap).reduce((acc, [id, data]) => {
 			acc.push({ _id: id, ...data });
 			return acc;
 		}, []);
 
-		if (toUpdate.length) this.actor.updateEmbeddedDocuments("Item", toUpdate);
+		if (itemsToUpdate.length)
+			await this.actor.updateEmbeddedDocuments("Item", itemsToUpdate);
+
+		const effectMap = {};
+		for (const [key, value] of Object.entries(formData)) {
+			if (!key.startsWith("effects.")) continue;
+
+			delete formData[key];
+			const [_, _id, subkey, ...rest] = key.split(".");
+			effectMap[_id] ??= {};
+			effectMap[_id][subkey] ??= {};
+			if (rest.length === 0) effectMap[_id][subkey] = value;
+			else effectMap[_id][subkey][rest.join(".")] = value;
+		}
+
+		const effectsToUpdate = Object.entries(effectMap).reduce(
+			(acc, [id, data]) => {
+				acc.push({ _id: id, ...data });
+				return acc;
+			},
+			[],
+		);
+
+		if (effectsToUpdate.length) {
+			await this.actor.updateEmbeddedDocuments("ActiveEffect", effectsToUpdate);
+			game.os.storyTags.render();
+			dispatch({
+				app: "story-tags",
+				type: "render",
+			});
+		}
+
 		return formData;
 	}
 }

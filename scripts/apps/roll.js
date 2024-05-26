@@ -1,3 +1,5 @@
+import { localize as t } from "../utils.js";
+
 export class OsRoll extends Roll {
 	static CHAT_TEMPLATE = "systems/os/templates/chat/message.html";
 	static TOOLTIP_TEMPLATE = "systems/os/templates/chat/message-tooltip.html";
@@ -15,42 +17,34 @@ export class OsRoll extends Roll {
 	}
 
 	get flavor() {
-		if (!this.effect) return game.i18n.localize("Os.ui.roll-quick");
-		return game.i18n.localize(`Os.effects.${this.effect.name}.key`);
+		switch (this.os.type) {
+			case "mitigate":
+				return t("Os.ui.roll-mitigate", "Os.other.outcome");
+			case "tracked":
+				return t("Os.ui.roll-tracked", "Os.other.outcome");
+			default:
+				return t("Os.ui.roll-quick", "Os.other.outcome");
+		}
+	}
+
+	get effect() {
+		if (this.os.type !== "mitigate") return null;
+		return {
+			action: "Os.effects.mitigate.action",
+			description: "Os.effects.mitigate.description",
+			cost: "Os.effects.mitigate.cost",
+		};
 	}
 
 	get power() {
-		if (!this.effect) return null;
+		if (this.os.type === "quick") return null;
 		if (this.total < 7) return 0;
 
 		let totalPower = Math.max(this.os.totalPower, 1);
 		if (this.total < 10) return totalPower;
-		if (this.effect?.name === "mitigate") totalPower += 1;
+		if (this.os.type === "mitigate") totalPower += 1;
 
 		return totalPower;
-	}
-
-	get powerTags() {
-		const tags = this.os.powerTags
-			.map((tag) =>
-				this.actor.system.powerTags.find((t) => t.id === tag)?.toObject(),
-			)
-			.filter(Boolean);
-		return tags;
-	}
-
-	get weaknessTags() {
-		const tags = this.os.weaknessTags
-			.map((tag) =>
-				this.actor.system.weaknessTags.find((t) => t.id === tag)?.toObject(),
-			)
-			.filter(Boolean);
-		return tags;
-	}
-
-	get burnedTag() {
-		if (!this.os.burnedTag) return null;
-		return this.actor.system.allTags.find((tag) => tag.id === this.os.burnedTag);
 	}
 
 	get outcome() {
@@ -62,11 +56,6 @@ export class OsRoll extends Roll {
 		return { label: "failure", description: "Os.ui.roll-failure" };
 	}
 
-	get effect() {
-		if (!this.os.tracked) return null;
-		return this.os.effectData;
-	}
-
 	async render({
 		template = this.constructor.CHAT_TEMPLATE,
 		isPrivate = false,
@@ -74,7 +63,6 @@ export class OsRoll extends Roll {
 		if (!this._evaluated) await this.evaluate({ async: true });
 		const chatData = {
 			actor: this.actor,
-			effect: this.effect,
 			formula: isPrivate ? "???" : this._formula.replace(/\s\+0/, ""),
 			flavor: isPrivate ? null : this.flavor,
 			outcome: isPrivate ? "???" : this.outcome,
@@ -83,8 +71,17 @@ export class OsRoll extends Roll {
 			title: this.os.title,
 			tooltip: isPrivate ? "" : await this.getTooltip(),
 			total: isPrivate ? "" : Math.round(this.total * 100) / 100,
+			type: this.os.type,
+			effect: this.effect,
 			user: game.user.id,
+			isOwner: game.user.isGM || this.actor.isOwner,
+			hasBurnedTags: !this.os.isBurnt && this.os.burnedTags.length > 0,
+			hasWeaknessTags:
+				!this.os.gainedExp &&
+				this.os.weaknessTags.filter((t) => t.type === "weaknessTag").length >
+					0,
 		};
+
 		return renderTemplate(template, chatData);
 	}
 
@@ -96,11 +93,12 @@ export class OsRoll extends Roll {
 
 	getTooltipData() {
 		return {
-			burnedTag: this.burnedTag,
-			mitigate: this.effect?.name === "mitigate",
-			powerTags: this.powerTags,
-			status: this.os.status,
-			weaknessTags: this.weaknessTags,
+			mitigate: this.os.type === "mitigate" && this.total > 9,
+			burnedTags: this.os.burnedTags,
+			powerTags: this.os.powerTags,
+			weaknessTags: this.os.weaknessTags,
+			positiveStatuses: this.os.positiveStatuses,
+			negativeStatuses: this.os.negativeStatuses,
 		};
 	}
 }

@@ -6,14 +6,18 @@ export class ThreatSheet extends SheetMixin(ItemSheet) {
 
 	/** @override */
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			classes: ["os", "os--threat"],
 			template: "systems/os/templates/item/threat.html",
-			width: 500,
-			height: 200,
+			width: 412,
+			height: 231,
 			resizable: true,
 			submitOnChange: true,
 		});
+	}
+
+	get effects() {
+		return this.item.effects;
 	}
 
 	get system() {
@@ -25,7 +29,9 @@ export class ThreatSheet extends SheetMixin(ItemSheet) {
 		const { data, ...rest } = super.getData();
 
 		if (!this.isEditing)
-			data.system.consequences = await Promise.all(data.system.consequences.map(c => TextEditor.enrichHTML(c)));
+			data.system.consequences = await Promise.all(
+				data.system.consequences.map((c) => TextEditor.enrichHTML(c)),
+			);
 
 		return {
 			...rest,
@@ -38,41 +44,52 @@ export class ThreatSheet extends SheetMixin(ItemSheet) {
 		super.activateListeners(html);
 
 		html.find("[data-click]").on("click", this.#handleClick.bind(this));
-		html.find("[data-context]").on("contextmenu", this.#handleContextMenu.bind(this));
+		html
+			.find("[data-context]")
+			.on("contextmenu", this.#handleContextMenu.bind(this));
 
 		if (this.isEditing)
 			html.find("[contenteditable]:has(+#consequence)").focus();
 	}
 
-	async _onSubmit(formData, options = {}) {
-		const res = await super._onSubmit(formData, options);
-		if (!res['system.consequences']) return res;
+	async _updateObject(event, formData) {
+		const res = await super._updateObject(event, formData);
+
+		if (!formData["system.consequences.0"]) return res;
 
 		// Delete existing tags and statuses
-		await this.item.deleteEmbeddedDocuments("ActiveEffect", this.item.effects.map((e) => e._id));
+		await this.item.deleteEmbeddedDocuments(
+			"ActiveEffect",
+			this.effects.map((e) => e._id),
+		);
 
-		const matches = res['system.consequences'].flatMap(string => string.matchAll(CONFIG.os.tagStringRe));
+		const matches = this.system.consequences.flatMap((string) =>
+			Array.from(string.matchAll(CONFIG.os.tagStringRe)),
+		);
 
 		// Create new tags and statuses
-		await this.item.createEmbeddedDocuments("ActiveEffect", Array.from(matches.map(([_, tag, status]) => {
-			const type = status !== undefined ? "status" : "tag";
-			return {
-				name: tag,
-				label: tag,
-				flags: {
-					os: {
-						type,
+		await this.item.createEmbeddedDocuments(
+			"ActiveEffect",
+			matches.map(([_, tag, status]) => {
+				const type = status !== undefined ? "status" : "tag";
+				return {
+					name: tag,
+					label: tag,
+					flags: {
+						os: {
+							type,
+						},
 					},
-				},
-				changes: [
-					{
-						key: type === "tag" ? "TAG" : "STATUS",
-						mode: 0,
-						value: type === "tag" ? 1 : status,
-					},
-				],
-			}
-		})));
+					changes: [
+						{
+							key: type === "tag" ? "TAG" : "STATUS",
+							mode: 0,
+							value: type === "tag" ? 1 : status,
+						},
+					],
+				};
+			}),
+		);
 	}
 
 	#handleClick(event) {
@@ -104,7 +121,7 @@ export class ThreatSheet extends SheetMixin(ItemSheet) {
 	}
 
 	async #removeConsequence(event) {
-		if (!(await confirmDelete())) return;
+		if (!(await confirmDelete("Os.other.consequence"))) return;
 
 		const { id } = event.currentTarget.dataset;
 		this.system.consequences.splice(id, 1);

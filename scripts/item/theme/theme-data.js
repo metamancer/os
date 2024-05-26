@@ -1,4 +1,4 @@
-import { titleCase, localize as t } from "../../utils.js";
+import { localize as t, titleCase } from "../../utils.js";
 
 export class ThemeData extends foundry.abstract.DataModel {
 	static defineSchema() {
@@ -6,10 +6,14 @@ export class ThemeData extends foundry.abstract.DataModel {
 		const abstract = game.os.data;
 		return {
 			themebook: new fields.StringField({
+				trim: true,
 				initial: t("Os.other.themebook"),
 			}),
 			level: new fields.StringField({
-				initial: t("Os.other.level"),
+				trim: true,
+				initial: () => Object.keys(CONFIG.os.theme_levels)[0],
+				validate: (level) =>
+					Object.keys(CONFIG.os.theme_levels).includes(level),
 			}),
 			isActive: new fields.BooleanField({
 				initial: true,
@@ -18,29 +22,33 @@ export class ThemeData extends foundry.abstract.DataModel {
 			powerTags: new fields.ArrayField(
 				new fields.EmbeddedDataField(abstract.TagData),
 				{
-					initial: () => Array(5)
-						.fill()
-						.map((_, i) => ({
-							id: randomID(),
-							name: `${i < 2 ? `${t("Os.ui.name-power")}` : ""}`,
-							type: "powerTag",
-							isActive: i < 2,
-							isBurnt: false,
-						})),
+					initial: () =>
+						Array(5)
+							.fill()
+							.map((_, i) => ({
+								id: foundry.utils.randomID(),
+								name: `${i < 2 ? `${t("Os.ui.name-power")}` : ""}`,
+								type: "powerTag",
+								isActive: i < 2,
+								isBurnt: false,
+							})),
 					validate: (tags) => tags.length === 5,
-				}
+				},
 			),
 			weaknessTags: new fields.ArrayField(
-				new fields.EmbeddedDataField(abstract.TagData), {
-				initial: () => [{
-					id: randomID(),
-					name: t("Os.ui.name-weakness"),
-					isActive: true,
-					isBurnt: false,
-					type: "weaknessTag",
-				}],
-				validate: (tags) => tags.length === 1,
-			}
+				new fields.EmbeddedDataField(abstract.TagData),
+				{
+					initial: () => [
+						{
+							id: foundry.utils.randomID(),
+							name: t("Os.ui.name-weakness"),
+							isActive: true,
+							isBurnt: false,
+							type: "weaknessTag",
+						},
+					],
+					validate: (tags) => tags.length === 2,
+				},
 			),
 			experience: new fields.NumberField({
 				integer: true,
@@ -61,6 +69,16 @@ export class ThemeData extends foundry.abstract.DataModel {
 				initial: t("Os.ui.name-note"),
 			}),
 		};
+	}
+
+	static migrateData(source) {
+		if (!("level" in source)) return super.migrateData(source);
+
+		const lowerCaseLevel = source.level.toLowerCase();
+		const configLevels = Object.keys(CONFIG.os.theme_levels);
+		if (!configLevels.includes(lowerCaseLevel)) source.level = configLevels[0];
+		else source.level = lowerCaseLevel;
+		return super.migrateData(source);
 	}
 
 	get themeTag() {
@@ -94,5 +112,13 @@ export class ThemeData extends foundry.abstract.DataModel {
 
 	get allTags() {
 		return [...this.weaknessTags, ...this.powerTags, this.themeTag];
+	}
+
+	get levels() {
+		return Object.keys(CONFIG.os.theme_levels);
+	}
+
+	get themebooks() {
+		return CONFIG.os.theme_levels[this.level];
 	}
 }

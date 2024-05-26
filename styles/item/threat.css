@@ -3,32 +3,38 @@
 	background-blend-mode: luminosity;
 	font-family: var(--os-font-text);
 	font-size: var(--font-size-16);
+	outline: 1px solid var(--os-color-lines);
+	outline-offset: 0px;
+	padding: 10px;
 
-	header {
-		color: var(--os-color-primary);
+	& header {
+		color: var(--os-color-lines); /* header window icons */		
 	}
 
-	form {
-		color: var(--os-color-primary);
+	& form {
+		color: var(--os-color-bg);
 		padding: 0px var(--os-space-2);
 	}
 
-	h2 {
+	& h2 {
 		text-align: center;
 		border: none;
-		font-family: var(--os-font-accent);
+		font-family: var(--os-font-heading);
+		color: var(--os-color-bg);
 	}
 
-	.os--threat-wrapper {
+	& .os--threat-wrapper {
 		display: flex;
 		flex-direction: column;
 		gap: var(--os-space-2);
 		padding-inline-start: var(--os-space-3);
 		list-style: none;
+		border-bottom: 1px solid var(--os-color-lines);
 
-		li {
+		& li {
 			display: flex;
 			gap: var(--os-space-1);
+			transform: skew(-10deg);
 		}
 	}
 
@@ -36,7 +42,7 @@
 		background-color: transparent;
 		padding: var(--os-space-1);
 		border: none;
-		border-radius: 4px;
+		border-radius: 0px;
 		width: 100%;
 
 		&:focus {
@@ -49,7 +55,7 @@
 		font-style: italic;
 	}
 
-	[id^=consequence-] {
+	& [id^=consequence-] {
 		font-weight: 500;
 		min-width: 50px;
 
@@ -68,6 +74,27 @@
 
 		&:empty {
 			background-color: rgb(0, 0, 0, 0.2);
+		}
+	}
+
+	& button[data-click="add-consequence"] {
+		margin-inline: 4px 3rem;
+		padding-bottom: var(--os-space-2);
+		width: auto;
+		border: none;
+		border-radius: 0px;
+		border-top: 1.5px solid var(--os-color-weakness);
+		/*border-image: url(../../assets/media/tag-divider.webp) 14 / 3;*/
+		background-color: transparent;
+		color: var(--os-color-weakness);
+		font-size: var(--font-size-16);
+		font-family: var(--os-font-accent);
+		transition: all 0.15s;
+		text-align: left;
+
+		&:hover {
+			box-shadow: none;
+			text-shadow: 0 0 4px rgb(0, 0, 0, 0.5);
 		}
 	}
 }

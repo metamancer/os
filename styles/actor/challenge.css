@@ -4,21 +4,25 @@
 	font-size: var(--font-size-14);
 	background: transparent;
 	padding: 0px;
-	outline: none;
+	outline: 1px solid var(--os-color-lines);
+	outline-offset: -4.5px;
+	z-index: 3;
 
 	& .window-header {
 		top: 6px;
+		left: 6px;
 		position: relative;
 		padding-inline: 16px;
 		z-index: 1;
 		background: rgb(16 34 44 / 80%);
+		max-width: 97%;
 	}
 
 	& .window-content {
 		overflow: hidden;
 		position: relative;
 		min-height: 100%;
-		top: -24px;
+		top: -22px;
 	}
 
 	& form {
@@ -29,6 +33,7 @@
 	}
 
 	& .os--challenge-border {
+		display: none;
 		position: absolute;
 		top: 0px;
 		left: 0px;
@@ -41,18 +46,18 @@
 	& .os--challenge-meta {
 		z-index: 1;
 		position: absolute;
-		top: 26px;
+		top: 24px;
 		width: 100%;
 		display: grid;
 		grid-template-columns: auto 1fr 70px;
 		align-items: center;
 		gap: var(--os-space-1);
-		padding: var(--os-space-1) 16px;
-		background-image: linear-gradient(to bottom, rgb(16 34 44 / 80%) 70%, transparent);
+		padding: var(--os-space-1) 16px var(--os-space-3);
+		background-image: linear-gradient(to bottom, rgb(16 34 44 / 80%) 30%, transparent 100%);
 
 		& input {
 			margin-inline: -4px 6px;
-			font-size: 0.6rem;
+			font-size: 0.8rem;
 			font-family: var(--os-font-sc);
 			color: var(--os-color-primary-bg);
 			text-transform: uppercase;
@@ -75,14 +80,14 @@
 			display: flex;
 			gap: 2px;
 			align-items: center;
-			justify-content: start;
+			justify-content: end;
 			width: 100%;
-			margin-inline-start: var(--os-space-1);
+			margin-inline-end: var(--os-space-1);
 
 			& span {
 				display: none;
 				color: var(--os-color-accent);
-				font-size: var(--font-size-11);
+				font-size: var(--font-size-12);
 
 				&:first-child {
 					display: block;
@@ -107,7 +112,7 @@
 		position: absolute;
 		top: 0px;
 		height: 380px;
-		width: 100%;
+		width: 380px;
 		object-fit: cover;
 		object-position: center;
 		background: var(--os-color-accent-2);
@@ -123,13 +128,15 @@
 		pointer-events: none;
 	}
 
-	& .editor {
-		height: auto;
-		min-height: 28px;
-		color: var(--os-color-primary);
+	& .editor { /* challenge description */
+		height: 150px;
+		min-height: 20px;
+		color: var(--os-color-bg);
 		margin-inline: var(--os-space-2);
 		font-size: var(--font-size-12);
-		text-align: center;
+		text-align: justify;
+		padding-left: 15px;
+		padding-right: 15px;
 
 		&.tinymce {
 			min-height: 100px;
@@ -145,18 +152,20 @@
 		display: grid;
 		align-items: center;
 		text-transform: uppercase;
-		grid-template-columns: 1fr auto 1fr;
+		grid-template-columns: auto 1fr auto;
 		padding: 0px var(--os-space-3);
+		padding-top: 8px;
+		padding-bottom: 5px;
 		gap: var(--os-space-2);
 
-		&.grid-4 {
-			grid-template-columns: 1fr auto 1fr auto;
+		&.grid-3 {
+			grid-template-columns: auto 1fr auto;
 		}
 
 		& label {
 			font-family: var(--os-font-sc);
 			font-size: 0.6rem;
-			color: var(--os-color-weakness);
+			color: var(--os-color-lines);
 			letter-spacing: 1px;
 		}
 
@@ -177,14 +186,14 @@
 			align-self: baseline;
 			line-height: 1;
 			font-size: var(--font-size-16);
-			color: var(--os-color-weakness);
+			color: var(--os-color-lines);
 			padding: 0px;
 			margin: 0px;
 
 			&:hover,
 			&:focus,
 			&:active {
-				text-shadow: 0px 0px 5px var(--os-color-weakness);
+				text-shadow: 0px 0px 5px var(--os-color-lines);
 				box-shadow: none;
 			}
 		}
@@ -199,10 +208,11 @@
 		& .os--challenge-name {
 			display: block;
 			margin-inline: var(--os-space-2);
-			font-family: var(--os-font-sc);
+			font-family: var(--os-font-heading);
 			font-size: var(--font-size-28);
 			color: var(--os-color-weakness);
 			font-weight: 700;
+			text-shadow: 0px 0px 6px var(--os-color-weakness-bg);
 			text-align: center;
 			line-height: 1;
 
@@ -214,78 +224,44 @@
 
 		& .os--challenge-limits {
 			display: flex;
-			justify-content: center;
-			align-items: center;
+			align-items: left;
 			margin-inline: var(--os-space-3);
 			font-size: var(--font-size-11);
-			height: 50px;
 			gap: var(--os-space-2);
-			list-style: none;
 			padding: 0px 0px var(--os-space-3);
-			overflow: auto hidden;
-			scrollbar-width: none;
+			height: 70px;
+			max-height: 150px;
+			/*overflow: auto;*/
 
-			& li {
-				flex: none;
-				display: grid;
-				grid-template-columns: 1fr;
-				grid-template-areas: "center";
-				place-content: center;
-				height: 40px;
-				position: relative;
-				isolation: isolate;
-				font-family: var(--os-font-sc);
+			& input {
+				background: linear-gradient(45deg, transparent 10%, #c6ff00 10%, #c6ff00 100%);
+				border: none;
+				border-radius: 0px;
+				width: fit-content;
+				min-height: fit-content;
+				color: var(--os-color-dark-bg);
+				text-align: center;
+				margin-inline: auto;
 
-				&::before {
-					content: "";
-					display: block;
-					position: absolute;
-					background: url("../../assets/media/limit-bg.webp") no-repeat center;
-					background-size: cover;
-					border-radius: 2px;
-					top: 16px;
-					width: 100%;
-					height: 12px;
-				}
-
-				&>* {
-					grid-area: center;
-				}
-
-				& input {
-					background: transparent;
-					border: none;
-					border-radius: 2px;
-					min-width: 10px;
-					color: var(--os-color-accent);
-					text-align: center;
+				&.os--limit-label {
+					position: relative;
+					top: 20px;
+					height: 30px;
+					font-size: 0.8rem;
 					margin-inline: auto;
-
-					&.os--limit-label {
-						z-index: 1;
-						position: relative;
-						top: 20px;
-						background: url("../../assets/media/limit-label.webp") no-repeat center;
-						width: fit-content;
-						background-size: cover;
-						height: var(--font-size-16);
-						font-size: 0.6rem;
-						margin-inline: auto;
-						text-transform: uppercase;
-					}
-
-					&.os--limit-value {
-						background: url("../../assets/media/limit-value.webp") no-repeat center;
-						background-size: contain;
-						position: relative;
-						padding-block-end: 6px;
-						width: 45px;
-						font-size: var(--font-size-16);
-
-						&::placeholder {
-							color: var(--os-color-primary-bg);
-						}
-					}
+					text-transform: uppercase;
+					text-align: center;
+				}
+				
+				&.os--limit-value {
+					position: relative;
+					background: transparent;
+					top: -9px;
+					right: 30px;
+					padding-block-end: 0px;
+					width: 15px;
+					font-size: var(--font-size-20);
+					font-weight: 800px;
 				}
 			}
 		}
@@ -304,14 +280,15 @@
 
 			& #tags {
 				color: var(--os-color-weakness);
+				transform: skew(-10deg);
 			}
 
 			& [contenteditable] {
 				background-color: transparent;
 				padding: var(--os-space-1);
 				border: none;
-				border-radius: 4px;
-				color: var(--os-color-primary);
+				border-radius: 0px;
+				color: var(--os-color-bg);
 
 				&:focus {
 					background-color: rgb(0, 0, 0, 0.2);
@@ -339,6 +316,7 @@
 			margin-inline: var(--os-space-3);
 			padding: 0px 0px var(--os-space-3);
 			list-style: none;
+			color: var(--os-color-bg);
 
 
 			& li>div {

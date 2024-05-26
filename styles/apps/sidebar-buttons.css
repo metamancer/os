@@ -1,0 +1,46 @@
+menu.os--sidebar-buttons-container.os--sidebar-buttons-container {
+	position: absolute;
+	left: -2rem;
+	top: 40px;
+	cursor: pointer;
+	pointer-events: all;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	z-index: -1;
+
+	& li button {
+		position: relative;
+		background: url("../../assets/media/tabs-bg.webp") no-repeat center / contain;
+		color: var(--os-color-lines);
+		display: grid;
+		place-content: center;
+		width: 42px;
+		height: 42px;
+		border: none;
+		transition: left 130ms ease-in-out;
+
+		&:hover,
+		&:focus,
+		&:active {
+			box-shadow: none;
+		}
+
+		&:hover {
+			left: -4px;
+		}
+	}
+
+	&.active {
+		left: -332px;
+
+		& button:hover {
+			left: 4px;
+		}
+
+		& button:first-child i {
+			color: transparent;
+			background: url('../../assets/media/tabs-collapse.webp') no-repeat center / contain;
+		}
+	}
+}

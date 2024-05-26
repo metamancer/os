@@ -1,0 +1,25 @@
+.os--popout {
+	&.os--character {
+		width: 250px !important;
+		height: 350px !important;
+		position: relative;
+		left: 270px;
+		top: 80px;
+	}
+
+	&.os--challenge {
+		width: 350px !important;
+		height: 700px !important;
+	}
+
+	&.os--backpack {
+		width: 400px !important;
+		height: 450px !important;
+	}
+
+	&+.os--roll .window-content form {
+		overflow: auto;
+				 
+	}
+   
+}
