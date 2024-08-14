@@ -40,7 +40,7 @@
 	}
 
 	& .os--backpack-bg {
-		background: url("../../assets/media/bg-loadout.webp") 0% 0% / cover;
+		background: url("../../assets/media/loadout-bg.webp") 0% 0% / cover;
 		overflow: hidden;
 		box-shadow: none;
 		display: flex;

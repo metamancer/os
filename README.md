@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/metamancer/os/main/system.json
 ```
 
 3. Create a new world using the ":Otherscape" system.
-   
+
 4. Play and report any bugs/issues on [Github](https://github.com/metamancer/os/issues) or join the discussion on [Discord](https://discord.gg/XwJe4QWyfy)!
 
 > [!NOTE]
@@ -37,6 +37,7 @@ https://raw.githubusercontent.com/metamancer/os/main/system.json
 All the support, feedback and testing from the various folks on our [Discord](https://discord.gg/XwJe4QWyfy) server!
 
 ## Licenses
+
 **Foundry VTT:** The project is created following the Foundry VTT Limited License Agreement for system and module development.
 
 **Fonts:** The fonts used in this project carry their own licenses included in the repository under OFL.

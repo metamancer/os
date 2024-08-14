@@ -1,8 +1,9 @@
 {{#*inline "section" name value flavor flavorClass}}
 	<section class="tooltip-part">
-		<header class="part-header flexrow">
+		<header class="flexrow part-header">
 			<span class="part-formula">{{name}}</span>
-			{{#if flavor}}<span class="part-flavor {{flavorClass}}">{{flavor}}</span>{{/if}}
+			{{#if flavor}}<span
+					class="part-flavor {{flavorClass}}">{{flavor}}</span>{{/if}}
 			<span class="part-total">{{value}}</span>
 		</header>
 	</section>
@@ -10,11 +11,12 @@
 
 <div class="dice-tooltip{{#if expanded}} expanded{{/if}}">
 	{{#each parts}}
-		<section class=" tooltip-part">
+		<section class="tooltip-part">
 			<div class="dice">
-				<header class="part-header flexrow">
+				<header class="flexrow part-header">
 					<span class="part-formula">{{this.formula}}</span>
-					{{#if this.flavor}}<span class="part-flavor">{{this.flavor}}</span>{{/if}}
+					{{#if this.flavor}}<span
+							class="part-flavor">{{this.flavor}}</span>{{/if}}
 					<span class="part-total">{{this.total}}</span>
 				</header>
 				<ol class="dice-rolls">
@@ -29,13 +31,13 @@
 		{{> section name=tag.name value=3 flavor=(localize 'Os.tags.isBurnt') flavorClass="burned"}}
 	{{/each}}
 	{{#each data.powerTags as |tag|}}
-		{{> section name=tag.name value=1}}
+		{{> section name=tag.name value=1 flavor=(ifThen (eq tag.type 'storyTag') (localize "Os.other.tag") "") flavorClass=(ifThen (eq tag.type "storyTag") "warning" "")}}
 	{{/each}}
 	{{#if data.mitigate}}
 		{{> section name=(localize 'Os.effects.mitigate.key') value=1}}
 	{{/if}}
 	{{#each data.weaknessTags as |tag|}}
-		{{> section name=tag.name value=-1 flavor=(ifThen (eq tag.type 'weaknessTag') (localize 'Os.tags.weakness') '') flavorClass="negative"}}
+		{{> section name=tag.name value=-1 flavor=(ifThen (eq tag.type 'weaknessTag') (localize 'Os.tags.weakness') (localize 'Os.other.tag')) flavorClass=(ifThen (eq tag.type 'weaknessTag') "negative" "warning")}}
 	{{/each}}
 	{{#each data.positiveStatuses as |tag|}}
 		{{> section name=tag.name value=tag.value flavor=(localize 'Os.other.status') flavorClass="positive"}}

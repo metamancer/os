@@ -58,7 +58,7 @@
 		& .os--theme-meta {
 			display: flex;
 			align-items: center;
-			/*justify-content: space-evenly;*/
+			/* justify-content: space-evenly; */
 			padding: var(--os-space-3) var(--os-space-1);
 			font-family: var(--os-font-primary);
 			font-size: var(--font-size-12);

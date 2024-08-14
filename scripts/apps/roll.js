@@ -37,22 +37,42 @@ export class OsRoll extends Roll {
 	}
 
 	get power() {
+		const { label: outcome } = this.outcome;
+
+		// Quick outcomes don't need to track power
 		if (this.os.type === "quick") return null;
-		if (this.total < 7) return 0;
+		if (outcome === 'failure') return 0;
 
+		// Minimum of 1 power
 		let totalPower = Math.max(this.os.totalPower, 1);
-		if (this.total < 10) return totalPower;
-		if (this.os.type === "mitigate") totalPower += 1;
 
+		// If it's not a strong success, return the total power
+		if (outcome === "consequence") return totalPower;
+
+		// Mitigate outcomes add 1 power on a strong success
+		if (this.os.type === "mitigate") totalPower += 1;
 		return totalPower;
 	}
 
 	get outcome() {
-		const total = this.total;
-		if (total >= 10)
+		const { resolver } = CONFIG.os.roll;
+
+		if (typeof resolver === "function")
+			return resolver(this);
+
+		// If snake eyes, it's a failure
+		if (this.dice[0].results.each((r) => r.result === 1))
+			return { label: "failure", description: "Os.ui.roll-failure" };
+
+		// If boxcars or 10 or more, it's a success
+		if (this.total > 9 || this.dice[0].results.each((r) => r.result === 6))
 			return { label: "success", description: "Os.ui.roll-success" };
-		if (total >= 7)
+
+		// If 7 or more, it's a consequence
+		if (this.total > 6)
 			return { label: "consequence", description: "Os.ui.roll-consequence" };
+
+		// Otherwise, it's a failure
 		return { label: "failure", description: "Os.ui.roll-failure" };
 	}
 
@@ -60,7 +80,9 @@ export class OsRoll extends Roll {
 		template = this.constructor.CHAT_TEMPLATE,
 		isPrivate = false,
 	} = {}) {
+
 		if (!this._evaluated) await this.evaluate({ async: true });
+
 		const chatData = {
 			actor: this.actor,
 			formula: isPrivate ? "???" : this._formula.replace(/\s\+0/, ""),
@@ -79,7 +101,7 @@ export class OsRoll extends Roll {
 			hasWeaknessTags:
 				!this.os.gainedExp &&
 				this.os.weaknessTags.filter((t) => t.type === "weaknessTag").length >
-					0,
+				0,
 		};
 
 		return renderTemplate(template, chatData);
@@ -92,8 +114,9 @@ export class OsRoll extends Roll {
 	}
 
 	getTooltipData() {
+		const { label: outcome } = this.outcome
 		return {
-			mitigate: this.os.type === "mitigate" && this.total > 9,
+			mitigate: this.os.type === "mitigate" && outcome === 'success',
 			burnedTags: this.os.burnedTags,
 			powerTags: this.os.powerTags,
 			weaknessTags: this.os.weaknessTags,

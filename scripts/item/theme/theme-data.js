@@ -1,6 +1,6 @@
 import { localize as t, titleCase } from "../../utils.js";
 
-export class ThemeData extends foundry.abstract.DataModel {
+export class ThemeData extends foundry.abstract.TypeDataModel {
 	static defineSchema() {
 		const fields = foundry.data.fields;
 		const abstract = game.os.data;
@@ -47,7 +47,7 @@ export class ThemeData extends foundry.abstract.DataModel {
 							type: "weaknessTag",
 						},
 					],
-					validate: (tags) => tags.length === 2,
+					validate: (tags) => 0 < tags.length < 2,
 				},
 			),
 			experience: new fields.NumberField({
@@ -115,7 +115,10 @@ export class ThemeData extends foundry.abstract.DataModel {
 	}
 
 	get levels() {
-		return Object.keys(CONFIG.os.theme_levels);
+		return Object.keys(CONFIG.os.theme_levels).reduce((acc, level) => {
+			acc[level] = t(level, "TYPES.Item.theme");
+			return acc;
+		}, {});
 	}
 
 	get themebooks() {

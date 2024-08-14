@@ -18,7 +18,7 @@ export class KeyBindings {
 					});
 				return sheet.renderRollDialog({ toggle: true });
 			},
-			onUp: () => {},
+			onUp: () => { },
 			restricted: false,
 			precedence: CONST.KEYBINDING_PRECEDENCE.PRIORITY,
 		});

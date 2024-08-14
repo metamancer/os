@@ -1,5 +1,6 @@
 import { SheetMixin } from "../../mixins/sheet-mixin.js";
 import { confirmDelete, dispatch } from "../../utils.js";
+import { localize as t } from "../../utils.js";
 
 export class CharacterSheet extends SheetMixin(ActorSheet) {
 	static defaultOptions = foundry.utils.mergeObject(ActorSheet.defaultOptions, {
@@ -8,19 +9,20 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 		height: 350,
 		left: window.innerWidth / 2 - 250,
 		top: window.innerHeight / 2 - 250,
-		scrollY: [".taglist"],
+		scrollY: [".taglist", ".editor"],
 		resizable: false,
 	});
 
 	#dragAvatarTimeout = null;
-	#notesEditorOpened = false;
-	#focusedTags = null;
+	#notesEditorStyle = "display: none;";
+	#tagsFocused = null;
+	#tagsHovered = false;
 	#themeHovered = null;
 	#contextmenu = null;
 	#roll = game.os.OsRollDialog.create({
 		actorId: this.actor._id,
 		characterTags: [],
-		shouldRoll: () => game.settings.get("os", "skip_roll_moderation")
+		shouldRoll: () => game.settings.get("os", "skip_roll_moderation"),
 	});
 
 	get template() {
@@ -127,20 +129,21 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 		};
 		return {
 			...this.object.system,
-			_id: this.actor.id,
-			img: this.actor.img,
-			name: this.actor.name,
-			storyTags: this.storyTags,
 			backpack,
 			note,
 			themes,
-			tagsFocused: this.#focusedTags,
-			themeHovered: this.#themeHovered,
-			notesEditorOpened: this.#notesEditorOpened,
-			rollTags: this.#roll.characterTags,
+			_id: this.actor.id,
 			burntTags: this.#roll.characterTags.filter(
 				(t) => t.isBurnt || t.state === "burned",
 			),
+			img: this.actor.img,
+			name: this.actor.name,
+			notesEditorStyle: this.#notesEditorStyle,
+			rollTags: this.#roll.characterTags,
+			storyTags: this.storyTags,
+			tagsFocused: this.#tagsFocused,
+			tagsHovered: this.#tagsHovered,
+			themeHovered: this.#themeHovered,
 		};
 	}
 
@@ -160,6 +163,7 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 			.on("mousedown", this.#onDragHandleMouseDown.bind(this));
 		html.on("mouseover", (event) => {
 			html.find(".os--character-theme").removeClass("hovered");
+			html.find(".os--character-story-tags").removeClass("hovered");
 
 			const t = event.target.classList.contains("os--character-theme")
 				? event.target
@@ -167,6 +171,10 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 
 			if (t) this.#themeHovered = t.dataset.id;
 			else this.#themeHovered = null;
+
+			if (event.target.closest(".os--character-story-tags"))
+				this.#tagsHovered = true;
+			else this.#tagsHovered = false;
 		});
 
 		this.#contextmenu = ContextMenu.create(
@@ -208,6 +216,33 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 	async _updateObject(event, formData) {
 		const cleaned = await this.#handleUpdateEmbeddedItems(formData);
 		return super._updateObject(event, cleaned);
+	}
+
+	async _onDrop(dragEvent) {
+		const dragData = dragEvent.dataTransfer.getData("text/plain");
+		const data = JSON.parse(dragData);
+
+		// Handle dropping tags and statuses
+		if (!["tag", "status"].includes(data.type)) return super._onDrop(dragEvent);
+
+		await this.actor.createEmbeddedDocuments("ActiveEffect", [
+			{
+				name: data.name,
+				flags: {
+					os: {
+						type: data.type,
+						values: data.values,
+						isBurnt: data.isBurnt,
+					},
+				},
+			},
+		]);
+
+		game.os.storyTags.render();
+		dispatch({
+			app: "story-tags",
+			type: "render",
+		});
 	}
 
 	// Prevent dropping more than 4 themes on the character sheet
@@ -267,6 +302,9 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 		const id = t.dataset.id;
 
 		switch (action) {
+			case "add-tag":
+				this.#addTag();
+				break;
 			case "increase":
 				this.#increase(event);
 				break;
@@ -288,9 +326,9 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 
 		switch (action) {
 			case "return":
-				this.#focusedTags = null;
+				this.#tagsFocused = null;
 				t.classList.remove("focused");
-				t.style.cssText = this.#focusedTags;
+				t.style.cssText = this.#tagsFocused;
 				break;
 		}
 	}
@@ -304,6 +342,11 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 				event.preventDefault();
 				event.stopPropagation();
 				this.#decrease(event);
+				break;
+			case "remove-effect":
+				event.preventDefault();
+				event.stopPropagation();
+				this.#removeEffect(t.dataset.id);
 				break;
 		}
 	}
@@ -338,6 +381,8 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 				}, 100);
 			}
 
+			if (target === "#note") this.#notesEditorStyle = parent.attr("style");
+
 			$(document).off("mousemove", handleDrag);
 			$(document).off("mouseup", handleMouseUp);
 		};
@@ -346,11 +391,45 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 		$(document).on("mouseup", handleMouseUp);
 	}
 
+	async #addTag() {
+		await this.actor.createEmbeddedDocuments("ActiveEffect", [
+			{
+				name: t("Os.ui.name-tag"),
+				flags: {
+					os: {
+						type: "tag",
+						values: new Array(6).fill(false),
+						isBurnt: false,
+					},
+				},
+			},
+		]);
+
+		game.os.storyTags.render();
+		dispatch({
+			app: "story-tags",
+			type: "render",
+		});
+	}
+
 	async #removeItem(id) {
 		const item = this.items.get(id);
 		if (!(await confirmDelete(`TYPES.Item.${item.type}`))) return;
 
 		return item.delete();
+	}
+
+	async #removeEffect(id) {
+		const effect = this.actor.effects.get(id);
+		if (!(await confirmDelete())) return;
+
+		await effect.delete();
+
+		game.os.storyTags.render();
+		dispatch({
+			app: "story-tags",
+			type: "render",
+		});
 	}
 
 	async #increase(event) {
@@ -376,8 +455,8 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 	#open(id) {
 		switch (id) {
 			case "note":
-				this.#notesEditorOpened = true;
 				this.element.find("#note").show(100);
+				this.#notesEditorStyle = "display: block;";
 				break;
 			case "roll":
 				this.renderRollDialog();
@@ -387,9 +466,11 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 
 	#close(id) {
 		switch (id) {
-			case "note":
-				this.#notesEditorOpened = false;
-				this.element.find("#note").hide(100);
+			case "note": {
+				const notes = this.element.find("#note");
+				this.#notesEditorStyle = notes.attr("style").replace("block", "none");
+				notes.hide(100);
+			}
 		}
 	}
 
@@ -426,10 +507,11 @@ export class CharacterSheet extends SheetMixin(ActorSheet) {
 		const t = event.currentTarget;
 
 		t.classList.add("focused");
-		const listener = t.addEventListener("mouseup", () => {
-			this.#focusedTags = t.style.cssText;
+		const listener = () => {
+			this.#tagsFocused = t.style.cssText;
 			t.removeEventListener("mouseup", listener);
-		});
+		};
+		t.addEventListener("mouseup", listener);
 	}
 
 	async #handleUpdateEmbeddedItems(formData) {

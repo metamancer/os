@@ -2,5 +2,9 @@
 	"compilerOptions": {
 		"strict": true
 	},
-	"include": ["os.js", "scripts", "foundry.js"]
+	"include": [
+		"os.js",
+		"scripts",
+		"foundry.js"
+	]
 }

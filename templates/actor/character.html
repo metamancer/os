@@ -1,78 +1,101 @@
 {{#*inline 'tracker' data}}
-	<li class="os--story-tag">
-		<img class="draggable" data-drag="#story-tags"
-			src="{{ifThen (eq data.type 'tag') 'systems/os/assets/media/tracker-card.webp' 'systems/os/assets/media/tracker-card-alt.webp'}}"
+	<li class="os--story-tag" data-context="remove-effect" data-id="{{data.id}}">
+		<img class="draggable {{#if (eq data.type 'status')}}os--green-leaf{{/if}}"
+			data-drag="#story-tags"
+			src="systems/os/assets/media/tracker-card{{ifThen (eq data.type 'status') '-alt' ''}}.webp"
 			aria-hidden="true" width="220" />
 		<div class="{{data.type}}">
 			<label><span class="os--sro">{{localize "Name"}}</span>
-				<input type="text" name="effects.{{data.id}}.name" value="{{data.name}}" />
+				<input type="text" name="effects.{{data.id}}.name"
+					value="{{data.name}}" />
 			</label>
 			<div class="os--story-tag-values">
 				{{#each data.values as |value|}}
 					<div class="os--story-tag-value">
 						{{#if (eq ../data.type 'status')}}
-							<label for="effects.{{../data.id}}.flags.os.values.{{@index}}">{{add @index 1}}</label>
+							<label
+								for="effects.{{../data.id}}.flags.os.values.{{@index}}">{{add @index 1}}</label>
 						{{/if}}
 						<input id="effects.{{../data.id}}.flags.os.values.{{@index}}"
-							name="effects.{{../data.id}}.flags.os.values" type="checkbox" value="{{add @index 1}}" {{checked
-					value}} />
+							name="effects.{{../data.id}}.flags.os.values" type="checkbox"
+							value="{{add @index 1}}" {{checked value}} />
 					</div>
 				{{/each}}
 			</div>
-		</div>
 	</li>
 {{/inline}}
 
 <form autocomplete="off">
-	<img class="avatar draggable" data-drag=".window-app" src="{{img}}" data-edit="img" alt="{{name}}" />
+	<img class="avatar draggable" data-drag=".window-app" src="{{img}}"
+		data-edit="img" alt="{{name}}" />
 	<label class="os--sro" for="name">{{localize "Name"}}</label>
-	<input type="text" id="name" name="name" value="{{name}}" autocomplete="off" required />
+	<input type="text" id="name" name="name" value="{{name}}" autocomplete="off"
+		required />
 	<div class="nav">
 		<div>
-			<span id="dice-roll-button--{{data._id}}">{{localize "Os.ui.roll-title"}}</span>
-			<button type="button" data-click="open" data-id="roll" data-tooltip="{{localize 'Os.ui.roll'}}"
+			<span
+				id="dice-roll-button--{{data._id}}">{{localize "Os.ui.roll-title"}}</span>
+			<button type="button" data-click="open" data-id="roll"
+				data-tooltip="{{localize 'Os.ui.roll'}}"
 				aria-labelledby="dice-roll-button--{{_id}}">
 				<img src="systems/os/assets/media/dice.webp" alt="Dice" width="100px" />
 			</button>
 		</div>
 		<div>
 			<span id="note-button--{{_id}}">{{localize "Notes"}}</span>
-			<button type=" button" data-click="open" data-id="note" data-tooltip="{{localize 'Notes'}}"
+			<button type=" button" data-click="open" data-id="note"
+				data-tooltip="{{localize 'Notes'}}"
 				aria-labelledby="note-button--{{_id}}">
 				<img src="systems/os/assets/media/note.webp" alt="Note" width="80px" />
 			</button>
 		</div>
 	</div>
-	<div id="note">
+	<div id="note" style="{{notesEditorStyle}}">
 		<div class="draggable os--character-note-wrapper" data-drag="#note">
 			<span>{{localize 'Notes'}}</span>
-			<button type="button" data-click="close" data-id="note" data-tooltip="{{localize 'Close'}}">
-				<i class="far fa-xmark"></i>
+			<button type="button" data-click="close" data-id="note"
+				data-tooltip="{{localize 'Close'}}">
+				<i class="fa-xmark far"></i>
 			</button>
 		</div>
 		{{editor note target="system.note" owner=owner button=true editable=true}}
 	</div>
 	{{#if backpack.id}}
-		<div class="os--character-backpack item-list" data-tooltip="{{localize 'Os.ui.context-edit'}}"
+		<div class="item-list os--character-backpack"
+			data-tooltip="{{localize 'Os.ui.context-edit'}}"
 			data-tooltip-direction="LEFT" data-id="{{backpack.id}}">
 			{{> systems/os/templates/item/backpack-ro.html backpack=backpack}}
 		</div>
 	{{else}}
 		<div class="os--character-backpack">
-			<img width="380px" class="os--backpack-img" src="systems/os/assets/media/backpack.webp"
-				alt="illustration of a backpack" />
+			<img width="380px" class="os--backpack-img"
+				src="systems/os/assets/media/backpack.webp"
+				alt="Soft illustration of a rustic backpack" />
 		</div>
 	{{/if}}
-	<div class="os--character-themes item-list">
+	<div class="item-list os--character-themes">
 		{{#each themes as |item|}}
-			<div class="os--character-theme item{{#if (eq item.data._id ../themeHovered)}} hovered{{/if}}"
+			<div
+				class="os--character-theme item{{#if (eq item.data._id ../themeHovered)}} hovered{{/if}}"
 				data-id="{{item.data._id}}" data-item-id="{{item.data._id}}">
 				{{> systems/os/templates/item/theme-ro.html data=item.data}}
 			</div>
 		{{/each}}
 	</div>
-	<div class="os--character-story-tags {{#if tagsFocused}}focused{{/if}}" data-mousedown="keep-open"
-		data-dblclick="return" data-id="story-tags" id="story-tags" style="{{tagsFocused}}">
-		{{#each storyTags as |item|}} {{> tracker data=item}} {{/each}}
-	</div>
+	<ul
+		class="os--character-story-tags {{#if tagsFocused}}focused{{/if}} {{#if tagsHovered}}hovered{{/if}}"
+		data-mousedown="keep-open" data-dblclick="return" data-id="story-tags"
+		id="story-tags" style="{{tagsFocused}}">
+		<li class="os--story-tag">
+			<button type="button" data-click="add-tag" data-id="story-tags">
+				<img src="systems/os/assets/media/tracker-card.webp"
+					class="os--red-leaf" alt="Leaf" width="220" />
+				<span><i class="fa-plus fas"></i>
+					{{localize "Os.ui.add-tag"}}</span>
+			</button>
+		</li>
+		{{#each storyTags as |item|}}
+			{{> tracker data=item}}
+		{{/each}}
+	</ul>
 </form>
