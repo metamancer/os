@@ -1,5 +1,5 @@
 import { Sockets } from "../system/sockets.js";
-import { localize as t, sortTags } from "../utils.js";
+import { sortTags, localize as t } from "../utils.js";
 
 export class OsRollDialog extends FormApplication {
 	static get defaultOptions() {
@@ -51,7 +51,7 @@ export class OsRollDialog extends FormApplication {
 			positiveStatusValue,
 			negativeStatusValue,
 			totalPower,
-		} = OsRollDialog.#calculateTotalPower({
+		} = game.os.methods.calculatePower({
 			burnedTags,
 			powerTags,
 			weaknessTags,
@@ -59,9 +59,26 @@ export class OsRollDialog extends FormApplication {
 			negativeStatuses,
 		});
 
+		const formula = typeof CONFIG.os.roll.formula === "function" ? CONFIG.os.roll.formula({
+			burnedTags,
+			powerTags,
+			weaknessTags,
+			positiveStatuses,
+			negativeStatuses,
+			burnedValue,
+			powerValue,
+			weaknessValue,
+			positiveStatusValue,
+			negativeStatusValue,
+			totalPower,
+			actorId,
+			type,
+			title,
+		}) : CONFIG.os.roll.formula || "2d6 + (@burnedValue + @powerValue + @positiveStatusValue - @weaknessValue - @negativeStatusValue)";
+
 		// Roll
 		const roll = new game.os.OsRoll(
-			"2d6 + @burnedValue + @powerValue + @positiveStatusValue - @weaknessValue - @negativeStatusValue",
+			formula,
 			{
 				burnedValue,
 				powerValue,
@@ -96,31 +113,7 @@ export class OsRollDialog extends FormApplication {
 			});
 	}
 
-	static #filterTags(tags) {
-		const burnedTags = tags.filter((t) => t.state === "burned");
-		const powerTags = tags.filter(
-			(t) => t.type !== "status" && t.state === "positive",
-		);
-		const weaknessTags = tags.filter(
-			(t) => t.type !== "status" && t.state === "negative",
-		);
-		const positiveStatuses = tags.filter(
-			(t) => t.type === "status" && t.state === "positive",
-		);
-		const negativeStatuses = tags.filter(
-			(t) => t.type === "status" && t.state === "negative",
-		);
-
-		return {
-			burnedTags,
-			powerTags,
-			weaknessTags,
-			positiveStatuses,
-			negativeStatuses,
-		};
-	}
-
-	static #calculateTotalPower(tags) {
+	static calculatePower(tags) {
 		const burnedValue = tags.burnedTags.length * 3;
 
 		const powerValue = tags.powerTags.length;
@@ -154,7 +147,30 @@ export class OsRollDialog extends FormApplication {
 		};
 	}
 
-	#rollId = null;
+	static #filterTags(tags) {
+		const burnedTags = tags.filter((t) => t.state === "burned");
+		const powerTags = tags.filter(
+			(t) => t.type !== "status" && t.state === "positive",
+		);
+		const weaknessTags = tags.filter(
+			(t) => t.type !== "status" && t.state === "negative",
+		);
+		const positiveStatuses = tags.filter(
+			(t) => t.type === "status" && t.state === "positive",
+		);
+		const negativeStatuses = tags.filter(
+			(t) => t.type === "status" && t.state === "negative",
+		);
+
+		return {
+			burnedTags,
+			powerTags,
+			weaknessTags,
+			positiveStatuses,
+			negativeStatuses,
+		};
+	}
+
 	#tagState = [];
 	#shouldRoll = () => false;
 
@@ -170,7 +186,6 @@ export class OsRollDialog extends FormApplication {
 			options.speaker || ChatMessage.getSpeaker({ actor: this.actor });
 		this.rollName = options.title || OsRollDialog.defaultOptions.title;
 		this.type = options.type || "tracked";
-		this.#rollId = options.id;
 	}
 
 	get actor() {
@@ -209,15 +224,17 @@ export class OsRollDialog extends FormApplication {
 				...tag,
 				state: this.#tagState.find((t) => t.id === tag.id)?.state || "",
 				states:
-					tag.type === "tag" ? ",negative,positive,burned" : ",negative,positive",
+					tag.type === "tag"
+						? ",negative,positive,burned"
+						: ",negative,positive",
 			}))
-			.filter(tag => game.user.isGM || tag.state !== "");
+			.filter((tag) => game.user.isGM || tag.state !== "");
 	}
 
 	get totalPower() {
 		const state = [...this.#tagState, ...this.characterTags];
 		const tags = OsRollDialog.#filterTags(state);
-		const { totalPower } = OsRollDialog.#calculateTotalPower(tags);
+		const { totalPower } = OsRollDialog.calculatePower(tags);
 		return totalPower;
 	}
 
@@ -364,13 +381,12 @@ export class OsRollDialog extends FormApplication {
 
 	async #createModerationRequest(data) {
 		const id = foundry.utils.randomID();
-		this.#rollId = id;
 		const userId = game.user.id;
 		const tags = OsRollDialog.#filterTags(data.tags);
-		const { totalPower } = OsRollDialog.#calculateTotalPower(tags);
+		const { totalPower } = game.os.methods.calculatePower(tags);
 		const recipients = Object.entries(this.actor.ownership)
-			.filter(u => u[1] === 3 && u[0] !== 'default')
-			.map(u => u[0])
+			.filter((u) => u[1] === 3 && u[0] !== "default")
+			.map((u) => u[0]);
 
 		ChatMessage.create({
 			content: await renderTemplate(
@@ -384,7 +400,6 @@ export class OsRollDialog extends FormApplication {
 					totalPower,
 				},
 			),
-			type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
 			whisper: recipients,
 			flags: { os: { id, userId, data } },
 		});

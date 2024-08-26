@@ -1,8 +1,10 @@
 {{#*inline 'tag' tag }}
 	<li>
-		<label class="os--roll-dialog-tag os--{{tag.type}}" data-click="toggle-state" for="input-{{tag.id}}"><span
+		<label class="os--roll-dialog-tag os--{{tag.type}}"
+			data-click="toggle-state" for="input-{{tag.id}}"><span
 				class="os--sro">{{localize "Os.ui.select"}}</span>
-			<os-super-checkbox name="{{tag.id}}" id="input-{{tag.id}}" value="{{tag.state}}" data-type="{{tag.type}}"
+			<os-super-checkbox name="{{tag.id}}" id="input-{{tag.id}}"
+				value="{{tag.state}}" data-type="{{tag.type}}"
 				states="{{tag.states}}"></os-super-checkbox>
 			<span>{{tag.name}}{{ifThen tag.value (concat "-" tag.value) ""}}</span>
 		</label>
@@ -13,8 +15,10 @@
 	<input type="hidden" name="actorId" value="{{actorId}}">
 	<input class="title" type="text" name="title" value="{{title}}" />
 	<div class="os--roll-dialog-type">
-		<h3 class="os--sro">{{concat (localize "Os.other.roll") " " (localize "Type")}}</h3>
-		<div class="os--roll-dialog-type-choices">{{radioBoxes "type" rollTypes checked=type localize=true}}
+		<h3 class="os--sro">
+			{{concat (localize "Os.other.roll") " " (localize "Type")}}</h3>
+		<div class="os--roll-dialog-type-choices">
+			{{radioBoxes "type" rollTypes checked=type localize=true}}
 		</div>
 	</div>
 	<div class="os--roll-dialog-tags-summary">
@@ -49,11 +53,13 @@
 		<span>{{localize "Os.ui.total-power"}}: </span>
 		<span data-update="totalPower">{{totalPower}}</span>
 	</div>
-	<button type="button" data-click="add-tag">{{localize "Os.other.add"}} {{localize "Os.other.tags"}}</button>
+	<button type="button" data-click="add-tag">{{localize "Os.other.add"}}
+		{{localize "Os.other.tags"}}</button>
 	<div class="os--roll-dialog-buttons">
 		<label class="os--roll-dialog-skip-moderation">
 			<span>{{localize "Os.ui.skip-moderation"}}</span>
-			<input class="os--checkbox" type="checkbox" name="shouldRoll" {{checked skipModeration}} />
+			<input class="os--checkbox" type="checkbox" name="shouldRoll"
+				{{checked skipModeration}} />
 		</label>
 		<button type="submit">{{localize "Os.ui.roll"}}</button>
 	</div>

@@ -6,6 +6,7 @@
 	color: var(--os-color-lines);
 
 	&:not(.minimized) {
+		background: none;
 		width: 15.625rem !important;
 		height: 21.875rem !important;
 
@@ -123,7 +124,7 @@
 		justify-content: center;
 		margin-block: var(--os-space-1);
 		gap: var(--os-space-3);
-		background: url("../../assets/media/bg-character.webp") no-repeat;
+		background: url("../../assets/media/character-bg.webp") no-repeat;
 		
 		&>div {
 			display: flex;

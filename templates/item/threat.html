@@ -1,10 +1,12 @@
 {{#*inline 'consequence' consequence key}}
 	{{#if @root.isEditing}}
 		<span role="textbox" contenteditable data-input="consequence-{{key}}"
-			aria-labelledby="consequence-label">{{consequence}}</span><input type="hidden" id="consequence-{{key}}"
-			name="system.consequences.{{key}}" value="{{consequence}}" required />
+			aria-labelledby="consequence-label">{{consequence}}</span><input
+			type="hidden" id="consequence-{{key}}" name="system.consequences.{{key}}"
+			value="{{consequence}}" required />
 	{{else}}
-		<div id="consequence-{{key}}" data-click="toggle-edit" data-context="remove-consequence" data-id="{{key}}">
+		<div id="consequence-{{key}}" data-click="toggle-edit"
+			data-context="remove-consequence" data-id="{{key}}">
 			{{{consequence}}}
 		</div>
 	{{/if}}
@@ -12,10 +14,13 @@
 
 <form class="{{cssClass}}" autocomplete="off">
 	<h2 id="threat-label">{{localize "Os.other.threat"}}</h2>
-	<div class="os--threat-box">> <span role="textbox" aria-labelledby="threat-label" contenteditable
-			data-input="threat">{{title}}</span><input type="hidden" name="name" id="threat" value="{{data.name}}" required />
+	<div class="os--threat-box">> <span role="textbox"
+			aria-labelledby="threat-label" contenteditable
+			data-input="threat">{{title}}</span><input type="hidden" name="name"
+			id="threat" value="{{data.name}}" required />
 	</div>
-	<label class="os--sro" for="consequence" id="consequence-label">{{localize 'Os.other.consequence'}}</label>
+	<label class="os--sro" for="consequence"
+		id="consequence-label">{{localize 'Os.other.consequence'}}</label>
 	<ul class="os--threat-wrapper">
 		{{#each data.system.consequences as |consequence|}}
 			<li>

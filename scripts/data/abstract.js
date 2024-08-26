@@ -1,4 +1,4 @@
-export class TagData extends foundry.abstract.DataModel {
+export class TagData extends foundry.abstract.TypeDataModel {
 	static defineSchema() {
 		const fields = foundry.data.fields;
 		return {

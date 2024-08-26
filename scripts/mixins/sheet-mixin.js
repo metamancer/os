@@ -12,8 +12,8 @@ export const SheetMixin = (Base) =>
 
 			html
 				.find("[data-size-input]")
-				.attr("size", function () {
-					return Math.max(this.value.replace(/\s/g, "").length * 1.56 + 1, 6);
+				.css("width", function () {
+					return `${Math.ceil(Math.max(this.value.length * 1.5, 6))}ch`;
 				})
 				.on("input", this.#sizeInput.bind(this));
 
@@ -49,7 +49,7 @@ export const SheetMixin = (Base) =>
 				class: "os--sheet-scale-button",
 				icon: "fas fa-arrows-alt-h",
 				tooltip: t("Resize"),
-				onclick: () => {},
+				onclick: () => { },
 			});
 
 			return buttons;
@@ -89,8 +89,7 @@ export const SheetMixin = (Base) =>
 
 		#sizeInput(event) {
 			const input = event.currentTarget;
-			const size = input.value.replace(/\s/g, "").length;
-			input.size = Math.max(size * 1.56 + 1, 6);
+			input.style.width = `${Math.ceil(Math.max(input.value.length * 1.5, 6))}ch`;
 		}
 
 		#toggleEdit() {
@@ -106,15 +105,21 @@ export const SheetMixin = (Base) =>
 				event.originalEvent.type === "pointerdown"
 					? ["pointermove", "pointerup"]
 					: ["mousemove", "mouseup"];
+
 			const el = this.element;
 
 			let previousX = event.screenX;
 			let delta = 0;
 
+			const clampValue = (current, delta) => {
+				const value = current + delta / 500;
+				return Math.max(0.3, Math.min(3, value));
+			};
+
 			const mousemove = (event) => {
 				delta = event.screenX - previousX;
 				previousX = event.screenX;
-				this.#currentScale += delta / 500;
+				this.#currentScale = clampValue(this.#currentScale, delta);
 
 				el.css("transform", `scale(${this.#currentScale})`);
 			};

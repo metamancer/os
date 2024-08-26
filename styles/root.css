@@ -1,4 +1,11 @@
-:root {
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+	html {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+}
+
+body {
 	--os-color-bg: hsl(0, 0%, 95%); /* light grey */
 	--os-color: hsl(210, 23%, 24%); /* dark greyBlue */
 	--os-color-alt-bg: hsl(194, 25%, 90%); /* med greyBlue */

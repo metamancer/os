@@ -12,8 +12,12 @@
 			"email": "themetamancer@gmail.com"
 		}
 	],
-	"esmodules": ["os.js"],
-	"styles": ["os.css"],
+	"esmodules": [
+		"os.js"
+	],
+	"styles": [
+		"os.css"
+	],
 	"languages": [
 		{
 			"lang": "en",
@@ -27,20 +31,45 @@
 		"verified": 12,
 		"maximum": 12
 	},
-	"packs": [
-		{
-			"label": "Demo",
-			"type": "Demo",
-			"name": "demo",
-			"path": "packs/",
-			"system": "os",
-			"flags": {}
-		}
-	],
 	"flags": {
 		"hotReload": {
-			"extensions": ["css", "html", "js", "json"],
-			"paths": ["styles", "templates", "lang", "os.css", "os.js"]
+			"extensions": [
+				"css",
+				"html",
+				"js",
+				"json"
+			],
+			"paths": [
+				"styles",
+				"templates",
+				"lang",
+				"os.css",
+				"os.js"
+			]
+		}
+	},
+	"documentTypes": {
+		"Actor": {
+			"character": {
+				"htmlFields": [
+					"note"
+				]
+			},
+			"challenge": {
+				"htmlFields": [
+					"note",
+					"special"
+				]
+			}
+		},
+		"Item": {
+			"backpack": {},
+			"theme": {
+				"htmlFields": [
+					"note"
+				]
+			},
+			"threat": {}
 		}
 	},
 	"relationships": {

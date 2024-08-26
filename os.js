@@ -40,9 +40,11 @@ SuperCheckbox.Register();
 Hooks.once("init", () => {
 	info("Initializing :Otherscape...");
 	game.os = {
-		config: OsConfig.createConfig(),
 		data: {
 			TagData,
+		},
+		methods: {
+			calculatePower: OsRollDialog.calculatePower
 		},
 		importCharacter,
 		OsRollDialog,
@@ -60,7 +62,7 @@ Hooks.once("init", () => {
 	CONFIG.Item.dataModels.backpack = BackpackData;
 	CONFIG.Item.dataModels.theme = ThemeData;
 	CONFIG.Item.dataModels.threat = ThreatData;
-	CONFIG.os = game.os.config;
+	CONFIG.os = new OsConfig();
 
 	info("Registering Sheets...");
 	// Unregister the default sheets

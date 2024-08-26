@@ -4,17 +4,20 @@
 	{{#if embedded}}
 		<!-- Select Tag button -->
 		<button type="button" class="os--theme-tag-button" data-id="{{tag.id}}"
-			{{#if (includes @root.rollTags tag.id 'id')}}data-selected{{/if}} {{#if tag.isActive}}data-click="select"
-			{{/if}}
+			{{#if (includes @root.rollTags tag.id 'id')}}data-selected{{/if}}
+			{{#if tag.isActive}}data-click="select" {{/if}}
 			{{#if tag.isActive}}data-tooltip="{{localize (ifThen tag.isBurnt 'Os.ui.toggle-burnt' 'Os.ui.toggle-roll')}}"
 			{{/if}}>
 			<!-- isActive indicator -->
-			<span class="os--checkbox os--checkbox-with-bg {{checked tag.isActive}}"></span>
+			<span
+				class="os--checkbox os--checkbox-with-bg {{checked tag.isActive}}"></span>
 			<!-- Name -->
 			<span class="tag--name">{{tag.name}}</span>
 			<!-- isBurnt indicator -->
-			<span class="os--sro">{{localize (ifThen tag.isBurnt 'Os.tags.isBurnt' 'Os.tags.burn')}}</span>
-			<span class="os--burn {{checked (or tag.isBurnt (includes @root.burntTags tag.id 'id'))}}"
+			<span
+				class="os--sro">{{localize (ifThen tag.isBurnt 'Os.tags.isBurnt' 'Os.tags.burn')}}</span>
+			<span
+				class="os--burn {{checked (or tag.isBurnt (includes @root.burntTags tag.id 'id'))}}"
 				aria-hidden="true"></span>
 		</button>
 	{{else}}
@@ -22,17 +25,20 @@
 		<!-- isActive checkbox -->
 		<label data-tooltip="{{localize (tagActiveString tag false)}}"><span
 				class="os--sro">{{localize "Os.tags.isActive"}}</span>
-			<input class="os--checkbox os--checkbox-with-bg" type="checkbox" name="{{path}}.{{key}}.isActive"
-				{{checked tag.isActive}} />
+			<input class="os--checkbox-with-bg os--checkbox" type="checkbox"
+				name="{{path}}.{{key}}.isActive" {{checked tag.isActive}} />
 		</label>
 		<!-- Name input -->
-		<input class="tag--name" type="text" name="{{path}}.{{key}}.name" value="{{tag.name}}">
+		<input class="tag--name" type="text" name="{{path}}.{{key}}.name"
+			value="{{tag.name}}">
 		<!-- isBurnt checkbox -->
 		<label>
-			<span class="os--sro">{{localize (ifThen tag.isBurnt 'Os.tags.isBurnt' 'Os.tags.burn')}}</span>
-			<input class="os--burn" type="checkbox" name="{{path}}.{{key}}.isBurnt" {{#if tag.isActive}}
-				data-tooltip="{{localize (ifThen tag.isBurnt 'Os.tags.isBurnt' 'Os.tags.burn')}}" {{/if}}
-				{{checked tag.isBurnt}} {{disabled (not tag.isActive)}} />
+			<span
+				class="os--sro">{{localize (ifThen tag.isBurnt 'Os.tags.isBurnt' 'Os.tags.burn')}}</span>
+			<input class="os--burn" type="checkbox" name="{{path}}.{{key}}.isBurnt"
+				{{#if tag.isActive}}
+				data-tooltip="{{localize (ifThen tag.isBurnt 'Os.tags.isBurnt' 'Os.tags.burn')}}"
+				{{/if}} {{checked tag.isBurnt}} {{disabled (not tag.isActive)}} />
 		</label>
 		<input type="hidden" name="{{path}}.{{key}}.type" value="{{tag.type}}">
 		<input type="hidden" name="{{path}}.{{key}}.id" value="{{tag.id}}">

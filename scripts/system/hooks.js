@@ -1,5 +1,5 @@
 import { error, info } from "../logger.js";
-import { localize as t, sleep } from "../utils.js";
+import { sleep, localize as t } from "../utils.js";
 import { Sockets } from "./sockets.js";
 
 export class OsHooks {
@@ -20,7 +20,7 @@ export class OsHooks {
 		OsHooks.#renderStoryTagApp();
 		OsHooks.#repositionStoryTagApp();
 		OsHooks.#popOutCompatiblity();
-		OsHooks.#rendeWelcomeScreen();
+		OsHooks.#renderWelcomeScreen();
 	}
 
 	static #iconOnlyHeaderButtons() {
@@ -184,12 +184,11 @@ export class OsHooks {
 						app.delete();
 
 						// Roll
-						if (userId === game.userId)
-							game.os.OsRollDialog.roll(data);
+						if (userId === game.userId) game.os.OsRollDialog.roll(data);
 						else
 							Sockets.dispatch("rollDice", {
 								userId,
-								data
+								data,
 							});
 
 						// Dispatch order to reset Roll Dialog
@@ -232,7 +231,8 @@ export class OsHooks {
 			const createEffect = ([key, effect], category) => ({
 				name: `${t(category)}: ${t(`Os.effects.${key}.key`)}`,
 				icon: `<i class="${effect.icon}"></i>`,
-				condition: (li) => li.find("[data-type='tracked']").length,
+				condition: (li) =>
+					li.find("[data-type='tracked']:not([data-result='failure'])").length,
 				callback: () => {
 					ChatMessage.create({
 						content: `<div class="os dice-roll">
@@ -376,13 +376,10 @@ export class OsHooks {
 						</button>
 					</li>
 					<li>
-						<button type="button" data-click="render-character" aria-label="${game.user.character
-					? game.user.character.name
-					: t("PLAYER.SelectedCharacter")
-				}"
+						<button type="button" data-click="render-character"
 							data-tooltip="${game.user.character
 					? game.user.character.name
-					: t("PLAYER.SelectedCharacter")
+					: t("USER.FIELDS.character.label")
 				}">
 							<i class="fas fa-user"></i>
 						</button>
@@ -491,7 +488,6 @@ export class OsHooks {
 				"d12",
 			);
 
-			/* RED/PURPLE/GREEN/BLUE */
 			dice3d.addColorset(
 				{
 					name: "os",
@@ -499,7 +495,7 @@ export class OsHooks {
 					category: ":Otherscape",
 					foreground: ["#ffffff", "#ffffff", "#000000", "#000000"],
 					background: ["#C61749", "#7c37d2", "#C6FF00", "#04b7d3"],
-					outline: ["#FF1446", "#9742FF", "#EEFFB2", "#00F9FF"], 
+					outline: ["#FF1446", "#9742FF", "#EEFFB2", "#00F9FF"],
 					texture: "",
 					material: "chrome",
 					font: "Saira",
@@ -520,14 +516,12 @@ export class OsHooks {
 		});
 	}
 
-	static #rendeWelcomeScreen() {
+	static #renderWelcomeScreen() {
 		Hooks.once("ready", async () => {
-			let scene = game.scenes.getName(":Otherscape");
-			if (scene) return;
+			if (game.settings.get("os", "welcomed")) return;
+			if (!game.user.isGM) return;
 
-			ui.sidebar.activateTab("actors");
-
-			scene = await Scene.create({
+			const scene = await Scene.create({
 				name: ":Otherscape",
 				permission: { default: 2 },
 				navigation: true,
@@ -556,79 +550,104 @@ export class OsHooks {
 			const entry = await JournalEntry.create({
 				name: ":Otherscape",
 				permission: { default: 2 },
-				content: /*html */ `
-					<h1 style="text-align:center"><span style="font-family: Bebas Neue">Well, hello there…</span></h1>
-					<p>Thank you for testing this system in Alpha!</p>
-					<blockquote style="padding:0.5em 10px;color:var(--os-color-self)">
-						<p><em>Be aware that both the system—and game—are under heavy development. There will be frequent changes and updates that can result in game breaking bugs.</em></p>
-						<p><em><strong><br>PLEASE MAKE FREQUENT BACKUPS!</strong></em></p>
+				pages: [
+					{
+						name: "Welcome!",
+						text: {
+							content: /* html */ `
+					<p style="text-align: center"><em>I am thrilled to have you try out this system</em></p>
+					<p></p>
+					<blockquote style="padding:0.5em 10px;background:var(--os-color-primary-bg);color:var(--os-color-weakness)">
+						<p><em><strong>P</strong>lease be aware that both the system—and game—is under heavy development. And that there might be breaking bugs or major changes down the road.</em></p>
+						<p><em><strong><br>PLEASE MAKE FREQUENT BACKUPS</strong></em></p>
 					</blockquote>
 					<p></p>
-					<h2><span style="font-family: Bebas Neue">What to expect</span></h2>
-					<p>This version is still feature limited and there may be bugs and unexpected behaviors.</p>
-					<p></p>
-					<h2><span style="font-family: Bebas Neue">still to do</span></h2>
-					<p>The system is under active development. The following is a list of features/improvements that have not yet been implemented.</p>
+					<h2>What to expect</h2>
+					<p>At the moment <strong>Themes</strong>, <strong>Threats</strong>,<strong> Challenges</strong> and <strong>Characters</strong> are implemented. These are all the things you need to play the Tinderbox demo <a href="https://drive.google.com/drive/folders/1jS1dO4rz2uLxOZfdsShOTLjzsJeJqJ6H" title=":Otherscape demo playkit">Tinderbox Demo</a>.</p>
+					<h3>To-be implemented</h3>
+					<p>The system is under active development and you can expect frequent updates as the year progresses. Following is a list of coming feature improvements in no particular order:</p>
 					<ul>
 						<li>
-							<p><span style="font-family: Bebas Neue">Loadouts & Items: </span>Loadouts have limited functionality. They will eventually have Item level ability to have multiple feature tags and a weakness tag, as well as a way to track and upgrade Loadout Theme Specials.</p>
+							<p><strong>Improved handling of Statuses/Tags:</strong> Many small improvements to the tag/status systems, like dragging an actor onto the canvas, or hiding select actors/tags/statuses until relevant, or allowing players greater freedom in creating, editing and removing tags.</p>
 						</li>
 						<li>
-							<p><span style="font-family: Bebas Neue">Challenge Limits: </span>Limits will be visible and trackable by the GM under its' Challenge within the Story & Tags window.</p>
-						</li>
-						<li>
-							<p><span style="font-family: Bebas Neue">Crew Themes & Relationships: </span>Space for the Crew Themebook and Crew Relationship Tags.</p>
-						</li>
-						<li>
-							<p><span style="font-family: Bebas Neue">Character & Crew Evolution:</span> Place for Essence, Upgrades, Transformations, Evolution and Improvement tracking.</p>
-						</li>
-						<li style="box-sizing:border-box;user-select:text">
-							<p><span style="font-family: Bebas Neue">Improved Dice Rolling Experience: </span>The idea is to allow the players to select tags they want to roll with directly from the character sheet. The roll dialog will also be improved.</p>
-						</li>
-						<li>
-							<p><span style="font-family: Bebas Neue">UI Upgrades and refinement:</span> Some UI elements are not yet considered final and will see improvements overall.</p>
-						</li>
-						<li>
-							<p><span style="font-family: Bebas Neue">Compendiums:</span> Eventually all book entries for Character Creation, Themebooks, Street Catalogs, Locations, Settings, etc;</p>
+							<p><strong>Crew Theme </strong>and<strong> Theme Improvements:</strong> The Crew theme and theme improvements are yet to be revealed by <a href="https://cityofmist.co/blogs/news/son-of-oaks-new-game-engine">Son of Oak</a>. When the details on these are released work will commence on implementing them in the system.</p>
 						</li>
 					</ul>
-					<p><em>*some content may be subject to approval by Son of Oak</em></p>
-					<p></p>
-					<h2><span style="font-family: Bebas Neue">How play</span></h2>
-					<p>There are few ins-and-outs of the system and some interactions to be aware of:</p>
+					<h2>How play</h2>
+					<p>Beyond the <em>Tinderbox demo</em> linked above, there are few ins-and-outs of the system, yet. Some interactions to be aware of:</p>
 					<ul>
 						<li>
-							<p><span style="font-family: Bebas Neue"><strong>Right-clicking</strong></span> in general will prompt you to delete whatever you are right clicking. This includes (<strong>Themes</strong>, <strong>Consequences</strong>, <strong>Threats</strong>, <strong>Tags</strong> in <strong>Backpack</strong>).</p>
+							<p><span style="font-family: Modesto Condensed"><strong>Right-clicking</strong></span> in general will prompt you to delete/edit whatever you are right clicking. This includes (<strong>Themes</strong>, <strong>Consequences</strong>, <strong>Threats</strong>, <strong>Backpack</strong>, and <strong>Tags</strong> in <strong>Backpack</strong>).</p>
 						</li>
 						<li>
-							<p><span style="font-family: Bebas Neue"><strong>Double-clicking</strong></span><span style="font-family: Modesto Condensed"><strong> </strong></span>in general means you will open the item sheet, there are currently two item types that support this (<strong>Themes</strong> and <strong>Threats</strong>), in the future the <strong>Backpack</strong> will also become an item.</p>
+							<p><strong>Tags</strong> can be written as <code>[tag]</code> <code>[status-4]</code> and <code>[-limit:4]</code>, and are recognized and highlighted in <strong>Journal Entries</strong>, and <strong>Textareas</strong> on <strong>Sheets</strong>.</p>
 						</li>
 						<li>
-							<p><strong>Tags</strong> can be written as <code>[tag]</code> <code>[status-4]</code> and <code>[-limit:4]</code> and are recognized and highlighted in <strong>Journal Entries</strong>, and <strong>Textareas</strong> on <strong>Sheets</strong>.</p>
+							<p>If your <strong>Character</strong><em><strong> </strong></em>is missing <strong>Themes</strong> you can create an empty one in the <em>Item Sidebar</em> <em>(or ask the one with GM permissions to do it)</em>, and <span style="font-family: Modesto Condensed"><strong>drag</strong></span> it onto the sheet.</p>
 						</li>
 						<li>
-							<p>If your <strong>Character</strong><em><strong> </strong></em>is missing <strong>Themes</strong> you can create an empty one in the <em>Item Sidebar</em> <em>(or ask the one with GM permissions to do it)</em>, and <span style="font-family: Bebas Neue"><strong>drag</strong></span> it onto the sheet.</p>
+							<p><strong>Themes</strong> can also be <span style="font-family: Modesto Condensed"><strong>rearranged</strong></span> on a sheet. <strong>Tags</strong> in the <strong>Backpack</strong> and on <strong>Themes</strong> cannot.</p>
 						</li>
 						<li>
-							<p><strong>Themes</strong> can also be <span style="font-family: Bebas Neue"><strong>rearranged</strong></span> on a sheet. <strong>Tags</strong> in the <strong>Backpack</strong> and on <strong>Themes</strong> cannot.</p>
+							<p>If you see a title, it may be <span style="font-family: Modesto Condensed"><strong>editable</strong></span>. This goes for the title on the <strong>Character</strong>-sheet<strong>, Theme</strong>-sheet, and <strong>Roll</strong>-dialog.</p>
 						</li>
 						<li>
-							<p>If you see a title, it may be <span style="font-family: Bebas Neue"><strong>editable</strong></span>. This goes for the title on the <strong>Character</strong>-sheet<strong>, Theme</strong>-sheet, and <strong>Roll</strong>-dialog.</p>
-						</li>
-						<li>
-							<p><span style="font-family: Bebas Neue"><strong>Right-clicking</strong></span> the <em>Chat Card</em> of an <strong>Effect roll</strong> opens a context menu that lets you post extra effects to chat for reference.</p>
+							<p><span style="font-family: Modesto Condensed"><strong>Right-clicking</strong></span> the <em>Chat Card</em> of a <strong>Tracked roll</strong> opens a context menu that lets you post extra effects to chat for reference.</p>
 						</li>
 					</ul>
+					<h3>Keyboard Shortcuts</h3>
+					<p>Foundry features a number of keyboard shortcuts, you can find these in the <strong>Game Settings</strong>-tab. In addition <em>:Otherscape</em> implements a shortcut for opening the <strong>Roll Dialog</strong>.</p>
+					<ul>
+						<li>
+							<p><span class="os--kbd">c</span> to open your assigned character's <strong>Sheet</strong>.</p>
+						</li>
+						<li>
+							<p><span class="os--kbd">r</span> to open your assigned character's <strong>Roll Dialog</strong>.</p>
+						</li>
+					</ul>
+					<h2>Special Thanks</h2>
+					<p>This project already has some contributors, help and good vibes!</p>
+					<ul>
+						<li>
+							<p>Thanks to <strong>@Daegony</strong> for contributing graphics, designs, UX advice and help with rules and the game in general.</p>
+						</li>
+						<li>
+							<p>Thanks to <strong>@CussaMitre</strong> for contributing code and squashing bugs.</p>
+						</li>
+						<li>
+							<p>Thanks to <strong>@Metamancer</strong> for being a rubber duck, and giving advice on both the game and development.</p>
+						</li>
+						<li>
+							<p>Thanks to <strong>@Altervayne </strong>for creating the online character creator and setting up a Discord community for us.</p>
+						</li>
+						<li>
+							<p>Thanks to @<strong>erizocosmico</strong> (Spanish), @<strong>imiri78</strong> (German), and @<strong>0rac1e404</strong> (Chinese) for our first localisation efforts.</p>
+						</li>
+						<li>
+							<p>Thanks to the <em><strong>City of Mist </strong>Discord </em>for contributing feedback, bug reports and generally being awesome about me barging in the door like I did.</p>
+						</li>
+					</ul>
+					<p><em>If you feel like you could contribute something don't hesitate with contacting me <strong>@aMediocreDad</strong>.</em></p>
+					<p></p>
+					<blockquote>
+						<p><strong>See you in the mist…</strong></p>
+					</blockquote>
 				`,
+						},
+					},
+				],
 			});
+
+			const { uuid, id } = entry.pages.contents[0];
 
 			// Create a "welcome" chat message
 			ChatMessage.create({
 				title: "Welcome to :Otherscape",
 				content: /* html */ `
 				<p><strong>Welcome to :Otherscape</strong></p>
-				<p>Before you start playing, you should want to read the <a class="content-link" draggable="true" data-uuid="${entry.uuid
-					}" data-id="${entry._id}" data-type="JournalEntryPage" data-tooltip="User Manual"><i class="fas fa-file-lines"></i>:Otherscape</a> journal entry. It contains some important information about the system, and what to expect.</p>
+				<p>Before you start playing, you should want to read the <a class="content-link" draggable="true" data-uuid="${uuid
+					}" data-id="${id}" data-type="JournalEntryPage" data-tooltip="User Manual"><i class="fas fa-file-lines"></i>:Otherscape</a> journal entry. It contains some important information about the system, and what to expect.</p>
 				<p style="text-align:center;">Good luck, and have fun!</p>
 			`,
 			});
@@ -638,9 +657,12 @@ export class OsHooks {
 			await sleep(300);
 			entry.sheet.render(true, {
 				collapsed: true,
-				width: 600,
+				width: 500,
 				height: 600,
 			});
+
+			// We're done!
+			game.settings.set("os", "welcomed", true);
 		});
 		/*
 		Hooks.on("renderChatMessage", (_app, html) => {

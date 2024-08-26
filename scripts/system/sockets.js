@@ -46,7 +46,7 @@ export class Sockets {
 	static #registerRollModerationListeners() {
 		Sockets.on("rollDice", ({ data: { userId, data } }) => {
 			if (userId !== game.userId) return;
-			game.os.OsRollDialog.roll(data)
+			game.os.OsRollDialog.roll(data);
 		});
 
 		Sockets.on("rejectRoll", ({ data: { actorId, name } }) => {

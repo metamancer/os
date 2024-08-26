@@ -13,12 +13,9 @@ export class Enrichers {
 			if (!scene) return text;
 
 			const link = $(
-				`<a class="content-link" draggable="true" data-uuid="Scene.${
-					scene._id
-				}" data-id="${
-					scene._id
-				}" data-type="ActivateScene" data-tooltip="Scene"><i class="far fa-map"></i>${
-					flavour || scene.navName
+				`<a class="content-link" draggable="true" data-uuid="Scene.${scene._id
+				}" data-id="${scene._id
+				}" data-type="ActivateScene" data-tooltip="Scene"><i class="far fa-map"></i>${flavour || scene.navName
 				}</a>`,
 			);
 			return link[0];
@@ -30,18 +27,20 @@ export class Enrichers {
 	}
 
 	static #enrichTags() {
+		const tooltip = game.i18n.localize("Os.ui.drag-apply");
 		const enrichTags = ([_text, tag, status]) => {
 			if (tag.startsWith("-"))
 				return $(
-					`<mark class="os--limit">${tag.replace(/^-/, "")}${
-						status ? `:${status}` : ""
+					`<mark class="os--limit">${tag.replace(/^-/, "")}${status ? `:${status}` : ""
 					}</mark>`,
 				)[0];
 			if (tag && status)
 				return $(
-					`<mark class="os--status" draggable="true">${tag}-${status}</mark>`,
+					`<mark class="os--status" draggable="true" data-tooltip="${tooltip}">${tag}-${status}</mark>`,
 				)[0];
-			return $(`<mark class="os--tag" draggable="true">${tag}</mark>`)[0];
+			return $(
+				`<mark class="os--tag" draggable="true" data-tooltip="${tooltip}">${tag}</mark>`,
+			)[0];
 		};
 		CONFIG.TextEditor.enrichers.push({
 			pattern: CONFIG.os.tagStringRe,

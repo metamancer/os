@@ -4,7 +4,7 @@ import { confirmDelete } from "../../utils.js";
 export class ChallengeSheet extends SheetMixin(ActorSheet) {
 	static defaultOptions = foundry.utils.mergeObject(ActorSheet.defaultOptions, {
 		classes: ["os", "os--challenge"],
-		width: 350,
+		width: 320,
 		height: 700,
 		resizable: false,
 		scrollY: [".os--challenge-wrapper"],

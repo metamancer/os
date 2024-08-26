@@ -48,6 +48,7 @@ export class BackpackSheet extends SheetMixin(ItemSheet) {
 			);
 		return data;
 	}
+
 	#onClick(event) {
 		const button = event.currentTarget;
 		const action = button.dataset.click;
