@@ -1,9 +1,10 @@
+> [!CAUTION]
+> aLL Development is currently halted on this project until further notice. Please reach out to me on discord if you wish to discuss.
+
+
 <h1 align="center"><img width="30px" src="https://foundryvtt.com/static/assets/icons/fvtt.png" /><a href="https://www.kickstarter.com/projects/sonofoak/tokyo-otherworld-a-mythic-cyberpunk-rpg" rel="noreferrer" target="_blank"> :Otherscape for Foundry VTT</a> <img width="30px" src="https://foundryvtt.com/static/assets/icons/fvtt.png" /></h1>
 
 <br />
-
-> [!WARNING]
-> This system is still in early development, is not feature complete or bug free. It is not recommended to actively use this until the Alpha version has been released. As always, please report all issues/bugs/feedback on [Github Issues](https://github.com/metamancer/os/issues?q=is:issue+is:open+sort:updated-desc) or via [Discord](https://discord.gg/XwJe4QWyfy).
 
 ## Installation
 
