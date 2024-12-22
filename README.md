@@ -1,5 +1,5 @@
 > [!CAUTION]
-> aLL Development is currently halted on this project until further notice. Please reach out to me on discord if you wish to discuss.
+> All development is currently halted on this project until further notice. Please reach out to me on discord if you wish to discuss.
 
 
 <h1 align="center"><img width="30px" src="https://foundryvtt.com/static/assets/icons/fvtt.png" /><a href="https://www.kickstarter.com/projects/sonofoak/tokyo-otherworld-a-mythic-cyberpunk-rpg" rel="noreferrer" target="_blank"> :Otherscape for Foundry VTT</a> <img width="30px" src="https://foundryvtt.com/static/assets/icons/fvtt.png" /></h1>
